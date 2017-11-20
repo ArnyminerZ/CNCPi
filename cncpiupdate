@@ -3,6 +3,6 @@
 sudo git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install
 
 sudo rm -rf /var/www/html
-sudo cp /temp/install/Web /var/www/html
+sudo cp -r /temp/install/Web /var/www/html
 
 sudo rm -rf /temp/install
