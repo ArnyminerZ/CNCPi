@@ -172,7 +172,23 @@
 </div>
 <div id="cloud-tab" class="col s12">
     <div class="container">
-
+        <div class="card-panel">
+            <h1>Cloud</h1>
+			
+			<ul class="collection">
+    <li class="collection-item avatar">
+	<i class="mdi mdi-code-braces circle"></i>
+      <span class="title"><b>Box Side 1</b></span>
+      <p>20/11/2017 19:46<br>
+         GCode - 16 kB
+      </p>
+      <a href="#!" class="secondary-content" style="right:25px;" title="Rename File"><i class="mdi mdi-pencil mdi-24px"></i></a>
+      <a href="#!" class="secondary-content" style="right:55px;" title="Delete Forever"><i class="mdi mdi-delete-forever mdi-24px"></i></a>
+      <a href="#!" class="secondary-content" style="right:85px;" title="Download File"><i class="mdi mdi-download mdi-24px"></i></a>
+      <a href="#!" class="secondary-content" style="right:115px;" title="Load File"><i class="mdi mdi-upload-network mdi-24px"></i></a>
+    </li>
+  </ul>
+		</div>
     </div>
 </div>
 <div id="messages-tab" class="col s12">
@@ -216,25 +232,25 @@
 
     function selectTab(tabIndex) {
         if (tabIndex === 0) {
-            document.getElementById("home-tab").style.visibility = "visible";
-            document.getElementById("cloud-tab").style.visibility = "hidden";
-            document.getElementById("messages-tab").style.visibility = "hidden";
-            document.getElementById("settings-tab").style.visibility = "hidden";
+            document.getElementById("home-tab").style.display = "block";
+            document.getElementById("cloud-tab").style.display = "none";
+            document.getElementById("messages-tab").style.display = "none";
+            document.getElementById("settings-tab").style.display = "none";
         } else if (tabIndex === 1) {
-            document.getElementById("home-tab").style.visibility = "hidden";
-            document.getElementById("cloud-tab").style.visibility = "visible";
-            document.getElementById("messages-tab").style.visibility = "hidden";
-            document.getElementById("settings-tab").style.visibility = "hidden";
+            document.getElementById("home-tab").style.display = "none";
+            document.getElementById("cloud-tab").style.display = "block";
+            document.getElementById("messages-tab").style.display = "none";
+            document.getElementById("settings-tab").style.display = "none";
         } else if (tabIndex === 2) {
-            document.getElementById("home-tab").style.visibility = "hidden";
-            document.getElementById("cloud-tab").style.visibility = "hidden";
-            document.getElementById("messages-tab").style.visibility = "visible";
-            document.getElementById("settings-tab").style.visibility = "hidden";
+            document.getElementById("home-tab").style.display = "none";
+            document.getElementById("cloud-tab").style.display = "none";
+            document.getElementById("messages-tab").style.display = "block";
+            document.getElementById("settings-tab").style.display = "none";
         } else if (tabIndex === 2) {
-            document.getElementById("home-tab").style.visibility = "hidden";
-            document.getElementById("cloud-tab").style.visibility = "hidden";
-            document.getElementById("messages-tab").style.visibility = "hidden";
-            document.getElementById("settings-tab").style.visibility = "visible";
+            document.getElementById("home-tab").style.display = "none";
+            document.getElementById("cloud-tab").style.display = "none";
+            document.getElementById("messages-tab").style.display = "none";
+            document.getElementById("settings-tab").style.display = "block";
         }
     }
 </script>
