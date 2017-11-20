@@ -140,7 +140,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <a href="#">Go To Machine</a>
+                            <a style="cursor:pointer;" onclick="document.getElementById('home-tab').style.display='none';loadMachine('CNC 1')">Go To Machine</a>
                         </div>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <a href="#">Go To Machine</a>
+                            <a style="cursor:pointer;" onclick="document.getElementById('home-tab').style.display='none';loadMachine('CNC 2')">Go To Machine</a>
                         </div>
                     </div>
                 </div>
@@ -180,7 +180,7 @@
     		  <i class="large material-icons">create_new_folder</i>
     		</a>
 			<!-- TODO: Upload File Modal -->
-			<a class="btn-floating btn-large green" style="position:absolute;right:22%;top:160px;" title="Upload File">
+			<a class="btn-floating btn-large green" style="position:absolute;right:22.5%;top:160px;" title="Upload File">
     		  <i class="large material-icons">file_upload</i>
     		</a>
 			
@@ -242,13 +242,16 @@
 </div>
 <div id="settings-tab" class="col s12">
     <div class="container">
-
+	
     </div>
 </div>
 
-<div id="machine-tab" class="col s12">
+<!-- TODO: Load machine script, loads names in fields -->
+<div id="machine-tab" class="col s12" style="display:none;">
     <div class="container">
-
+        <div class="card-panel">
+            <h1 id="machine-title">CNC 1</h1>
+		</div>
     </div>
 </div>
 
@@ -297,6 +300,12 @@
             document.getElementById("settings-tab").style.display = "block";
         }
     }
-</script>
+
+	function loadMachine(machineName){
+		document.getElementById("machine-title").innerHTML = machineName;
+	
+		document.getElementById("machine-tab").style.display = "block";
+	}
+	</script>
 </body>
 </html>
