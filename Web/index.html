@@ -21,6 +21,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
+			z-index: 998;
         }
     </style>
 </head>
@@ -174,22 +175,20 @@
     <div class="container">
         <div class="card-panel">
             <h1>Cloud</h1>
-			
-			<nav>
-				<div class="nav-wrapper">
-					<div class="col s12">
-						<a href="#!" class="breadcrumb">First</a>
-						<a href="#!" class="breadcrumb">Second</a>
-						<a href="#!" class="breadcrumb">Third</a>
-					</div>
-				</div>
-			</nav>
+			<!-- TODO: Create Folder Modal -->
+			<a class="btn-floating btn-large red" style="position:absolute;right:18%;top:160px;" title="Create Folder">
+    		  <i class="large material-icons">create_new_folder</i>
+    		</a>
+			<!-- TODO: Upload File Modal -->
+			<a class="btn-floating btn-large green" style="position:absolute;right:22%;top:160px;" title="Upload File">
+    		  <i class="large material-icons">file_upload</i>
+    		</a>
 			
 			<ul class="collection">
-				<div class="main-directory-folder">
+				<div class="main-directory-folder" id="mainf">
 					<!-- Folder -->
-					<li class="collection-item avatar">
-						<i class="mdi mdi-folder circle"></i>
+					<li class="collection-item avatar" onclick="document.getElementById('mainf').style.display='none';document.getElementById('flyingmachine-folder').style.display='block';">
+						<i class="mdi mdi-folder circle yellow"></i>
 						<span class="title"><b>Flying Machine</b></span>
 						<p>12/11/2017 09:12<br>
 						Folder - 12 kB
@@ -214,6 +213,11 @@
 				</div>
 				<!-- Folder Contents -->
 				<div class="folder-contents" id="flyingmachine-folder" style="display:none;">
+					<li class="collection-item avatar" onclick="document.getElementById('mainf').style.display='block';document.getElementById('flyingmachine-folder').style.display='none';">
+						<i class="mdi mdi-dots-horizontal circle"></i>
+						<span class="title"><b></b></span>
+					</li>
+					
 					<li class="collection-item avatar">
 						<i class="mdi mdi-code-braces circle green"></i>
 						<span class="title"><b>This is an awesome machine model</b></span>
