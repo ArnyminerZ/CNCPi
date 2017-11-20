@@ -1,5 +1,4 @@
 #!/bin/bash
-sudo rm -rf /temp/install
 
 sudo git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install
 
