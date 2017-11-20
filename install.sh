@@ -1,2 +1,4 @@
-cd "~"
-sudo git clone https://github.com/ArnyminerZ/CNCPi.git
+cd "/temp/install"
+
+sudo cp CNCPi/cncpiupdate /usr/local/bin/cncpiupdate
+sudo chmod +x /usr/local/bin/cncpiupdate
