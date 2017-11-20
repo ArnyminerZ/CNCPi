@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialdesignicons.min.css" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+
+    <link href="css/flag-icon.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>CNCPi</title>
+
+    <style>
+        .bottom-navbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+<ul id="languagedropdown" class="dropdown-content">
+    <li><a href="#!"><h5><span class="flag-icon flag-icon-um"></span></h5></a></li>
+</ul>
+<nav>
+    <div class="nav-wrapper teal darken-1">
+        <a href="#!" class="brand-logo"><i class="material-icons">cloud</i>CNCPi</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a class="dropdown-trigger" href="#!" data-target="languagedropdown"><i
+                    class="material-icons">language</i></a></li>
+        </ul>
+    </div>
+</nav>
+<div class="bottom-navbar">
+    <nav>
+        <div class="nav-wrapper teal darken-1">
+            <ul class="row">
+                <!-- TODO: Tooltip Language -->
+                <li class="col s3" style="text-align: center;" onclick="selectTab(0)">
+                    <a class="grey-text text-lighten-3 tooltipped active" data-position="top" data-delay="50"
+                       data-tooltip="Home"><i class="material-icons">home</i></a>
+                </li>
+                <li class="col s3" style="text-align: center;" onclick="selectTab(1)">
+                    <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                       data-tooltip="Cloud"><i class="material-icons">cloud</i></a>
+                </li>
+                <li class="col s3" style="text-align: center;">
+                    <a class="grey-text text-lighten-3 tooltipped modal-trigger" data-position="top" data-delay="50" href="#messages-modal"
+                       data-tooltip="Messages"><i class="material-icons">message</i></a>
+                </li>
+                <li class="col s3" style="text-align: center;" onclick="selectTab(3)">
+                    <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                       data-tooltip="Settings"><i class="material-icons">settings</i></a>
+                </li>
+            </ul>
+            <!--<ul class="tabs tabs-fixed-width teal darken-1">
+                <li class="tab col s3"><a class="teal-text text-darken-4 active" href="#test1">Test 1</a></li>
+                <li class="tab col s3"><a class="teal-text text-darken-4" href="#test2">Test 2</a></li>
+                <li class="tab col s3"><a class="teal-text text-darken-4" href="#test3">Disabled Tab</a></li>
+                <li class="tab col s3"><a class="teal-text text-darken-4" href="#test4">Test 4</a></li>
+            </ul>-->
+        </div>
+    </nav>
+</div>
+
+<!-- Add Machine Modal -->
+<div id="add-machine-modal" class="modal">
+    <div class="modal-content">
+        <h4>Add Machine</h4>
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="machine_name" type="text" class="validate">
+                        <label for="machine_name">Machine Name</label>
+                    </div>
+                </div>
+                    <div class="input-field col s12">
+                        <select>
+                            <option value="" disabled selected>Choose a port</option>
+                            <option value="1">COM1</option>
+                            <option value="2">COM2</option>
+                            <option value="3">COM3</option>
+                        </select>
+                        <label>Port</label>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Connect</a>
+    </div>
+</div>
+<div id="messages-modal" class="modal bottom-sheet">
+    <div class="modal-content">
+        <h4>Messages</h4>
+        <ul class="collection">
+            <!-- Messages Loader
+                 Message:    '<li class="collection-item"><div>Message Content<a href="#!" class="secondary-content"><i class="material-icons">delete</i></a></div></li>'
+                 Anymessage: 'Any Message' -->
+        </ul>
+        Any Message
+    </div>
+</div>
+
+<div id="home-tab" class="col s12">
+    <div class="container">
+        <div class="card-panel">
+            <h1>Dashboard
+                <a class="waves-effect waves-circle waves-light btn-floating secondary-content modal-trigger"
+                   href="#add-machine-modal">
+                    <i class="material-icons">add</i>
+                </a>
+            </h1>
+
+            <div class="row">
+                <div class="col s6 m6">
+                    <div class="card">
+                        <div class="card-image">
+                            <!-- <img src="http://next.materializecss.com/images/sample-1.jpg"> -->
+                            <div style="width: 100%; height: 250px; background-color: white"></div>
+                            <span class="card-title black-text">CNC 1</span>
+                        </div>
+                        <hr/>
+                        <div class="card-content">
+                            <p>
+                                Milling: Box Side 1
+                            </p>
+                            <div class="progress" style="height: 25px">
+                                <div class="determinate" style="width: 27%"></div>
+                                <p style="position: absolute; width: 100%; text-align: center">27% | ETA: 0h 25m</p>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Go To Machine</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s6 m6">
+                    <div class="card">
+                        <div class="card-image">
+                            <!-- <img src="http://next.materializecss.com/images/sample-1.jpg"> -->
+                            <div style="width: 100%; height: 250px; background-color: white"></div>
+                            <span class="card-title black-text">CNC 2</span>
+                        </div>
+                        <hr/>
+                        <div class="card-content">
+                            <p>
+                                Milling: No
+                            </p>
+                            <div class="progress" style="height: 25px">
+                                <div class="determinate" style="width: 0%"></div>
+                                <p style="position: absolute; width: 100%; text-align: center">Not printing</p>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <a href="#">Go To Machine</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="cloud-tab" class="col s12">
+    <div class="container">
+
+    </div>
+</div>
+<div id="messages-tab" class="col s12">
+    <div class="container">
+
+    </div>
+</div>
+<div id="settings-tab" class="col s12">
+    <div class="container">
+
+    </div>
+</div>
+
+<div id="machine-tab" class="col s12">
+    <div class="container">
+
+    </div>
+</div>
+
+<!--JavaScript at end of body for optimized loading-->
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.dropdown-trigger').dropdown({
+                inDuration: 300,
+                outDuration: 225,
+                constrainWidth: false,
+                coverTrigger: false,
+                alignment: 'left'
+            }
+        );
+
+        $('.modal').modal();
+
+        selectTab(0);
+    });
+    $(".bottom-navbar").ready(function () {
+        $('.tooltipped').tooltip();
+    });
+
+    function selectTab(tabIndex) {
+        if (tabIndex === 0) {
+            document.getElementById("home-tab").style.visibility = "visible";
+            document.getElementById("cloud-tab").style.visibility = "hidden";
+            document.getElementById("messages-tab").style.visibility = "hidden";
+            document.getElementById("settings-tab").style.visibility = "hidden";
+        } else if (tabIndex === 1) {
+            document.getElementById("home-tab").style.visibility = "hidden";
+            document.getElementById("cloud-tab").style.visibility = "visible";
+            document.getElementById("messages-tab").style.visibility = "hidden";
+            document.getElementById("settings-tab").style.visibility = "hidden";
+        } else if (tabIndex === 2) {
+            document.getElementById("home-tab").style.visibility = "hidden";
+            document.getElementById("cloud-tab").style.visibility = "hidden";
+            document.getElementById("messages-tab").style.visibility = "visible";
+            document.getElementById("settings-tab").style.visibility = "hidden";
+        } else if (tabIndex === 2) {
+            document.getElementById("home-tab").style.visibility = "hidden";
+            document.getElementById("cloud-tab").style.visibility = "hidden";
+            document.getElementById("messages-tab").style.visibility = "hidden";
+            document.getElementById("settings-tab").style.visibility = "visible";
+        }
+    }
+</script>
+</body>
+</html>
