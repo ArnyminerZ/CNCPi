@@ -250,7 +250,7 @@
 <div id="machine-tab" class="col s12" style="display:none;">
     <div class="container">
         <div class="card-panel">
-            <h1 id="machine-title">CNC 1</h1>
+            <h1 id="machine-title">Unknown CNC</h1>
 		</div>
     </div>
 </div>
@@ -302,7 +302,8 @@
     }
 
 	function loadMachine(machineName){
-		document.getElementById("machine-title").innerHTML = machineName;
+		if(machineName)
+			document.getElementById("machine-title").innerHTML = machineName;
 	
 		document.getElementById("machine-tab").style.display = "block";
 	}
