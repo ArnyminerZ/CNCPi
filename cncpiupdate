@@ -6,3 +6,4 @@ sudo rm -rf /var/www/html
 sudo cp -r /temp/install/Web /var/www/html
 
 sudo rm -rf /temp/install
+sudo rm -rf /temp
