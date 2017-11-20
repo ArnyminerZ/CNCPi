@@ -1,5 +1,7 @@
 #!/bin/bash
-sudo git clone https://github.com/ArnyminerZ/CNCPi.git
-sudo cp CNCPi/Web /var/www/html
+sudo rm -rf /temp/install
 
-sudo rm -rf CNCPi/Web
+sudo git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install
+sudo cp /temp/install/Web /var/www/html
+
+sudo rm -rf /temp/install
