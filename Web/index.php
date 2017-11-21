@@ -342,7 +342,7 @@ session_start();
 
                     </div>
                     <div id="s-about">
-
+                        <p>CNCPi Release Version: <?php echo readfile("VERSION"); ?></p>
                     </div>
                 </div>
             </div>
