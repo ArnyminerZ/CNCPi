@@ -44,6 +44,7 @@ define("_MOVE_DOWN", "Move Down");
 define("_MOVE_LEFT", "Move Left");
 define("_MOVE_RIGHT", "Move Right");
 define("_FILE", "File");
+define("_UPLOAD", "Upload");
 ?>
 <html>
 <head>
@@ -69,15 +70,19 @@ define("_FILE", "File");
             width: 100%;
             z-index: 998;
         }
+
         .settings-tabcontrol {
             padding: 0;
         }
+
         .settings-tabcontrol .header {
             padding: 0;
         }
+
         .settings-tabcontrol .header .collection {
             margin: 0;
         }
+
         .settings-tabcontrol .header .collection .collection-item {
             cursor: pointer;
         }
@@ -150,7 +155,7 @@ define("_FILE", "File");
         <a href="#!" class="brand-logo"><?php echo _TITLE; ?></a>
         <ul class="right hide-on-med-and-down">
             <li><a class="dropdown-trigger" href="#!" title="<?php echo _LANGUAGE; ?>" data-target="languagedropdown"><i
-                    class="material-icons">language</i></a></li>
+                            class="material-icons">language</i></a></li>
         </ul>
     </div>
 </nav>
@@ -221,10 +226,9 @@ define("_FILE", "File");
 </div>
 
 <div id="uploadFileModal" class="modal">
-    <div class="modal-content">
-        <h4><?php echo _UPLOAD_FILE; ?></h4>
-        <p>
-        <form action="#">
+    <form action="#">
+        <div class="modal-content">
+            <h4><?php echo _UPLOAD_FILE; ?></h4>
             <div class="file-field input-field">
                 <div class="btn">
                     <span><?php echo _FILE; ?></span>
@@ -234,12 +238,11 @@ define("_FILE", "File");
                     <input class="file-path validate" type="text">
                 </div>
             </div>
-        </form>
-        </p>
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _UPLOAD; ?></button>
+        </div>
+    </form>
 </div>
 
 <div id="home-tab" class="col s12">
@@ -309,10 +312,12 @@ define("_FILE", "File");
         <div class="card-panel">
             <h1><?php echo _CLOUD; ?></h1>
             <!-- TODO: Create Folder Modal -->
-            <a class="btn-floating btn-large red" style="position:absolute;right:18%;top:160px;" title="<?php echo _CREATE_FOLDER; ?>">
+            <a class="btn-floating btn-large red" style="position:absolute;right:18%;top:160px;"
+               title="<?php echo _CREATE_FOLDER; ?>">
                 <i class="large material-icons">create_new_folder</i>
             </a>
-            <a class="btn-floating btn-large green modal-trigger" href="#uploadFileModal" style="position:absolute;right:22.5%;top:160px;"
+            <a class="btn-floating btn-large green modal-trigger" href="#uploadFileModal"
+               style="position:absolute;right:22.5%;top:160px;"
                title="<?php echo _UPLOAD_FILE; ?>">
                 <i class="large material-icons">file_upload</i>
             </a>
@@ -328,11 +333,12 @@ define("_FILE", "File");
                             Folder - 12 kB
                         </p>
                         <a href="#!" class="secondary-content" style="right:25px;" title="<?php echo _RENAME; ?>"><i
-                                class="mdi mdi-pencil mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:55px;" title="<?php echo _DELETE_FOREVER; ?>"><i
-                                class="mdi mdi-delete-forever mdi-24px"></i></a>
+                                    class="mdi mdi-pencil mdi-24px"></i></a>
+                        <a href="#!" class="secondary-content" style="right:55px;"
+                           title="<?php echo _DELETE_FOREVER; ?>"><i
+                                    class="mdi mdi-delete-forever mdi-24px"></i></a>
                         <a href="#!" class="secondary-content" style="right:85px;" title="<?php echo _DOWNLOAD_ZIP; ?>"><i
-                                class="mdi mdi-download mdi-24px"></i></a>
+                                    class="mdi mdi-download mdi-24px"></i></a>
                     </li>
                     <!-- /Folder -->
 
@@ -342,14 +348,17 @@ define("_FILE", "File");
                         <p>20/11/2017 19:46<br>
                             GCode - 16 kB
                         </p>
-                        <a href="#!" class="secondary-content" style="right:25px;" title="<?php echo _RENAME_FILE; ?>"><i
-                                class="mdi mdi-pencil mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:55px;" title="<?php echo _DELETE_FOREVER; ?>"><i
-                                class="mdi mdi-delete-forever mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:85px;" title="<?php echo _DOWNLOAD_FILE; ?>"><i
-                                class="mdi mdi-download mdi-24px"></i></a>
+                        <a href="#!" class="secondary-content" style="right:25px;"
+                           title="<?php echo _RENAME_FILE; ?>"><i
+                                    class="mdi mdi-pencil mdi-24px"></i></a>
+                        <a href="#!" class="secondary-content" style="right:55px;"
+                           title="<?php echo _DELETE_FOREVER; ?>"><i
+                                    class="mdi mdi-delete-forever mdi-24px"></i></a>
+                        <a href="#!" class="secondary-content" style="right:85px;"
+                           title="<?php echo _DOWNLOAD_FILE; ?>"><i
+                                    class="mdi mdi-download mdi-24px"></i></a>
                         <a href="#!" class="secondary-content" style="right:115px;" title="<?php echo _LOAD_FILE; ?>"><i
-                                class="mdi mdi-upload-network mdi-24px"></i></a>
+                                    class="mdi mdi-upload-network mdi-24px"></i></a>
                     </li>
                 </div>
                 <!-- Folder Contents -->
@@ -366,14 +375,17 @@ define("_FILE", "File");
                         <p>19/09/2017 12:26<br>
                             GCode - 12.3 mB
                         </p>
-                        <a href="#!" class="secondary-content" style="right:25px;" title="<?php echo _RENAME_FILE; ?>"><i
-                                class="mdi mdi-pencil mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:55px;" title="<?php echo _DELETE_FOREVER; ?>"><i
-                                class="mdi mdi-delete-forever mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:85px;" title="<?php echo _DOWNLOAD_FILE; ?>"><i
-                                class="mdi mdi-download mdi-24px"></i></a>
+                        <a href="#!" class="secondary-content" style="right:25px;"
+                           title="<?php echo _RENAME_FILE; ?>"><i
+                                    class="mdi mdi-pencil mdi-24px"></i></a>
+                        <a href="#!" class="secondary-content" style="right:55px;"
+                           title="<?php echo _DELETE_FOREVER; ?>"><i
+                                    class="mdi mdi-delete-forever mdi-24px"></i></a>
+                        <a href="#!" class="secondary-content" style="right:85px;"
+                           title="<?php echo _DOWNLOAD_FILE; ?>"><i
+                                    class="mdi mdi-download mdi-24px"></i></a>
                         <a href="#!" class="secondary-content" style="right:115px;" title="<?php echo _LOAD_FILE; ?>"><i
-                                class="mdi mdi-upload-network mdi-24px"></i></a>
+                                    class="mdi mdi-upload-network mdi-24px"></i></a>
                     </li>
                 </div>
                 <!-- /Folder Contents -->
@@ -388,8 +400,10 @@ define("_FILE", "File");
             <div class="card-panel row settings-tabcontrol">
                 <div class="col s3 header">
                     <div class="collection">
-                        <a onclick="selectSettingsTab(0)" id="generalSelectorS" class="collection-item"><?php echo _GENERAL; ?></a>
-                        <a onclick="selectSettingsTab(1)" id="aboutSelectorS" class="collection-item"><?php echo _ABOUT; ?></a>
+                        <a onclick="selectSettingsTab(0)" id="generalSelectorS"
+                           class="collection-item"><?php echo _GENERAL; ?></a>
+                        <a onclick="selectSettingsTab(1)" id="aboutSelectorS"
+                           class="collection-item"><?php echo _ABOUT; ?></a>
                     </div>
                 </div>
                 <div class="col s9 body">
@@ -398,9 +412,12 @@ define("_FILE", "File");
                     </div>
                     <div id="s-about">
                         <p>
-                            <h4><?php echo _SOFTWARE_VERSIONS; ?></h4>
-                            <?php echo _CNCPI_RELEASE_VERSION; ?>: <i><?php $myfile = fopen("VERSION", "r") or die("Cannot load version"); echo fread($myfile,filesize("VERSION")); fclose($myfile); ?></i><br/>
-                            <?php echo _CURRENT_PHP_VERSION . ': <i>' . phpversion() . '</i>'; ?>
+                        <h4><?php echo _SOFTWARE_VERSIONS; ?></h4>
+                        <?php echo _CNCPI_RELEASE_VERSION; ?>:
+                        <i><?php $myfile = fopen("VERSION", "r") or die("Cannot load version");
+                            echo fread($myfile, filesize("VERSION"));
+                            fclose($myfile); ?></i><br/>
+                        <?php echo _CURRENT_PHP_VERSION . ': <i>' . phpversion() . '</i>'; ?>
                         </p>
                     </div>
                 </div>
@@ -429,18 +446,18 @@ define("_FILE", "File");
                         <ul>
                             <div class="moveUpDownBox">
                                 <li title="<?php echo _MOVE_UP; ?>" class="cameraIcon" id="cameraUp"><a
-                                        class="mdi mdi-arrow-up-bold movement-icon"></a></li>
+                                            class="mdi mdi-arrow-up-bold movement-icon"></a></li>
                             </div>
 
                             <li title="<?php echo _MOVE_LEFT; ?>" class="cameraIcon" id="cameraLeft"><a
-                                    class="mdi mdi-arrow-left-bold movement-icon"></a></li>
+                                        class="mdi mdi-arrow-left-bold movement-icon"></a></li>
                             <li class="cameraIcon" style="cursor: default"></li>
                             <li title="<?php echo _MOVE_RIGHT; ?>" class="cameraIcon" id="cameraRight"><a
-                                    class="mdi mdi-arrow-right-bold movement-icon"></a></li>
+                                        class="mdi mdi-arrow-right-bold movement-icon"></a></li>
 
                             <div class="moveUpDownBox">
                                 <li title="<?php echo _MOVE_DOWN; ?>" class="cameraIcon" id="cameraDown"><a
-                                        class="mdi mdi-arrow-down-bold movement-icon"></a></li>
+                                            class="mdi mdi-arrow-down-bold movement-icon"></a></li>
                             </div>
                         </ul>
                     </div>
@@ -498,8 +515,8 @@ define("_FILE", "File");
         }
     }
 
-    function selectSettingsTab(tabIndex){
-        switch(tabIndex){
+    function selectSettingsTab(tabIndex) {
+        switch (tabIndex) {
             case 0:
                 document.getElementById("s-general").style.display = "block";
                 document.getElementById("s-about").style.display = "none";
