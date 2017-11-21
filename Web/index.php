@@ -333,7 +333,7 @@ session_start();
             <div class="card-panel row settings-tabcontrol">
                 <div class="col s3 header">
                     <div class="collection">
-                        <a onclick="selectSettingsTab(0)" onload="selectSettingsTab(0)" id="generalSelectorS" class="collection-item">General</a>
+                        <a onclick="selectSettingsTab(0)" id="generalSelectorS" class="collection-item">General</a>
                         <a onclick="selectSettingsTab(1)" id="aboutSelectorS" class="collection-item">About</a>
                     </div>
                 </div>
@@ -414,6 +414,7 @@ session_start();
         $('ul.tabs').tabs();
 
         selectTab(0);
+        selectSettingsTab(0)
     });
     $(".bottom-navbar").ready(function () {
         $('.tooltipped').tooltip();
