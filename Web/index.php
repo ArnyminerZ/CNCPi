@@ -43,6 +43,7 @@ define("_MOVE_UP", "Move Up");
 define("_MOVE_DOWN", "Move Down");
 define("_MOVE_LEFT", "Move Left");
 define("_MOVE_RIGHT", "Move Right");
+define("_FILE", "File");
 ?>
 <html>
 <head>
@@ -219,6 +220,28 @@ define("_MOVE_RIGHT", "Move Right");
     </div>
 </div>
 
+<div id="uploadFileModal" class="modal">
+    <div class="modal-content">
+        <h4><?php echo _UPLOAD_FILE; ?></h4>
+        <p>
+        <form action="#">
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span><?php echo _FILE; ?></span>
+                    <input type="file">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+        </form>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>
+
 <div id="home-tab" class="col s12">
     <div class="container">
         <div class="card-panel">
@@ -289,8 +312,7 @@ define("_MOVE_RIGHT", "Move Right");
             <a class="btn-floating btn-large red" style="position:absolute;right:18%;top:160px;" title="<?php echo _CREATE_FOLDER; ?>">
                 <i class="large material-icons">create_new_folder</i>
             </a>
-            <!-- TODO: Upload File Modal -->
-            <a class="btn-floating btn-large green" style="position:absolute;right:22.5%;top:160px;"
+            <a class="btn-floating btn-large green modal-trigger" href="#uploadFileModal" style="position:absolute;right:22.5%;top:160px;"
                title="<?php echo _UPLOAD_FILE; ?>">
                 <i class="large material-icons">file_upload</i>
             </a>
@@ -387,7 +409,6 @@ define("_MOVE_RIGHT", "Move Right");
     </div>
 </div>
 
-<!-- TODO: Load machine script, loads names in fields -->
 <div id="machine-tab" class="col s12" style="display:none;">
     <div class="container">
         <div class="card-panel">
