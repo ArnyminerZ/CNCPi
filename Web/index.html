@@ -26,6 +26,11 @@
     </style>
     <!-- Direction Buttons Style -->
     <style>
+        .positionCameras {
+            width: 125px;
+            padding: 5px;
+        }
+
         .positionCameras ul, .positionCameras li {
             margin: 0;
             padding: 0;
@@ -323,25 +328,38 @@
         <div class="card-panel">
             <h1 id="machine-title">Unknown CNC</h1>
 
-            <!-- TODO: Movement controls script -->
-            <div class="positionCameras card-panel" style="width: 170px">
-                <ul>
-                    <div class="moveUpDownBox">
-                        <li title="Move Up" class="cameraIcon" id="cameraUp"><a
-                                class="mdi mdi-arrow-up-bold movement-icon"></a></li>
-                    </div>
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs tabs-fixed-width">
+                        <li class="tab col s3"><a href="#milling" class="active">Milling</a></li>
+                        <li class="tab col s3"><a href="#control">Control</a></li>
+                        <li class="tab col s3"><a href="#terminal">Terminal</a></li>
+                    </ul>
+                </div>
+                <div id="milling" class="col s12">Test 1</div>
+                <div id="control" class="col s12">
+                    <!-- TODO: Movement controls script -->
+                    <div class="positionCameras card-panel">
+                        <ul>
+                            <div class="moveUpDownBox">
+                                <li title="Move Up" class="cameraIcon" id="cameraUp"><a
+                                        class="mdi mdi-arrow-up-bold movement-icon"></a></li>
+                            </div>
 
-                    <li title="Move Left" class="cameraIcon" id="cameraLeft"><a
-                            class="mdi mdi-arrow-left-bold movement-icon"></a></li>
-                    <li title="Camera" class="cameraIcon"></li>
-                    <li title="Move Right" class="cameraIcon" id="cameraRight"><a
-                            class="mdi mdi-arrow-right-bold movement-icon"></a></li>
+                            <li title="Move Left" class="cameraIcon" id="cameraLeft"><a
+                                    class="mdi mdi-arrow-left-bold movement-icon"></a></li>
+                            <li class="cameraIcon" style="cursor: default"></li>
+                            <li title="Move Right" class="cameraIcon" id="cameraRight"><a
+                                    class="mdi mdi-arrow-right-bold movement-icon"></a></li>
 
-                    <div class="moveUpDownBox">
-                        <li title="Move Down" class="cameraIcon" id="cameraDown"><a
-                                class="mdi mdi-arrow-down-bold movement-icon"></a></li>
+                            <div class="moveUpDownBox">
+                                <li title="Move Down" class="cameraIcon" id="cameraDown"><a
+                                        class="mdi mdi-arrow-down-bold movement-icon"></a></li>
+                            </div>
+                        </ul>
                     </div>
-                </ul>
+                </div>
+                <div id="terminal" class="col s12">Test 3</div>
             </div>
         </div>
     </div>
@@ -363,6 +381,8 @@
 
         $('.modal').modal();
 
+        $('ul.tabs').tabs();
+
         selectTab(0);
     });
     $(".bottom-navbar").ready(function () {
@@ -375,21 +395,29 @@
             document.getElementById("cloud-tab").style.display = "none";
             document.getElementById("messages-tab").style.display = "none";
             document.getElementById("settings-tab").style.display = "none";
+
+            document.getElementById("machine-tab").style.display = "none";
         } else if (tabIndex === 1) {
             document.getElementById("home-tab").style.display = "none";
             document.getElementById("cloud-tab").style.display = "block";
             document.getElementById("messages-tab").style.display = "none";
             document.getElementById("settings-tab").style.display = "none";
+
+            document.getElementById("machine-tab").style.display = "none";
         } else if (tabIndex === 2) {
             document.getElementById("home-tab").style.display = "none";
             document.getElementById("cloud-tab").style.display = "none";
             document.getElementById("messages-tab").style.display = "block";
             document.getElementById("settings-tab").style.display = "none";
+
+            document.getElementById("machine-tab").style.display = "none";
         } else if (tabIndex === 2) {
             document.getElementById("home-tab").style.display = "none";
             document.getElementById("cloud-tab").style.display = "none";
             document.getElementById("messages-tab").style.display = "none";
             document.getElementById("settings-tab").style.display = "block";
+
+            document.getElementById("machine-tab").style.display = "none";
         }
     }
 
