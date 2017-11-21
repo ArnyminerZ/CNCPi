@@ -26,6 +26,9 @@ session_start();
             width: 100%;
             z-index: 998;
         }
+        .settings-tabcontrol {
+            padding: 0;
+        }
     </style>
     <!-- Direction Buttons Style -->
     <style>
@@ -318,7 +321,7 @@ session_start();
     <div class="container">
         <div class="card-panel">
             <h1>Settings</h1>
-            <div class="card-panel row">
+            <div class="card-panel row settings-tabcontrol">
                 <div class="col s3">
                     <div class="collection">
                         <a href="" class="collection-item active">General</a>
