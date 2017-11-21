@@ -117,7 +117,7 @@ session_start();
                        href="#messages-modal"
                        data-tooltip="Messages"><i class="material-icons">message</i></a>
                 </li>
-                <li class="col s3" style="text-align: center;" onclick="selectTab(3)">
+                <li class="col s3" style="text-align: center;" onclick="selectTab(2)">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
                        data-tooltip="Settings"><i class="material-icons">settings</i></a>
                 </li>
@@ -314,14 +314,24 @@ session_start();
         </div>
     </div>
 </div>
-<div id="messages-tab" class="col s12">
-    <div class="container">
-
-    </div>
-</div>
 <div id="settings-tab" class="col s12">
     <div class="container">
+        <div class="card-panel">
+            <h1>Settings</h1>
+            <div class="row">
+                <div class="col s4">
+                    <div class="collection">
+                        <a href="#!" class="collection-item">Alvin</a>
+                        <a href="#!" class="collection-item active">Alvin</a>
+                        <a href="#!" class="collection-item">Alvin</a>
+                        <a href="#!" class="collection-item">Alvin</a>
+                    </div>
+                </div>
+                <div class="col s8">
 
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -396,28 +406,18 @@ session_start();
         if (tabIndex === 0) {
             document.getElementById("home-tab").style.display = "block";
             document.getElementById("cloud-tab").style.display = "none";
-            document.getElementById("messages-tab").style.display = "none";
             document.getElementById("settings-tab").style.display = "none";
 
             document.getElementById("machine-tab").style.display = "none";
         } else if (tabIndex === 1) {
             document.getElementById("home-tab").style.display = "none";
             document.getElementById("cloud-tab").style.display = "block";
-            document.getElementById("messages-tab").style.display = "none";
             document.getElementById("settings-tab").style.display = "none";
 
             document.getElementById("machine-tab").style.display = "none";
         } else if (tabIndex === 2) {
             document.getElementById("home-tab").style.display = "none";
             document.getElementById("cloud-tab").style.display = "none";
-            document.getElementById("messages-tab").style.display = "block";
-            document.getElementById("settings-tab").style.display = "none";
-
-            document.getElementById("machine-tab").style.display = "none";
-        } else if (tabIndex === 2) {
-            document.getElementById("home-tab").style.display = "none";
-            document.getElementById("cloud-tab").style.display = "none";
-            document.getElementById("messages-tab").style.display = "none";
             document.getElementById("settings-tab").style.display = "block";
 
             document.getElementById("machine-tab").style.display = "none";
