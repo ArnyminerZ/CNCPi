@@ -330,7 +330,7 @@ session_start();
     <div class="container">
         <div class="card-panel">
             <h1>Settings</h1>
-            <div class="card-panel row settings-tabcontrol">
+            <div class="card-panel row settings-tabcontrol" onload="selectSettingsTab(0)">
                 <div class="col s3 header">
                     <div class="collection">
                         <a onclick="selectSettingsTab(0)" id="generalSelectorS" class="collection-item active">General</a>
@@ -342,7 +342,9 @@ session_start();
 
                     </div>
                     <div id="s-about">
-                        <p>CNCPi Release Version: <?php echo readfile("VERSION"); ?></p>
+                        <p>
+                            CNCPi Release Version: <i><?php $myfile = fopen("VERSION", "r") or die("Cannot load version"); echo fread($myfile,filesize("VERSION")); fclose($myfile); ?></i>
+                        </p>
                     </div>
                 </div>
             </div>
