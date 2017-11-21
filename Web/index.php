@@ -330,12 +330,17 @@ session_start();
             <div class="card-panel row settings-tabcontrol">
                 <div class="col s3 header">
                     <div class="collection">
-                        <a href="" class="collection-item active">General</a>
-                        <a href="" class="collection-item">About</a>
+                        <a href="" onclick="selectSettingsTab(0)" id="generalSelectorS" class="collection-item active">General</a>
+                        <a href="" onclick="selectSettingsTab(1)" id="aboutSelectorS" class="collection-item">About</a>
                     </div>
                 </div>
-                <div class="col s9">
+                <div class="col s9 body">
+                    <div id="s-general">
 
+                    </div>
+                    <div id="s-about">
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -428,6 +433,25 @@ session_start();
             document.getElementById("settings-tab").style.display = "block";
 
             document.getElementById("machine-tab").style.display = "none";
+        }
+    }
+
+    function selectSettingsTab(tabIndex){
+        switch(tabIndex){
+            case 0:
+                document.getElementById("s-general").style.display = "block";
+                document.getElementById("s-about").style.display = "none";
+
+                document.getElementById("generalSelectorS").classList.add("active");
+                document.getElementById("aboutSelectorS").classList.remove("active");
+                break;
+            case 1:
+                document.getElementById("s-general").style.display = "none";
+                document.getElementById("s-about").style.display = "block";
+
+                document.getElementById("generalSelectorS").classList.remove("active");
+                document.getElementById("aboutSelectorS").classList.add("active");
+                break;
         }
     }
 
