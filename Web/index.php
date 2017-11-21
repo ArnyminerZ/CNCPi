@@ -1,6 +1,48 @@
 <!DOCTYPE html>
 <?php
 session_start();
+
+define("_TITLE", "CNCPi");
+
+define("_LANGUAGE", "Language");
+
+define("_HOME", "Home");
+define("_CLOUD", "Cloud");
+define("_MESSAGES", "Messages");
+define("_SETTINGS", "Settings");
+
+define("_ADD_MACHINE", "Add Machine");
+define("_MACHINE_NAME", "Machine Name");
+define("_CHOOSE_PORT", "Choose a port");
+define("_CONNECT", "Connect");
+define("_PORT", "Port");
+define("_ANY_MESSAGE", "Any message");
+define("_ETA_SYNTAXIS", "&prp% | ETA: &hrh &mnm");
+define("_GO_TO_MACHINE", "Go to Machine");
+define("_MILLING", "Milling");
+define("_DASHBOARD", "Dashboard");
+define("_NOT_MILLING", "Not milling");
+define("_NO", "No");
+define("_CURRENT_PHP_VERSION", "Current <a href=\"http://php.net/\">PHP</a> version");
+define("_CREATE_FOLDER", "Create Folder");
+define("_UPLOAD_FILE", "Upload File");
+define("_RENAME", "Rename");
+define("_DELETE_FOREVER", "Delete Forever");
+define("_DOWNLOAD_ZIP", "Download ZIP");
+define("_RENAME_FILE", "Rename File");
+define("_DOWNLOAD_FILE", "Download File");
+define("_LOAD_FILE", "Load File");
+define("_GENERAL", "General");
+define("_ABOUT", "About");
+define("_SOFTWARE_VERSIONS", "Software Versions");
+define("_CNCPI_RELEASE_VERSION", "CNCPi Release Version");
+define("_UNKNOWN_CNC", "Unknown CNC");
+define("_CONTROL", "Control");
+define("_TERMINAL", "Terminal");
+define("_MOVE_UP", "Move Up");
+define("_MOVE_DOWN", "Move Down");
+define("_MOVE_LEFT", "Move Left");
+define("_MOVE_RIGHT", "Move Right");
 ?>
 <html>
 <head>
@@ -16,7 +58,7 @@ session_start();
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <title>CNCPi</title>
+    <title><?php echo _TITLE; ?></title>
 
     <style>
         .bottom-navbar {
@@ -104,9 +146,9 @@ session_start();
 </ul>
 <nav>
     <div class="nav-wrapper teal darken-1">
-        <a href="#!" class="brand-logo"><i class="material-icons">cloud</i>CNCPi</a>
+        <a href="#!" class="brand-logo"><?php echo _TITLE; ?></a>
         <ul class="right hide-on-med-and-down">
-            <li><a class="dropdown-trigger" href="#!" data-target="languagedropdown"><i
+            <li><a class="dropdown-trigger" href="#!" title="<?php echo _LANGUAGE; ?>" data-target="languagedropdown"><i
                     class="material-icons">language</i></a></li>
         </ul>
     </div>
@@ -115,31 +157,24 @@ session_start();
     <nav>
         <div class="nav-wrapper teal darken-1">
             <ul class="row">
-                <!-- TODO: Tooltip Language -->
                 <li class="col s3" style="text-align: center;" onclick="selectTab(0)">
                     <a class="grey-text text-lighten-3 tooltipped active" data-position="top" data-delay="50"
-                       data-tooltip="Home"><i class="material-icons">home</i></a>
+                       data-tooltip="<?php echo _HOME; ?>"><i class="material-icons">home</i></a>
                 </li>
                 <li class="col s3" style="text-align: center;" onclick="selectTab(1)">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
-                       data-tooltip="Cloud"><i class="material-icons">cloud</i></a>
+                       data-tooltip="<?php echo _CLOUD; ?>"><i class="material-icons">cloud</i></a>
                 </li>
                 <li class="col s3" style="text-align: center;">
                     <a class="grey-text text-lighten-3 tooltipped modal-trigger" data-position="top" data-delay="50"
                        href="#messages-modal"
-                       data-tooltip="Messages"><i class="material-icons">message</i></a>
+                       data-tooltip="<?php echo _MESSAGES; ?>"><i class="material-icons">message</i></a>
                 </li>
                 <li class="col s3" style="text-align: center;" onclick="selectTab(2)">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
-                       data-tooltip="Settings"><i class="material-icons">settings</i></a>
+                       data-tooltip="<?php echo _SETTINGS; ?>"><i class="material-icons">settings</i></a>
                 </li>
             </ul>
-            <!--<ul class="tabs tabs-fixed-width teal darken-1">
-                <li class="tab col s3"><a class="teal-text text-darken-4 active" href="#test1">Test 1</a></li>
-                <li class="tab col s3"><a class="teal-text text-darken-4" href="#test2">Test 2</a></li>
-                <li class="tab col s3"><a class="teal-text text-darken-4" href="#test3">Disabled Tab</a></li>
-                <li class="tab col s3"><a class="teal-text text-darken-4" href="#test4">Test 4</a></li>
-            </ul>-->
         </div>
     </nav>
 </div>
@@ -147,47 +182,47 @@ session_start();
 <!-- Add Machine Modal -->
 <div id="add-machine-modal" class="modal">
     <div class="modal-content">
-        <h4>Add Machine</h4>
+        <h4><?php echo _ADD_MACHINE; ?></h4>
         <div class="row">
             <form class="col s12">
                 <div class="row">
                     <div class="input-field col s12">
                         <input id="machine_name" type="text" class="validate">
-                        <label for="machine_name">Machine Name</label>
+                        <label for="machine_name"><?php echo _MACHINE_NAME; ?></label>
                     </div>
                 </div>
                 <div class="input-field col s12">
                     <select>
-                        <option value="" disabled selected>Choose a port</option>
+                        <option value="" disabled selected><?php echo _CHOOSE_PORT; ?></option>
                         <option value="1">COM1</option>
                         <option value="2">COM2</option>
                         <option value="3">COM3</option>
                     </select>
-                    <label>Port</label>
+                    <label><?php echo _PORT; ?></label>
                 </div>
             </form>
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Connect</a>
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _CONNECT; ?></a>
     </div>
 </div>
 <div id="messages-modal" class="modal bottom-sheet">
     <div class="modal-content">
-        <h4>Messages</h4>
+        <h4><?php echo _MESSAGES ?></h4>
         <ul class="collection">
             <!-- Messages Loader
                  Message:    '<li class="collection-item"><div>Message Content<a href="#!" class="secondary-content"><i class="material-icons">delete</i></a></div></li>'
                  Anymessage: 'Any Message' -->
         </ul>
-        Any Message
+        <?php echo _ANY_MESSAGE ?>
     </div>
 </div>
 
 <div id="home-tab" class="col s12">
     <div class="container">
         <div class="card-panel">
-            <h1>Dashboard
+            <h1><?php echo _DASHBOARD ?>
                 <a class="waves-effect waves-circle waves-light btn-floating secondary-content modal-trigger"
                    href="#add-machine-modal">
                     <i class="material-icons">add</i>
@@ -205,17 +240,16 @@ session_start();
                         <hr/>
                         <div class="card-content">
                             <p>
-                                Milling: Box Side 1
+                                <?php echo _MILLING ?>: Box Side 1
                             </p>
                             <div class="progress" style="height: 25px">
                                 <div class="determinate" style="width: 27%"></div>
-                                <p style="position: absolute; width: 100%; text-align: center">27% | ETA: 0h 25m</p>
+                                <p style="position: absolute; width: 100%; text-align: center"><?php echo str_replace("&mn", "0", str_replace("&hr", "0", str_replace("&prp", "27", _ETA_SYNTAXIS))); ?></p>
                             </div>
                         </div>
                         <div class="card-action">
                             <a style="cursor:pointer;"
-                               onclick="document.getElementById('home-tab').style.display='none';loadMachine('CNC 1')">Go
-                                To Machine</a>
+                               onclick="document.getElementById('home-tab').style.display='none';loadMachine('CNC 1')"><?php echo _GO_TO_MACHINE; ?></a>
                         </div>
                     </div>
                 </div>
@@ -230,17 +264,16 @@ session_start();
                         <hr/>
                         <div class="card-content">
                             <p>
-                                Milling: No
+                                <?php echo _MILLING ?>: <?php echo _NO ?>
                             </p>
                             <div class="progress" style="height: 25px">
                                 <div class="determinate" style="width: 0%"></div>
-                                <p style="position: absolute; width: 100%; text-align: center">Not printing</p>
+                                <p style="position: absolute; width: 100%; text-align: center"><?php echo _NOT_MILLING; ?></p>
                             </div>
                         </div>
                         <div class="card-action">
                             <a style="cursor:pointer;"
-                               onclick="document.getElementById('home-tab').style.display='none';loadMachine('CNC 2')">Go
-                                To Machine</a>
+                               onclick="document.getElementById('home-tab').style.display='none';loadMachine('CNC 2')"><?php echo _GO_TO_MACHINE; ?></a>
                         </div>
                     </div>
                 </div>
@@ -251,14 +284,14 @@ session_start();
 <div id="cloud-tab" class="col s12">
     <div class="container">
         <div class="card-panel">
-            <h1>Cloud</h1>
+            <h1><?php echo _CLOUD; ?></h1>
             <!-- TODO: Create Folder Modal -->
-            <a class="btn-floating btn-large red" style="position:absolute;right:18%;top:160px;" title="Create Folder">
+            <a class="btn-floating btn-large red" style="position:absolute;right:18%;top:160px;" title="<?php echo _CREATE_FOLDER; ?>">
                 <i class="large material-icons">create_new_folder</i>
             </a>
             <!-- TODO: Upload File Modal -->
             <a class="btn-floating btn-large green" style="position:absolute;right:22.5%;top:160px;"
-               title="Upload File">
+               title="<?php echo _UPLOAD_FILE; ?>">
                 <i class="large material-icons">file_upload</i>
             </a>
 
@@ -272,11 +305,11 @@ session_start();
                         <p>12/11/2017 09:12<br>
                             Folder - 12 kB
                         </p>
-                        <a href="#!" class="secondary-content" style="right:25px;" title="Rename"><i
+                        <a href="#!" class="secondary-content" style="right:25px;" title="<?php echo _RENAME; ?>"><i
                                 class="mdi mdi-pencil mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:55px;" title="Delete Forever"><i
+                        <a href="#!" class="secondary-content" style="right:55px;" title="<?php echo _DELETE_FOREVER; ?>"><i
                                 class="mdi mdi-delete-forever mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:85px;" title="Download ZIP"><i
+                        <a href="#!" class="secondary-content" style="right:85px;" title="<?php echo _DOWNLOAD_ZIP; ?>"><i
                                 class="mdi mdi-download mdi-24px"></i></a>
                     </li>
                     <!-- /Folder -->
@@ -287,13 +320,13 @@ session_start();
                         <p>20/11/2017 19:46<br>
                             GCode - 16 kB
                         </p>
-                        <a href="#!" class="secondary-content" style="right:25px;" title="Rename File"><i
+                        <a href="#!" class="secondary-content" style="right:25px;" title="<?php echo _RENAME_FILE; ?>"><i
                                 class="mdi mdi-pencil mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:55px;" title="Delete Forever"><i
+                        <a href="#!" class="secondary-content" style="right:55px;" title="<?php echo _DELETE_FOREVER; ?>"><i
                                 class="mdi mdi-delete-forever mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:85px;" title="Download File"><i
+                        <a href="#!" class="secondary-content" style="right:85px;" title="<?php echo _DOWNLOAD_FILE; ?>"><i
                                 class="mdi mdi-download mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:115px;" title="Load File"><i
+                        <a href="#!" class="secondary-content" style="right:115px;" title="<?php echo _LOAD_FILE; ?>"><i
                                 class="mdi mdi-upload-network mdi-24px"></i></a>
                     </li>
                 </div>
@@ -311,13 +344,13 @@ session_start();
                         <p>19/09/2017 12:26<br>
                             GCode - 12.3 mB
                         </p>
-                        <a href="#!" class="secondary-content" style="right:25px;" title="Rename File"><i
+                        <a href="#!" class="secondary-content" style="right:25px;" title="<?php echo _RENAME_FILE; ?>"><i
                                 class="mdi mdi-pencil mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:55px;" title="Delete Forever"><i
+                        <a href="#!" class="secondary-content" style="right:55px;" title="<?php echo _DELETE_FOREVER; ?>"><i
                                 class="mdi mdi-delete-forever mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:85px;" title="Download File"><i
+                        <a href="#!" class="secondary-content" style="right:85px;" title="<?php echo _DOWNLOAD_FILE; ?>"><i
                                 class="mdi mdi-download mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:115px;" title="Load File"><i
+                        <a href="#!" class="secondary-content" style="right:115px;" title="<?php echo _LOAD_FILE; ?>"><i
                                 class="mdi mdi-upload-network mdi-24px"></i></a>
                     </li>
                 </div>
@@ -329,12 +362,12 @@ session_start();
 <div id="settings-tab" class="col s12">
     <div class="container">
         <div class="card-panel">
-            <h1>Settings</h1>
+            <h1><?php echo _SETTINGS; ?></h1>
             <div class="card-panel row settings-tabcontrol">
                 <div class="col s3 header">
                     <div class="collection">
-                        <a onclick="selectSettingsTab(0)" id="generalSelectorS" class="collection-item">General</a>
-                        <a onclick="selectSettingsTab(1)" id="aboutSelectorS" class="collection-item">About</a>
+                        <a onclick="selectSettingsTab(0)" id="generalSelectorS" class="collection-item"><?php echo _GENERAL; ?></a>
+                        <a onclick="selectSettingsTab(1)" id="aboutSelectorS" class="collection-item"><?php echo _ABOUT; ?></a>
                     </div>
                 </div>
                 <div class="col s9 body">
@@ -343,9 +376,9 @@ session_start();
                     </div>
                     <div id="s-about">
                         <p>
-                            <h4>Software Versions</h4>
-                            CNCPi Release Version: <i><?php $myfile = fopen("VERSION", "r") or die("Cannot load version"); echo fread($myfile,filesize("VERSION")); fclose($myfile); ?></i><br/>
-                            <?php echo 'Current <a href="http://php.net/">PHP</a> version: <i>' . phpversion() . '</i>'; ?>
+                            <h4><?php echo _SOFTWARE_VERSIONS; ?></h4>
+                            <?php echo _CNCPI_RELEASE_VERSION; ?>: <i><?php $myfile = fopen("VERSION", "r") or die("Cannot load version"); echo fread($myfile,filesize("VERSION")); fclose($myfile); ?></i><br/>
+                            <?php echo _CURRENT_PHP_VERSION . ': <i>' . phpversion() . '</i>'; ?>
                         </p>
                     </div>
                 </div>
@@ -358,14 +391,14 @@ session_start();
 <div id="machine-tab" class="col s12" style="display:none;">
     <div class="container">
         <div class="card-panel">
-            <h1 id="machine-title">Unknown CNC</h1>
+            <h1 id="machine-title"><?php echo _UNKNOWN_CNC; ?></h1>
 
             <div class="row">
                 <div class="col s12">
                     <ul class="tabs tabs-fixed-width">
-                        <li class="tab col s3"><a href="#milling" class="active">Milling</a></li>
-                        <li class="tab col s3"><a href="#control">Control</a></li>
-                        <li class="tab col s3"><a href="#terminal">Terminal</a></li>
+                        <li class="tab col s3"><a href="#milling" class="active"><?php echo _MILLING; ?></a></li>
+                        <li class="tab col s3"><a href="#control"><?php echo _CONTROL; ?></a></li>
+                        <li class="tab col s3"><a href="#terminal"><?php echo _TERMINAL; ?></a></li>
                     </ul>
                 </div>
                 <div id="milling" class="col s12">Test 1</div>
@@ -374,18 +407,18 @@ session_start();
                     <div class="positionCameras card-panel">
                         <ul>
                             <div class="moveUpDownBox">
-                                <li title="Move Up" class="cameraIcon" id="cameraUp"><a
+                                <li title="<?php echo _MOVE_UP; ?>" class="cameraIcon" id="cameraUp"><a
                                         class="mdi mdi-arrow-up-bold movement-icon"></a></li>
                             </div>
 
-                            <li title="Move Left" class="cameraIcon" id="cameraLeft"><a
+                            <li title="<?php echo _MOVE_LEFT; ?>" class="cameraIcon" id="cameraLeft"><a
                                     class="mdi mdi-arrow-left-bold movement-icon"></a></li>
                             <li class="cameraIcon" style="cursor: default"></li>
-                            <li title="Move Right" class="cameraIcon" id="cameraRight"><a
+                            <li title="<?php echo _MOVE_RIGHT; ?>" class="cameraIcon" id="cameraRight"><a
                                     class="mdi mdi-arrow-right-bold movement-icon"></a></li>
 
                             <div class="moveUpDownBox">
-                                <li title="Move Down" class="cameraIcon" id="cameraDown"><a
+                                <li title="<?php echo _MOVE_DOWN; ?>" class="cameraIcon" id="cameraDown"><a
                                         class="mdi mdi-arrow-down-bold movement-icon"></a></li>
                             </div>
                         </ul>
