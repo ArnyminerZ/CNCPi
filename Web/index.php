@@ -343,8 +343,9 @@ session_start();
                     </div>
                     <div id="s-about">
                         <p>
-                            CNCPi Release Version: <i><?php $myfile = fopen("VERSION", "r") or die("Cannot load version"); echo fread($myfile,filesize("VERSION")); fclose($myfile); ?></i>
-                            <?php echo 'Current PHP version: <i>' . phpversion() . '</i>'; ?>
+                            <h3>Software Versions</h3>
+                            CNCPi Release Version: <i><?php $myfile = fopen("VERSION", "r") or die("Cannot load version"); echo fread($myfile,filesize("VERSION")); fclose($myfile); ?></i><br/>
+                            <?php echo 'Current <a href="http://php.net/">PHP</a> version: <i>' . phpversion() . '</i>'; ?>
                         </p>
                     </div>
                 </div>
