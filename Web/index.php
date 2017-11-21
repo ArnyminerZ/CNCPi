@@ -45,6 +45,8 @@ define("_MOVE_LEFT", "Move Left");
 define("_MOVE_RIGHT", "Move Right");
 define("_FILE", "File");
 define("_UPLOAD", "Upload");
+define("_FOLDER_NAME", "Folder Name");
+define("_CREATE", "Create");
 ?>
 <html>
 <head>
@@ -226,7 +228,7 @@ define("_UPLOAD", "Upload");
 </div>
 
 <div id="uploadFileModal" class="modal">
-    <form action="#">
+    <form action="#" id="uploadFileModalForm">
         <div class="modal-content">
             <h4><?php echo _UPLOAD_FILE; ?></h4>
             <div class="file-field input-field">
@@ -240,7 +242,26 @@ define("_UPLOAD", "Upload");
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _UPLOAD; ?></button>
+            <button type="button"
+                    onclick="document.getElementById('createFolderModalForm').submit();"
+                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _UPLOAD; ?></button>
+        </div>
+    </form>
+</div>
+<div id="createFolder" class="modal">
+    <form action="#" id="createFolderModalForm">
+        <div class="modal-content">
+            <h4><?php echo _CREATE_FOLDER; ?></h4>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="folder_name_modal_txt" name="folder_name" type="text" class="validate">
+                    <label for="folder_name_modal_txt"><?php echo _FOLDER_NAME; ?></label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="document.getElementById('createFolderModalForm').submit();"
+                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _CREATE; ?></button>
         </div>
     </form>
 </div>
@@ -311,8 +332,7 @@ define("_UPLOAD", "Upload");
     <div class="container">
         <div class="card-panel">
             <h1><?php echo _CLOUD; ?></h1>
-            <!-- TODO: Create Folder Modal -->
-            <a class="btn-floating btn-large red" style="position:absolute;right:18%;top:160px;"
+            <a class="btn-floating btn-large red modal-trigger" href="#createFolder" style="position:absolute;right:18%;top:160px;"
                title="<?php echo _CREATE_FOLDER; ?>">
                 <i class="large material-icons">create_new_folder</i>
             </a>
