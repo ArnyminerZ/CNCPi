@@ -35,6 +35,9 @@ session_start();
         .settings-tabcontrol .header .collection {
             margin: 0;
         }
+        .settings-tabcontrol .header .collection .collection-item {
+            cursor: pointer;
+        }
     </style>
     <!-- Direction Buttons Style -->
     <style>
@@ -330,8 +333,8 @@ session_start();
             <div class="card-panel row settings-tabcontrol">
                 <div class="col s3 header">
                     <div class="collection">
-                        <a href="" onclick="selectSettingsTab(0)" id="generalSelectorS" class="collection-item active">General</a>
-                        <a href="" onclick="selectSettingsTab(1)" id="aboutSelectorS" class="collection-item">About</a>
+                        <a onclick="selectSettingsTab(0)" id="generalSelectorS" class="collection-item active">General</a>
+                        <a onclick="selectSettingsTab(1)" id="aboutSelectorS" class="collection-item">About</a>
                     </div>
                 </div>
                 <div class="col s9 body">
