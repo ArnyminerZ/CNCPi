@@ -32,6 +32,9 @@ session_start();
         .settings-tabcontrol .header {
             padding: 0;
         }
+        .settings-tabcontrol .header .collection {
+            margin: 0;
+        }
     </style>
     <!-- Direction Buttons Style -->
     <style>
