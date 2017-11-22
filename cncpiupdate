@@ -3,8 +3,8 @@
 githubVersion=$(wget https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION -q -O -)
 localVersion=$(cat /var/www/html/VERSION)
 
-echo "Github version: $githubVersion \n";
-echo "Local version: $localVersion \n";
+echo "Github version: $githubVersion";
+echo "Local version: $localVersion";
 
 if [[ "$localVersion" != "$githubVersion" ]]; then
     sudo git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install

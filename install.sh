@@ -9,4 +9,7 @@ fi
 sudo cp /temp/install/cncpiupdate /usr/local/bin/cncpiupdate
 sudo chmod +x /usr/local/bin/cncpiupdate
 
+sudo rm -rf /temp/install
+sudo rm -rf /temp
+
 cncpiupdate
