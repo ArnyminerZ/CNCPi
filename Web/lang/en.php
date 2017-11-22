@@ -47,6 +47,8 @@ define("_CREATE", "Create");
 
 define("_CHOOSE_LANGUAGE", "Choose your language");
 
+define("_CANNOT_SUBFOLDER", "Cannot load more subfolders");
+
 define("_UPDATE", "Update");
 define("_SYSTEM_UPTODATE", "Your system is up to date");
 define("_UPDATE_AVAILABLE", "New Update available");

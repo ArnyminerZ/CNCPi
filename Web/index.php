@@ -2,6 +2,25 @@
 <?php
 session_start();
 
+function formatSizeUnits($bytes)
+{
+    if ($bytes >= 1073741824) {
+        $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+    } elseif ($bytes >= 1048576) {
+        $bytes = number_format($bytes / 1048576, 2) . ' MB';
+    } elseif ($bytes >= 1024) {
+        $bytes = number_format($bytes / 1024, 2) . ' KB';
+    } elseif ($bytes > 1) {
+        $bytes = $bytes . ' bytes';
+    } elseif ($bytes == 1) {
+        $bytes = $bytes . ' byte';
+    } else {
+        $bytes = '0 bytes';
+    }
+
+    return $bytes;
+}
+
 include_once "lang/en.php";
 ?>
 <html>
@@ -280,7 +299,8 @@ include_once "lang/en.php";
     <div class="container">
         <div class="card-panel">
             <h1><?php echo _CLOUD; ?></h1>
-            <a class="btn-floating btn-large red modal-trigger" href="#createFolder" style="position:absolute;right:18%;top:160px;"
+            <a class="btn-floating btn-large red modal-trigger" href="#createFolder"
+               style="position:absolute;right:18%;top:160px;"
                title="<?php echo _CREATE_FOLDER; ?>">
                 <i class="large material-icons">create_new_folder</i>
             </a>
@@ -291,72 +311,107 @@ include_once "lang/en.php";
             </a>
 
             <ul class="collection">
-                <div class="main-directory-folder" id="mainf">
-                    <!-- Folder -->
-                    <li class="collection-item avatar"
-                        onclick="document.getElementById('mainf').style.display='none';document.getElementById('flyingmachine-folder').style.display='block';">
-                        <i class="mdi mdi-folder circle yellow"></i>
-                        <span class="title"><b>Flying Machine</b></span>
-                        <p>12/11/2017 09:12<br>
-                            Folder - 12 kB
-                        </p>
-                        <a href="#!" class="secondary-content" style="right:25px;" title="<?php echo _RENAME; ?>"><i
-                                    class="mdi mdi-pencil mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:55px;"
-                           title="<?php echo _DELETE_FOREVER; ?>"><i
-                                    class="mdi mdi-delete-forever mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:85px;" title="<?php echo _DOWNLOAD_ZIP; ?>"><i
-                                    class="mdi mdi-download mdi-24px"></i></a>
-                    </li>
-                    <!-- /Folder -->
+                <?php
+                $cloudDir = "cloud";
 
-                    <li class="collection-item avatar">
-                        <i class="mdi mdi-code-braces circle green"></i>
-                        <span class="title"><b>Box Side 1</b></span>
-                        <p>20/11/2017 19:46<br>
-                            GCode - 16 kB
-                        </p>
-                        <a href="#!" class="secondary-content" style="right:25px;"
-                           title="<?php echo _RENAME_FILE; ?>"><i
-                                    class="mdi mdi-pencil mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:55px;"
-                           title="<?php echo _DELETE_FOREVER; ?>"><i
-                                    class="mdi mdi-delete-forever mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:85px;"
-                           title="<?php echo _DOWNLOAD_FILE; ?>"><i
-                                    class="mdi mdi-download mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:115px;" title="<?php echo _LOAD_FILE; ?>"><i
-                                    class="mdi mdi-upload-network mdi-24px"></i></a>
-                    </li>
-                </div>
-                <!-- Folder Contents -->
-                <div class="folder-contents" id="flyingmachine-folder" style="display:none;">
-                    <li class="collection-item avatar"
-                        onclick="document.getElementById('mainf').style.display='block';document.getElementById('flyingmachine-folder').style.display='none';">
-                        <i class="mdi mdi-dots-horizontal circle"></i>
-                        <span class="title"><b></b></span>
-                    </li>
+                if (!file_exists($cloudDir)) {
+                    mkdir($cloudDir);
+                }
 
-                    <li class="collection-item avatar">
-                        <i class="mdi mdi-code-braces circle green"></i>
-                        <span class="title"><b>This is an awesome machine model</b></span>
-                        <p>19/09/2017 12:26<br>
-                            GCode - 12.3 mB
-                        </p>
-                        <a href="#!" class="secondary-content" style="right:25px;"
-                           title="<?php echo _RENAME_FILE; ?>"><i
-                                    class="mdi mdi-pencil mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:55px;"
-                           title="<?php echo _DELETE_FOREVER; ?>"><i
-                                    class="mdi mdi-delete-forever mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:85px;"
-                           title="<?php echo _DOWNLOAD_FILE; ?>"><i
-                                    class="mdi mdi-download mdi-24px"></i></a>
-                        <a href="#!" class="secondary-content" style="right:115px;" title="<?php echo _LOAD_FILE; ?>"><i
-                                    class="mdi mdi-upload-network mdi-24px"></i></a>
-                    </li>
-                </div>
-                <!-- /Folder Contents -->
+                $files = scandir($cloudDir);
+                foreach ($files as $file) {
+                    $filePath = $cloudDir . "/" . $file;
+                    if (is_dir($file)) {
+                        ?>
+                        <div class="main-directory-folder" id="mainf">
+                            <li class="collection-item avatar"
+                                onclick="document.getElementsByClassName('main-directory-folder')[0].style.display='none';document.getElementById('<?php echo $file; ?>-folder').style.display='block';">
+                                <i class="mdi mdi-folder circle yellow"></i>
+                                <span class="title"><b><?php echo $file ?></b></span>
+                                <p><?php echo date("d/m/Y H:i:s.", filemtime($filePath)); ?><br>
+                                    Folder - <?php echo formatSizeUnits(filesize($filePath)); ?>
+                                </p>
+                                <!-- TODO: Rename, Delete and Download Zip buttons -->
+                                <a href="#!" class="secondary-content" style="right:25px;"
+                                   title="<?php echo _RENAME; ?>"><i
+                                            class="mdi mdi-pencil mdi-24px"></i></a>
+                                <a href="#!" class="secondary-content" style="right:55px;"
+                                   title="<?php echo _DELETE_FOREVER; ?>"><i
+                                            class="mdi mdi-delete-forever mdi-24px"></i></a>
+                                <a href="#!" class="secondary-content" style="right:85px;"
+                                   title="<?php echo _DOWNLOAD_ZIP; ?>"><i
+                                            class="mdi mdi-download mdi-24px"></i></a>
+                            </li>
+                        </div>
+                        <div class="folder-contents" id="<?php echo $file; ?>-folder" style="display:none;">
+                            <li class="collection-item avatar"
+                                onclick="document.getElementsByClassName('main-directory-folder')[0].style.display='block';document.getElementById('flyingmachine-folder').style.display='none';">
+                                <i class="mdi mdi-dots-horizontal circle"></i>
+                                <span class="title"><b></b></span>
+                            </li>
+                            <?php
+                            foreach (scandir($filePath) as $subfile) {
+                                $subfilePath = $filePath . "/" . $subfile;
+                                if (is_dir($subfile)) {
+                                    echo _CANNOT_SUBFOLDER;
+                                } else {
+                                    ?>
+                                    <li class="collection-item avatar">
+                                        <i class="mdi mdi-code-braces circle green"></i>
+                                        <span class="title"><b><?php echo $subfile; ?></b></span>
+                                        <p><?php echo date("d/m/Y H:i:s.", filemtime($subfilePath)); ?><br>
+                                            <?php echo end(explode('.', $subfilePath)); ?>
+                                            - <?php echo formatSizeUnits(filesize($subfilePath)); ?>
+                                        </p>
+                                        <!-- TODO: Rename, Delete, Download and Load buttons -->
+                                        <a href="#!" class="secondary-content" style="right:25px;"
+                                           title="<?php echo _RENAME_FILE; ?>"><i
+                                                    class="mdi mdi-pencil mdi-24px"></i></a>
+                                        <a href="#!" class="secondary-content" style="right:55px;"
+                                           title="<?php echo _DELETE_FOREVER; ?>"><i
+                                                    class="mdi mdi-delete-forever mdi-24px"></i></a>
+                                        <a href="#!" class="secondary-content" style="right:85px;"
+                                           title="<?php echo _DOWNLOAD_FILE; ?>"><i
+                                                    class="mdi mdi-download mdi-24px"></i></a>
+                                        <a href="#!" class="secondary-content" style="right:115px;"
+                                           title="<?php echo _LOAD_FILE; ?>"><i
+                                                    class="mdi mdi-upload-network mdi-24px"></i></a>
+                                    </li>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                        <?php
+                    } else {
+                        ?>
+                        <div class="main-directory-folder" id="mainf">
+                            <li class="collection-item avatar">
+                                <i class="mdi mdi-code-braces circle green"></i>
+                                <span class="title"><b><?php echo $file; ?></b></span>
+                                <p><?php echo date("d/m/Y H:i:s.", filemtime($filePath)); ?><br>
+                                    <?php echo end(explode('.', $filePath)); ?>
+                                    - <?php echo formatSizeUnits(filesize($filePath)); ?>
+                                </p>
+                                <!-- TODO: Rename, Delete, Download and Load buttons -->
+                                <a href="#!" class="secondary-content" style="right:25px;"
+                                   title="<?php echo _RENAME_FILE; ?>"><i
+                                            class="mdi mdi-pencil mdi-24px"></i></a>
+                                <a href="#!" class="secondary-content" style="right:55px;"
+                                   title="<?php echo _DELETE_FOREVER; ?>"><i
+                                            class="mdi mdi-delete-forever mdi-24px"></i></a>
+                                <a href="#!" class="secondary-content" style="right:85px;"
+                                   title="<?php echo _DOWNLOAD_FILE; ?>"><i
+                                            class="mdi mdi-download mdi-24px"></i></a>
+                                <a href="#!" class="secondary-content" style="right:115px;"
+                                   title="<?php echo _LOAD_FILE; ?>"><i
+                                            class="mdi mdi-upload-network mdi-24px"></i></a>
+                            </li>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
             </ul>
         </div>
     </div>
@@ -398,7 +453,7 @@ include_once "lang/en.php";
                         <p>
                         <h4><?php echo _SOFTWARE_VERSIONS; ?></h4>
                         <?php
-                        if($githubVersion == $localVersion){
+                        if ($githubVersion == $localVersion) {
                             echo '<h6><span style="color:#8bc34a"><i class="material-icons">info_outline</i>' . _SYSTEM_UPTODATE . '</span></h6>';
                         } else {
                             echo '<h6><span style="color:#f44336"><i class="material-icons">info_outline</i>' . _UPDATE_AVAILABLE . '</span> <a id="updateLink" style="cursor: pointer">' . _UPDATE . '</a></h6>';
@@ -484,12 +539,12 @@ include_once "lang/en.php";
         $('.tooltipped').tooltip();
     });
 
-    $("#updateLink").click(function(e) {
+    $("#updateLink").click(function (e) {
         // prevent the link from getting visited, for the time being
         e.preventDefault();
 
         //update the counter
-        $.get("runCommand.php?c=cncpiupdate",function(r){
+        $.get("runCommand.php?c=cncpiupdate", function (r) {
             M.toast({html: r})
         });
     });
