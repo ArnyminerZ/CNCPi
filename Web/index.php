@@ -364,7 +364,7 @@ include_once "lang/en.php";
 <div id="settings-tab" class="col s12">
     <div class="container">
         <div class="card-panel">
-            <h1><?php echo _SETTINGS; ?><h6><?php echo str_replace("&sl", _COOKIES, _COOKIES_SAVE); ?></h6></h1>
+            <h1><?php echo _SETTINGS; ?></h1>
             <div class="card-panel row settings-tabcontrol">
                 <div class="col s3 header">
                     <div class="collection">
@@ -379,8 +379,8 @@ include_once "lang/en.php";
                         <br/>
                         <div class="input-field col s12">
                             <select>
-                                <option value="" disabled selected><?php echo _CHOOSE_LANGUAGE; ?></option>
-                                <option value="en">English</option>
+                                <option value="" disabled><?php echo _CHOOSE_LANGUAGE; ?></option>
+                                <option value="en" selected>English</option>
                             </select>
                             <label><?php echo _LANGUAGE; ?></label>
                         </div>
