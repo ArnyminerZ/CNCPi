@@ -1,9 +1,17 @@
 #!/bin/bash
 
-sudo git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install
+githubVersion=$(wget https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION -q -O -)
+localVersion=`cat /var/www/html/VERSION`
 
-sudo rm -rf /var/www/html
-sudo cp -r /temp/install/Web /var/www/html
+if [$githubVersion == $localVersion]
+then
+    sudo git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install
 
-sudo rm -rf /temp/install
-sudo rm -rf /temp
+    sudo rm -rf /var/www/html
+    sudo cp -r /temp/install/Web /var/www/html
+
+    sudo rm -rf /temp/install
+    sudo rm -rf /temp
+else
+    echo "You have already downloaded the last version"
+fi
