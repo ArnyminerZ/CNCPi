@@ -9,6 +9,8 @@ if [[ $(cat /var/www/html/VERSION) != $(wget https://raw.githubusercontent.com/A
     sudo rm -rf /temp/install
     sudo rm -rf /temp
 else
-    echoText=("You have already downloaded the last version (" $(cat /var/www/html/VERSION) ")")
+    echoText="You have already downloaded the last version ("
+    echoText+=$(cat /var/www/html/VERSION)
+    echoText+=")"
     echo $echoText
 fi
