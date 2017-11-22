@@ -315,9 +315,7 @@ include_once "lang/en.php";
                 $cloudDir = "cloud/";
 
                 if (!file_exists($cloudDir)) {
-                    if(!mkdir($cloudDir)){
-                        echo "<script>M.toast({html: '" . _CLOUD_INIT_ERROR . "'});</script>";
-                    }
+                    mkdir($cloudDir, 0777, true);
                 }
 
                 $files = scandir($cloudDir);
