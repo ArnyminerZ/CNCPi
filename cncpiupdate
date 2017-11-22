@@ -11,6 +11,9 @@ if [[ $(cat /var/www/html/VERSION) != $(wget https://raw.githubusercontent.com/A
 else
     echoText="You have already downloaded the last version ("
     echoText+=$(cat /var/www/html/VERSION)
-    echoText+=")"
+    echoText+=")."
     echo $echoText
+    inGithubText="Github version: "
+    inGithubText+=$(wget https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION -q -O -)
+    echo $inGithubText
 fi
