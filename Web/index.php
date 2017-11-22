@@ -460,6 +460,8 @@ include_once "lang/en.php";
 
         $('ul.tabs').tabs();
 
+        $('select').select();
+
         selectTab(0);
         selectSettingsTab(0)
     });
