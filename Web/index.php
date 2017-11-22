@@ -496,7 +496,7 @@ include_once "lang/en.php";
                 M.toast({html: 'Failed!'})
             }
             // updated. Now visit this link as normal
-            window.location.href = this.href;
+            //window.location.href = this.href;
         });
     });
 
