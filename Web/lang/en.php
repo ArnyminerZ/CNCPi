@@ -51,7 +51,8 @@ define("_COOKIES_SAVE", "All the settings get saved in &sl, you can change it in
 define("_COOKIES", "Cookies");
 define("_SERVER", "Server");
 
-define("_CHECK_UPDATE", "Check for update");
+define("_UPDATE", "Update");
 define("_SYSTEM_UPTODATE", "Your system is up to date");
+define("_UPDATE_AVAILABLE", "New Update available");
 
 define("_VERSION_LOAD_ERROR", "Cannot load version");

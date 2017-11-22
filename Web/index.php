@@ -386,14 +386,27 @@ include_once "lang/en.php";
                         </div>
                     </div>
                     <div id="s-about">
+                        <?php
+                        $githubVersion = file_get_contents('https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION');
+
+                        $myfile = fopen("VERSION", "r") or die(_VERSION_LOAD_ERROR);
+                        $localVersion = fread($myfile, filesize("VERSION"));
+                        fclose($myfile);
+
+                        $currentPHPVersion = phpversion();
+                        ?>
                         <p>
                         <h4><?php echo _SOFTWARE_VERSIONS; ?></h4>
-                        <h6 style="color:#8bc34a"><i class="material-icons">info_outline</i><?php echo _SYSTEM_UPTODATE; ?></h6><a id="updateLink"><?php echo _CHECK_UPDATE; ?></a>
+                        <?php
+                        if($githubVersion == $localVersion){
+                            echo '<h6><span style="color:#8bc34a"><i class="material-icons">info_outline</i>' . _SYSTEM_UPTODATE . '</span></h6>';
+                        } else {
+                            echo '<h6><span style="color:#f44336"><i class="material-icons">info_outline</i>' . _UPDATE_AVAILABLE . '</span><a id="updateLink" style="cursor: pointer"><?php echo _UPDATE; ?></a></h6>';
+                        }
+                        ?>
                         <?php echo _CNCPI_RELEASE_VERSION; ?>:
-                        <i><?php $myfile = fopen("VERSION", "r") or die(_VERSION_LOAD_ERROR);
-                            echo fread($myfile, filesize("VERSION"));
-                            fclose($myfile); ?></i><br/>
-                        <?php echo _CURRENT_PHP_VERSION . ': <i>' . phpversion() . '</i>'; ?>
+                        <i><?php echo $localVersion; ?></i><br/>
+                        <?php echo _CURRENT_PHP_VERSION . ': <i>' . $currentPHPVersion . '</i>'; ?>
                         </p>
                     </div>
                 </div>
