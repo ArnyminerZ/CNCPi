@@ -103,18 +103,10 @@ include_once "lang/en.php";
         }
     </style>
 </head>
-
 <body>
-<ul id="languagedropdown" class="dropdown-content">
-    <li><a href="#!"><h5><span class="flag-icon flag-icon-um"></span></h5></a></li>
-</ul>
 <nav>
     <div class="nav-wrapper teal darken-1">
         <a href="#!" class="brand-logo"><?php echo _TITLE; ?></a>
-        <ul class="right hide-on-med-and-down">
-            <li><a class="dropdown-trigger" href="#!" title="<?php echo _LANGUAGE; ?>" data-target="languagedropdown"><i
-                            class="material-icons">language</i></a></li>
-        </ul>
     </div>
 </nav>
 <div class="bottom-navbar">
@@ -384,7 +376,13 @@ include_once "lang/en.php";
                 </div>
                 <div class="col s9 body">
                     <div id="s-general">
-
+                        <div class="input-field col s12">
+                            <select>
+                                <option value="" disabled selected><?php echo _CHOOSE_LANGUAGE; ?></option>
+                                <option value="en">English</option>
+                            </select>
+                            <label><?php echo _LANGUAGE; ?></label>
+                        </div>
                     </div>
                     <div id="s-about">
                         <p>

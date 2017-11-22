@@ -44,3 +44,5 @@ define("_FILE", "File");
 define("_UPLOAD", "Upload");
 define("_FOLDER_NAME", "Folder Name");
 define("_CREATE", "Create");
+
+define("_CHOOSE_LANGUAGE", "Choose your language");
