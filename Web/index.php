@@ -312,7 +312,7 @@ include_once "lang/en.php";
 
             <ul class="collection">
                 <?php
-                $cloudDir = "cloud";
+                $cloudDir = "cloud/";
 
                 if (!file_exists($cloudDir)) {
                     if(!mkdir($cloudDir)){
