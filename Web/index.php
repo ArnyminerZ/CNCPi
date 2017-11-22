@@ -364,7 +364,7 @@ include_once "lang/en.php";
 <div id="settings-tab" class="col s12">
     <div class="container">
         <div class="card-panel">
-            <h1><?php echo _SETTINGS; ?></h1><small><?php echo str_replace("&sl", _COOKIES, _COOKIES_SAVE); ?></small>
+            <h1><?php echo _SETTINGS; ?><h5><small><?php echo str_replace("&sl", _COOKIES, _COOKIES_SAVE); ?></small></h5></h1>
             <div class="card-panel row settings-tabcontrol">
                 <div class="col s3 header">
                     <div class="collection">
