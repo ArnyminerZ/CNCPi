@@ -443,6 +443,7 @@ include_once "lang/en.php";
                         </div>
                     </div>
                     <div id="s-about">
+                        <!-- TODO: Update button still not working -->
                         <?php
                         $githubVersion = file_get_contents('https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION');
 
