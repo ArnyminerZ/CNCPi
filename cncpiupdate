@@ -1,19 +1,9 @@
 #!/bin/bash
 
-if [[ $(cat /var/www/html/VERSION) != $(curl -L https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION) ]]; then
-    sudo git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install
+sudo git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install
 
-    sudo rm -rf /var/www/html
-    sudo cp -r /temp/install/Web /var/www/html
+sudo rm -rf /var/www/html
+sudo cp -r /temp/install/Web /var/www/html
 
-    sudo rm -rf /temp/install
-    sudo rm -rf /temp
-else
-    echoText="You have already downloaded the last version ("
-    echoText+=$(cat /var/www/html/VERSION)
-    echoText+=")."
-    echo $echoText
-    inGithubText="Github version: "
-    inGithubText+=$(curl -L https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION)
-    echo $inGithubText
-fi
+sudo rm -rf /temp/install
+sudo rm -rf /temp
