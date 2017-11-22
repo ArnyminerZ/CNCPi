@@ -476,7 +476,7 @@ include_once "lang/en.php";
         e.preventDefault();
 
         //update the counter
-        $.post("runCommand.php?c=cncpiupdate" {incrementCounter: this.href}, function(resp) {
+        $.post("runCommand.php?c=cncpiupdate", function(resp) {
             if(resp === "success") {
                 M.toast({html: 'Updated Correctly. Please, refresh'})
             } else {
