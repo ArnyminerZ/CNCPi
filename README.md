@@ -10,4 +10,4 @@ Temporal Installation:
 2. Run the command `bash /temp/install/install.sh` as superuser.
 You're done :)
 ## How to Update CNCPi in any system
-Simply run the command "cncpiupdate", it will download the latest repository and will install it
+Simply run the command `cncpiupdate`, it will download the latest repository and will install it
