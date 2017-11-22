@@ -376,6 +376,7 @@ include_once "lang/en.php";
                 </div>
                 <div class="col s9 body">
                     <div id="s-general">
+                        <br/>
                         <div class="input-field col s12">
                             <select>
                                 <option value="" disabled selected><?php echo _CHOOSE_LANGUAGE; ?></option>
@@ -387,8 +388,9 @@ include_once "lang/en.php";
                     <div id="s-about">
                         <p>
                         <h4><?php echo _SOFTWARE_VERSIONS; ?></h4>
+                        <h6 style="color:#8bc34a"><i class="material-icons">info_outline</i><?php echo _SYSTEM_UPTODATE; ?></h6><a id="updateLink"><?php echo _CHECK_UPDATE; ?></a>
                         <?php echo _CNCPI_RELEASE_VERSION; ?>:
-                        <i><?php $myfile = fopen("VERSION", "r") or die("Cannot load version");
+                        <i><?php $myfile = fopen("VERSION", "r") or die(_VERSION_LOAD_ERROR);
                             echo fread($myfile, filesize("VERSION"));
                             fclose($myfile); ?></i><br/>
                         <?php echo _CURRENT_PHP_VERSION . ': <i>' . phpversion() . '</i>'; ?>
@@ -467,6 +469,22 @@ include_once "lang/en.php";
     });
     $(".bottom-navbar").ready(function () {
         $('.tooltipped').tooltip();
+    });
+
+    $("#updateLink").click(function(e) {
+        // prevent the link from getting visited, for the time being
+        e.preventDefault();
+
+        //update the counter
+        $.post("runCommand.php?c=cncpiupdate" {incrementCounter: this.href}, function(resp) {
+            if(resp === "success") {
+                M.toast({html: 'Updated Correctly. Please, refresh'})
+            } else {
+                M.toast({html: 'Failed!'})
+            }
+            // updated. Now visit this link as normal
+            window.location.href = this.href;
+        });
     });
 
     function selectTab(tabIndex) {
