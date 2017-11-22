@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $(cat /var/www/html/VERSION) != $(wget https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION -q -O -) ]]; then
+if [[ $(cat /var/www/html/VERSION) != $(curl -L https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION) ]]; then
     sudo git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install
 
     sudo rm -rf /var/www/html
@@ -14,6 +14,6 @@ else
     echoText+=")."
     echo $echoText
     inGithubText="Github version: "
-    inGithubText+=$(wget https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION -q -O -)
+    inGithubText+=$(curl -L https://raw.githubusercontent.com/ArnyminerZ/CNCPi/master/Web/VERSION)
     echo $inGithubText
 fi
