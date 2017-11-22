@@ -46,3 +46,7 @@ define("_FOLDER_NAME", "Folder Name");
 define("_CREATE", "Create");
 
 define("_CHOOSE_LANGUAGE", "Choose your language");
+
+define("_COOKIES_SAVE", "All the settings get saved in &sl, you can change it in settings");
+define("_COOKIES", "Cookies");
+define("_SERVER", "Server");
