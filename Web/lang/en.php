@@ -49,6 +49,7 @@ define("_CHOOSE_LANGUAGE", "Choose your language");
 
 define("_CANNOT_SUBFOLDER", "Cannot load more subfolders");
 define("_CLOUD_INIT_ERROR", "Cloud Initialize Error!");
+define("_UPDATE_ERROR", "Could not update, run <i>cncpiupdate</i> from terminal.");
 
 define("_UPDATE", "Update");
 define("_SYSTEM_UPTODATE", "Your system is up to date");

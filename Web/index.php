@@ -546,7 +546,10 @@ include_once "lang/en.php";
 
         //update the counter
         $.get("runCommand.php?c=cncpiupdate", function (r) {
-            M.toast({html: r})
+            if(r !== "")
+                M.toast({html: r});
+            else
+                M.toast({html: "<?php echo _UPDATE_ERROR; ?>"});
         });
     });
 
