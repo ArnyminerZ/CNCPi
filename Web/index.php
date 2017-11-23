@@ -320,7 +320,9 @@ include_once "lang/en.php";
 
                 $files = scandir($cloudDir);
                 foreach ($files as $file) {
-                    $filePath = $cloudDir . "/" . $file;
+                    if($file == "." || $file == "..") continue;
+
+                    $filePath = $cloudDir . $file;
                     if (is_dir($file)) {
                         ?>
                         <div class="main-directory-folder" id="mainf">
@@ -351,7 +353,7 @@ include_once "lang/en.php";
                             </li>
                             <?php
                             foreach (scandir($filePath) as $subfile) {
-                                $subfilePath = $filePath . "/" . $subfile;
+                                $subfilePath = $filePath . $subfile;
                                 if (is_dir($subfile)) {
                                     echo _CANNOT_SUBFOLDER;
                                 } else {
