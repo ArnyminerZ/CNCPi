@@ -461,7 +461,7 @@ include_once "lang/en.php";
                             echo "<script>sendNotification('" . _UPDATE_AVAILABLE . "', 'update()')</script>";
                         }
                         ?>
-                        <?php echo _CNCPI_RELEASE_VERSION . ":";
+                        <?php echo _CNCPI_RELEASE_VERSION . ": ";
                         echo "<i>" . $localVersion . "</i><br/>";
                         echo _CURRENT_PHP_VERSION . ': <i>' . $currentPHPVersion . '</i><br/>';
 
