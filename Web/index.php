@@ -185,12 +185,12 @@ include_once "lang/en.php";
 <div id="messages-modal" class="modal bottom-sheet">
     <div class="modal-content">
         <h4><?php echo _MESSAGES ?></h4>
-        <ul class="collection">
+        <ul class="collection" id="messages-container">
             <!-- Messages Loader
                  Message:    '<li class="collection-item"><div>Message Content<a href="#!" class="secondary-content"><i class="material-icons">delete</i></a></div></li>'
                  Anymessage: 'Any Message' -->
         </ul>
-        <?php echo _ANY_MESSAGE ?>
+        <p id="anymessage-label"><?php echo _ANY_MESSAGE ?></p>
     </div>
 </div>
 
@@ -458,6 +458,7 @@ include_once "lang/en.php";
                             echo '<h6><span style="color:#8bc34a"><i class="material-icons">info_outline</i>' . _SYSTEM_UPTODATE . '</span></h6>';
                         } else {
                             echo '<h6><span style="color:#f44336"><i class="material-icons">info_outline</i>' . _UPDATE_AVAILABLE . '</span> <a id="updateLink" style="cursor: pointer">' . _UPDATE . '</a></h6>';
+                            echo "<script>sendNotification('" . _UPDATE_AVAILABLE . "')</script>";
                         }
                         ?>
                         <?php echo _CNCPI_RELEASE_VERSION . ":";
@@ -554,14 +555,28 @@ include_once "lang/en.php";
         // prevent the link from getting visited, for the time being
         e.preventDefault();
 
-        //update the counter
+        update();
+    });
+
+    function update(){
         $.get("runCommand.php?c=cncpiupdate", function (r) {
             if(r !== "")
                 M.toast({html: r});
             else
                 M.toast({html: "<?php echo _UPDATE_ERROR; ?>"});
         });
-    });
+    }
+
+    function sendNotification(notificationText, clickAction){
+        M.toast({html: notificationText});
+
+        // <li class="collection-item"><div>Message Content<a href="#!" class="secondary-content"><i class="material-icons">delete</i></a></div></li>
+        // Any Message id = anymessage-label
+
+        // TODO: Delete Button
+        document.getElementById("anymessage-label").style.display = "none";
+        document.getElementById("messages-container").innerHTML += '<li class="collection-item" onclick="' + clickAction + '" style="cursor: pointer"><div>' + notificationText + '</div></li>';
+    }
 
     function selectTab(tabIndex) {
         if (tabIndex === 0) {
