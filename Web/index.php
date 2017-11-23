@@ -460,9 +460,19 @@ include_once "lang/en.php";
                             echo '<h6><span style="color:#f44336"><i class="material-icons">info_outline</i>' . _UPDATE_AVAILABLE . '</span> <a id="updateLink" style="cursor: pointer">' . _UPDATE . '</a></h6>';
                         }
                         ?>
-                        <?php echo _CNCPI_RELEASE_VERSION; ?>:
-                        <i><?php echo $localVersion; ?></i><br/>
-                        <?php echo _CURRENT_PHP_VERSION . ': <i>' . $currentPHPVersion . '</i>'; ?>
+                        <?php echo _CNCPI_RELEASE_VERSION . ":";
+                        echo "<i>" . $localVersion . "</i><br/>";
+                        echo _CURRENT_PHP_VERSION . ': <i>' . $currentPHPVersion . '</i><br/>';
+
+                        ob_start();
+                        phpinfo(INFO_MODULES);
+                        $info = ob_get_contents();
+                        ob_end_clean();
+                        $info = stristr($info, 'Client API version');
+                        preg_match('/[1-9].[0-9].[1-9][0-9]/', $info, $match);
+                        $gd = $match[0];
+                        echo _MYSQL_VERSION . ':  ' . $gd . ' <br />';
+                        ?>
                         </p>
                     </div>
                 </div>

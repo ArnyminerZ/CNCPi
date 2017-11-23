@@ -31,8 +31,6 @@ define("_DOWNLOAD_FILE", "Download File");
 define("_LOAD_FILE", "Load File");
 define("_GENERAL", "General");
 define("_ABOUT", "About");
-define("_SOFTWARE_VERSIONS", "Software Versions");
-define("_CNCPI_RELEASE_VERSION", "CNCPi Release Version");
 define("_UNKNOWN_CNC", "Unknown CNC");
 define("_CONTROL", "Control");
 define("_TERMINAL", "Terminal");
@@ -54,5 +52,8 @@ define("_UPDATE_ERROR", "Could not update, run <i> cncpiupdate </i> from termina
 define("_UPDATE", "Update");
 define("_SYSTEM_UPTODATE", "Your system is up to date");
 define("_UPDATE_AVAILABLE", "New Update available");
+define("_SOFTWARE_VERSIONS", "Software Versions");
+define("_CNCPI_RELEASE_VERSION", "CNCPi Release Version");
+define("_MYSQL_VERSION", "MySQL Version");
 
 define("_VERSION_LOAD_ERROR", "Cannot load version");
