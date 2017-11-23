@@ -471,7 +471,7 @@ include_once "lang/en.php";
                         $info = stristr($info, 'Client API version');
                         preg_match('/[1-9].[0-9].[1-9][0-9]/', $info, $match);
                         $gd = $match[0];
-                        echo _MYSQL_VERSION . ':  ' . $gd . ' <br />';
+                        echo _MYSQL_VERSION . ':  <i>' . $gd . '<i><br />';
                         ?>
                         </p>
                     </div>
