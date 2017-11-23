@@ -143,7 +143,7 @@ include_once "lang/en.php";
                 <li class="col s3" style="text-align: center;">
                     <a class="grey-text text-lighten-3 tooltipped modal-trigger" data-position="top" data-delay="50"
                        href="#messages-modal"
-                       data-tooltip="<?php echo _MESSAGES; ?>"><i class="material-icons">message</i></a>
+                       data-tooltip="<?php echo _MESSAGES; ?>"><i class="material-icons">message</i> <span class="new badge" id="notificationCounterBadge" style="display: none"></span></a>
                 </li>
                 <li class="col s3" style="text-align: center;" onclick="selectTab(2)">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
@@ -567,6 +567,8 @@ include_once "lang/en.php";
         });
     }
 
+    var notificationCounter = 0;
+
     function sendNotification(notificationText, clickAction){
         M.toast({html: notificationText});
 
@@ -574,8 +576,12 @@ include_once "lang/en.php";
         // Any Message id = anymessage-label
 
         // TODO: Delete Button
+        notificationCounter++;
         document.getElementById("anymessage-label").style.display = "none";
         document.getElementById("messages-container").innerHTML += '<li class="collection-item" onclick="' + clickAction + '" style="cursor: pointer"><div>' + notificationText + '</div></li>';
+
+        document.getElementById("notificationCounterBadge").style.display = "inline-block";
+        document.getElementById("notificationCounterBadge").innerHTML = notificationCounter;
     }
 
     function selectTab(tabIndex) {
