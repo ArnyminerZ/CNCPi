@@ -458,7 +458,7 @@ include_once "lang/en.php";
                             echo '<h6><span style="color:#8bc34a"><i class="material-icons">info_outline</i>' . _SYSTEM_UPTODATE . '</span></h6>';
                         } else {
                             echo '<h6><span style="color:#f44336"><i class="material-icons">info_outline</i>' . _UPDATE_AVAILABLE . '</span> <a id="updateLink" style="cursor: pointer">' . _UPDATE . '</a></h6>';
-                            echo "<script>sendNotification('" . _UPDATE_AVAILABLE . "')</script>";
+                            echo "<script>sendNotification('" . _UPDATE_AVAILABLE . "', 'update()')</script>";
                         }
                         ?>
                         <?php echo _CNCPI_RELEASE_VERSION . ":";
