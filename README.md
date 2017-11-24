@@ -11,3 +11,7 @@ Temporary Installation:
 You're done :)
 ## How to Update CNCPi in any system
 Simply run the command `cncpiupdate`, it will download the latest repository and will install it
+
+# Arduino
+## What software to install?
+You need to install [GRLB](https://github.com/grbl/grbl) or other [GCode](http://reprap.org/wiki/G-code) based software, with a Serial Communication.
