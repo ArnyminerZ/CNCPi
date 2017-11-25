@@ -44,6 +44,7 @@ define("_FOLDER_NAME", "Folder Name");
 define("_CREATE", "Create");
 
 define("_CHOOSE_LANGUAGE", "Choose your language");
+define("_SET_0_FOR_UNLIMITED", "Set 0 for unlimited");
 
 define("_CANNOT_SUBFOLDER", "Cannot load more subfolders");
 define("_CLOUD_INIT_ERROR", "Cloud Initialize Error!");

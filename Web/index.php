@@ -2,6 +2,11 @@
 <?php
 session_start();
 
+if(!isset($_COOKIE["pref_maxFileSize"])){
+    // Set 0 for unlimited
+    setcookie("pref_maxFileSize", "0", time() + (86400 * 30), "/");
+}
+
 function formatSizeUnits($bytes)
 {
     if ($bytes >= 1073741824) {
@@ -195,13 +200,14 @@ include_once "lang/en.php";
 </div>
 
 <div id="uploadFileModal" class="modal">
-    <form action="#" id="uploadFileModalForm">
+    <form action="fileSystem.php?o=UPL_FILE" method="post" id="uploadFileModalForm">
+        <input type="text" name="returnTo" style="display: none" />
         <div class="modal-content">
             <h4><?php echo _UPLOAD_FILE; ?></h4>
             <div class="file-field input-field">
                 <div class="btn">
                     <span><?php echo _FILE; ?></span>
-                    <input type="file">
+                    <input type="file" name="fileToUpload" id="fileToUpload">
                 </div>
                 <div class="file-path-wrapper">
                     <input class="file-path validate" type="text">
@@ -427,6 +433,8 @@ include_once "lang/en.php";
                     <div class="collection">
                         <a onclick="selectSettingsTab(0)" id="generalSelectorS"
                            class="collection-item"><?php echo _GENERAL; ?></a>
+                        <a onclick="selectSettingsTab(3)" id="cloudSelectorS"
+                           class="collection-item"><?php echo _CLOUD; ?></a>
                         <a onclick="selectSettingsTab(1)" id="aboutSelectorS"
                            class="collection-item"><?php echo _ABOUT; ?></a>
                     </div>
@@ -440,6 +448,14 @@ include_once "lang/en.php";
                                 <option value="en" selected>English</option>
                             </select>
                             <label><?php echo _LANGUAGE; ?></label>
+                        </div>
+                    </div>
+                    <div id="s-cloud">
+                        <br/>
+                        <p><?php echo _SET_0_FOR_UNLIMITED; ?></p>
+                        <div class="input-field col s12">
+                            <input value="<?php echo $_COOKIE["pref_maxFileSize"]; ?>" id="maxFileSize" type="number" class="validate">
+                            <label for="maxFileSize"><?php echo _MAX_FILE_SIZE; ?></label>
                         </div>
                     </div>
                     <div id="s-about">
@@ -613,16 +629,29 @@ include_once "lang/en.php";
             case 0:
                 document.getElementById("s-general").style.display = "block";
                 document.getElementById("s-about").style.display = "none";
+                document.getElementById("s-cloud").style.display = "none";
 
                 document.getElementById("generalSelectorS").classList.add("active");
                 document.getElementById("aboutSelectorS").classList.remove("active");
+                document.getElementById("cloudSelectorS").classList.remove("active");
                 break;
             case 1:
                 document.getElementById("s-general").style.display = "none";
                 document.getElementById("s-about").style.display = "block";
+                document.getElementById("s-cloud").style.display = "none";
 
                 document.getElementById("generalSelectorS").classList.remove("active");
                 document.getElementById("aboutSelectorS").classList.add("active");
+                document.getElementById("cloudSelectorS").classList.remove("active");
+                break;
+            case 2:
+                document.getElementById("s-general").style.display = "none";
+                document.getElementById("s-about").style.display = "none";
+                document.getElementById("s-cloud").style.display = "block";
+
+                document.getElementById("generalSelectorS").classList.remove("active");
+                document.getElementById("aboutSelectorS").classList.remove("active");
+                document.getElementById("cloudSelectorS").classList.add("active");
                 break;
         }
     }
