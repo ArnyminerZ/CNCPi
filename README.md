@@ -1,5 +1,6 @@
 # CNCPi
 ## How to Install CNCPi in a RaspberryPi
+[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)](https://github.com/ArnyminerZ/CNCPi/archive/master.zip)
 Temporary Installation:
 1. Download and install PiBakery (http://www.pibakery.org/)
 2. In the program import the file "image_settings.xml"
