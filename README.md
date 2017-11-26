@@ -5,8 +5,9 @@
 3. Write to the SD
 4. Ready :)
 ## How to install CNCPi in a Linux system
-1. Run the command `git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install` as superuser.
-2. Run the command `bash /temp/install/install.sh` as superuser.
+1. Install Apache2 and Apache2 PHP: `sudo apt-get install apache2 php libapache2-mod-php -y`
+2. Run the command `git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install` as superuser.
+3. Run the command `bash /temp/install/install.sh` as superuser.<br />
 You're done :)
 ## How to Update CNCPi in any system
 Simply run the command `cncpiupdate`, it will download the latest repository and will install it
