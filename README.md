@@ -1,4 +1,4 @@
-# CNCPi [![RPi Image](https://img.shields.io/badge/RPi%20version-v0.1.1-green.svg)](https://github.com/ArnyminerZ/CNCPi/archive/master.zip) [![Web](https://img.shields.io/badge/Web%20version-v0.1.103-green.svg)](https://github.com/ArnyminerZ/CNCPi/archive/master.zip)
+# CNCPi [![RPi Image](https://img.shields.io/badge/RPi%20version-v0.1.1-green.svg)](https://mega.nz/#!stdl1KhJ!xKgWGLVipQiJaQ315iOKmivwXRzTCyXC6xjMysisvio) [![Web](https://img.shields.io/badge/Web%20version-v0.1.103-green.svg)](https://github.com/ArnyminerZ/CNCPi/archive/master.zip)
 ## How to Install CNCPi in a RaspberryPi
 1. Download the [IMG file](http://example.com/)
 2. Follow the instructions [provided by Raspberry](https://www.raspberrypi.org/documentation/installation/installing-images/)
