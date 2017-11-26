@@ -1,9 +1,7 @@
-# CNCPi
+# CNCPi [![RPi Image](https://img.shields.io/badge/RPi%20version-v0.1.1-green.svg)](https://github.com/ArnyminerZ/CNCPi/archive/master.zip) [![Web](https://img.shields.io/badge/Web%20version-v0.1.103-green.svg)](https://github.com/ArnyminerZ/CNCPi/archive/master.zip)
 ## How to Install CNCPi in a RaspberryPi
-[![RPi Image](https://img.shields.io/badge/RPi%20version-v0.1.1-green.svg)](https://github.com/ArnyminerZ/CNCPi/archive/master.zip) [![Web](https://img.shields.io/badge/Web%20version-v0.1.103-green.svg)](https://github.com/ArnyminerZ/CNCPi/archive/master.zip)<br />
-Temporary Installation:
-1. Download and install PiBakery (http://www.pibakery.org/)
-2. In the program import the file "image_settings.xml"
+1. Download the [IMG file](http://example.com/)
+2. Follow the instructions [provided by Raspberry](https://www.raspberrypi.org/documentation/installation/installing-images/)
 3. Write to the SD
 4. Ready :)
 ## How to install CNCPi in a Linux system
