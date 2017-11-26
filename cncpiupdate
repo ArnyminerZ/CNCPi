@@ -2,8 +2,14 @@
 
 sudo git clone https://github.com/ArnyminerZ/CNCPi.git /temp/install
 
+sudo cp /var/www/html/cloud /temp/copy/cloud
+
 sudo rm -rf /var/www/html
 sudo cp -r /temp/install/Web /var/www/html
 
+sudo cp /temp/copy/cloud /var/www/html/cloud
+
+sudo rm -rf /temp/copy/cloud
+sudo rm -rf /temp/copy
 sudo rm -rf /temp/install
 sudo rm -rf /temp
