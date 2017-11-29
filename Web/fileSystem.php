@@ -1,11 +1,14 @@
 <?php
+session_start();
+
 // Operation codes:
 // o = MKDIR     -> d = PATH
 //     UPL_FILE  -> [file in $_POST]
 if (isset($_GET["o"])) {
     switch ($_GET["o"]) {
         case "MKDIR":
-            echo mkdir($_GET["d"]);
+            echo "Making dir " . $_GET["d"];
+            echo mkdir("cloud/" . $_GET["d"]);
             break;
         case "UPL_FILE":
             $target_dir = "uploads/";
@@ -36,6 +39,13 @@ if (isset($_GET["o"])) {
                 }
             }
             break;
+    }
+
+    if(isset($_GET["tab"])){
+        $_SESSION["tab"] = $_GET["tab"];
+    }
+    if(isset($_POST["tab"])){
+        $_SESSION["tab"] = $_GET["tab"];
     }
 
     if (isset($_POST["returnTo"])) {

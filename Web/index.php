@@ -2,7 +2,7 @@
 <?php
 session_start();
 
-if(!isset($_COOKIE["pref_maxFileSize"])){
+if (!isset($_COOKIE["pref_maxFileSize"])) {
     // Set 0 for unlimited
     setcookie("pref_maxFileSize", "0", time() + (86400 * 30), "/");
 }
@@ -148,7 +148,8 @@ include_once "lang/en.php";
                 <li class="col s3" style="text-align: center;">
                     <a class="grey-text text-lighten-3 tooltipped modal-trigger" data-position="top" data-delay="50"
                        href="#messages-modal"
-                       data-tooltip="<?php echo _MESSAGES; ?>"><i class="material-icons">message</i> <span class="new badge" id="notificationCounterBadge" style="display: none"></span></a>
+                       data-tooltip="<?php echo _MESSAGES; ?>"><i class="material-icons">message</i> <span
+                                class="new badge" id="notificationCounterBadge" style="display: none"></span></a>
                 </li>
                 <li class="col s3" style="text-align: center;" onclick="selectTab(2)">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
@@ -201,7 +202,9 @@ include_once "lang/en.php";
 
 <div id="uploadFileModal" class="modal">
     <form action="fileSystem.php?o=UPL_FILE" method="post" id="uploadFileModalForm">
-        <input type="text" name="returnTo" style="display: none" />
+        <input type="text" name="returnTo"
+               value="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>"
+               style="display: none"/>
         <div class="modal-content">
             <h4><?php echo _UPLOAD_FILE; ?></h4>
             <div class="file-field input-field">
@@ -222,12 +225,17 @@ include_once "lang/en.php";
     </form>
 </div>
 <div id="createFolder" class="modal">
-    <form action="#" id="createFolderModalForm">
+    <form action="fileSystem.php" method="get" id="createFolderModalForm">
+        <input type="text" name="o" value="MKDIR" style="display: none"/>
+        <input type="text" name="tab" value="1" style="display: none"/>
+        <input type="text" name="returnTo"
+               value="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>"
+               style="display: none"/>
         <div class="modal-content">
             <h4><?php echo _CREATE_FOLDER; ?></h4>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="folder_name_modal_txt" name="folder_name" type="text" class="validate">
+                    <input id="folder_name_modal_txt" name="d" type="text" class="validate">
                     <label for="folder_name_modal_txt"><?php echo _FOLDER_NAME; ?></label>
                 </div>
             </div>
@@ -326,10 +334,10 @@ include_once "lang/en.php";
 
                 $files = scandir($cloudDir);
                 foreach ($files as $file) {
-                    if($file == "." || $file == "..") continue;
+                    if ($file == "." || $file == "..") continue;
 
                     $filePath = $cloudDir . $file;
-                    if (is_dir($file)) {
+                    if (is_dir($filePath)) {
                         ?>
                         <div class="main-directory-folder" id="mainf">
                             <li class="collection-item avatar"
@@ -353,12 +361,14 @@ include_once "lang/en.php";
                         </div>
                         <div class="folder-contents" id="<?php echo $file; ?>-folder" style="display:none;">
                             <li class="collection-item avatar"
-                                onclick="document.getElementsByClassName('main-directory-folder')[0].style.display='block';document.getElementById('flyingmachine-folder').style.display='none';">
+                                onclick="document.getElementsByClassName('main-directory-folder')[0].style.display='block';document.getElementById('<?php echo $file; ?>-folder').style.display='none';">
                                 <i class="mdi mdi-dots-horizontal circle"></i>
                                 <span class="title"><b></b></span>
                             </li>
                             <?php
                             foreach (scandir($filePath) as $subfile) {
+                                if ($subfile == "." || $subfile == "..") continue;
+
                                 $subfilePath = $filePath . $subfile;
                                 if (is_dir($subfile)) {
                                     echo _CANNOT_SUBFOLDER;
@@ -368,7 +378,7 @@ include_once "lang/en.php";
                                         <i class="mdi mdi-code-braces circle green"></i>
                                         <span class="title"><b><?php echo $subfile; ?></b></span>
                                         <p><?php echo date("d/m/Y H:i:s.", filemtime($subfilePath)); ?><br>
-                                            <?php echo end(explode('.', $subfilePath)); ?>
+                                            <?php echo end(explode('.', $subfile)); ?>
                                             - <?php echo formatSizeUnits(filesize($subfilePath)); ?>
                                         </p>
                                         <!-- TODO: Rename, Delete, Download and Load buttons -->
@@ -398,7 +408,7 @@ include_once "lang/en.php";
                                 <i class="mdi mdi-code-braces circle green"></i>
                                 <span class="title"><b><?php echo $file; ?></b></span>
                                 <p><?php echo date("d/m/Y H:i:s.", filemtime($filePath)); ?><br>
-                                    <?php echo end(explode('.', $filePath)); ?>
+                                    <?php echo end(explode('.', $file)); ?>
                                     - <?php echo formatSizeUnits(filesize($filePath)); ?>
                                 </p>
                                 <!-- TODO: Rename, Delete, Download and Load buttons -->
@@ -454,7 +464,8 @@ include_once "lang/en.php";
                         <br/>
                         <p><?php echo _SET_0_FOR_UNLIMITED; ?></p>
                         <div class="input-field col s12">
-                            <input value="<?php echo $_COOKIE["pref_maxFileSize"]; ?>" id="maxFileSize" type="number" class="validate">
+                            <input value="<?php echo $_COOKIE["pref_maxFileSize"]; ?>" id="maxFileSize" type="number"
+                                   class="validate">
                             <label for="maxFileSize"><?php echo _MAX_FILE_SIZE; ?></label>
                         </div>
                     </div>
@@ -562,7 +573,14 @@ include_once "lang/en.php";
 
         $('select').select();
 
+        <?php if(!isset($_SESSION["tab"]) || $_SESSION["tab"] == "0"){ ?>
         selectTab(0);
+        <?php }else if($_SESSION["tab"] == "1"){ ?>
+        selectTab(1);
+        <?php }else if($_SESSION["tab"] == "2"){ ?>
+        selectTab(2);
+        <?php } ?>
+
         selectSettingsTab(0)
     });
     $(".bottom-navbar").ready(function () {
@@ -576,9 +594,9 @@ include_once "lang/en.php";
         update();
     });
 
-    function update(){
+    function update() {
         $.get("runCommand.php?c=cncpiupdate", function (r) {
-            if(r !== "")
+            if (r !== "")
                 M.toast({html: r});
             else
                 M.toast({html: "<?php echo _UPDATE_ERROR; ?>"});
@@ -587,7 +605,7 @@ include_once "lang/en.php";
 
     var notificationCounter = 0;
 
-    function sendNotification(notificationText, clickAction){
+    function sendNotification(notificationText, clickAction) {
         M.toast({html: notificationText});
 
         // <li class="collection-item"><div>Message Content<a href="#!" class="secondary-content"><i class="material-icons">delete</i></a></div></li>
