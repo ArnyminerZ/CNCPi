@@ -41,7 +41,12 @@ define("_MOVE_RIGHT", "Move Right");
 define("_FILE", "File");
 define("_UPLOAD", "Upload");
 define("_FOLDER_NAME", "Folder Name");
+define("_RENAME_FOLDER", "Rename Folder");
+define("_OLD_FOLDER_NAME", "Old Folder Name");
+define("_NEW_FOLDER_NAME", "New Folder Name");
 define("_CREATE", "Create");
+define("_DELETE", "Delete");
+define("_CANCEL", "Cancel");
 
 define("_CHOOSE_LANGUAGE", "Choose your language");
 define("_SET_0_FOR_UNLIMITED", "Set 0 for unlimited");

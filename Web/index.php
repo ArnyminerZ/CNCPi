@@ -201,7 +201,7 @@ include_once "lang/en.php";
 </div>
 
 <div id="uploadFileModal" class="modal">
-    <form action="fileSystem.php?o=UPL_FILE" method="post" id="uploadFileModalForm">
+    <form action="fileSystem.php?o=UPL_FILE" method="post" id="uploadFileModalForm" enctype="multipart/form-data">
         <input type="text" name="returnTo"
                value="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>"
                style="display: none"/>
@@ -218,8 +218,7 @@ include_once "lang/en.php";
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button"
-                    onclick="document.getElementById('createFolderModalForm').submit();"
+            <button type="submit"
                     class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _UPLOAD; ?></button>
         </div>
     </form>
@@ -243,6 +242,102 @@ include_once "lang/en.php";
         <div class="modal-footer">
             <button type="button" onclick="document.getElementById('createFolderModalForm').submit();"
                     class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _CREATE; ?></button>
+        </div>
+    </form>
+</div>
+<div id="renameFolder" class="modal">
+    <form action="fileSystem.php" method="get" id="renameFolderModalForm">
+        <input type="text" name="o" value="RNDIR" style="display: none"/>
+        <input type="text" name="tab" value="1" style="display: none"/>
+        <input type="text" name="d" id="oldfoldername" style="display: none"/>
+        <input type="text" name="returnTo"
+               value="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>"
+               style="display: none"/>
+        <div class="modal-content">
+            <h4><?php echo _RENAME_FOLDER; ?></h4>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="old_folder_name_modal_txt" type="text" class="validate" disabled>
+                    <label for="old_folder_name_modal_txt"><?php echo _OLD_FOLDER_NAME; ?></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="new_folder_name_modal_txt" name="n" type="text" class="validate">
+                    <label for="new_folder_name_modal_txt"><?php echo _NEW_FOLDER_NAME; ?></label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit"
+                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _RENAME; ?></button>
+        </div>
+    </form>
+</div>
+<div id="renameFile" class="modal">
+    <form action="fileSystem.php" method="get" id="renameFileModalForm">
+        <input type="text" name="o" value="RN" style="display: none"/>
+        <input type="text" name="tab" value="1" style="display: none"/>
+        <input type="text" name="f" id="oldfilename" style="display: none"/>
+        <input type="text" name="returnTo"
+               value="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>"
+               style="display: none"/>
+        <div class="modal-content">
+            <h4><?php echo _RENAME_FILE; ?></h4>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="old_file_name_modal_txt" type="text" class="validate" disabled>
+                    <label for="old_file_name_modal_txt"><?php echo _OLD_FILE_NAME; ?></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input id="new_file_name_modal_txt" name="n" type="text" class="validate">
+                    <label for="new_file_name_modal_txt"><?php echo _NEW_FILE_NAME; ?></label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit"
+                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _RENAME; ?></button>
+        </div>
+    </form>
+</div>
+<div id="deleteFile" class="modal">
+    <form action="fileSystem.php" method="get" id="deleteFileModalForm">
+        <input type="text" name="o" value="RM" style="display: none"/>
+        <input type="text" name="tab" value="1" style="display: none"/>
+        <input type="text" name="f" id="deleteFilename" style="display: none"/>
+        <input type="text" name="returnTo"
+               value="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>"
+               style="display: none"/>
+        <div class="modal-content">
+            <h4><?php echo _DELETE; ?><span></span>?</h4>
+        </div>
+        <div class="modal-footer">
+            <button type="button"
+                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _CANCEL; ?></button>
+            <button type="submit"
+                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _DELETE; ?></button>
+        </div>
+    </form>
+</div>
+<div id="deleteFolder" class="modal">
+    <form action="fileSystem.php" method="get" id="deleteFileModalForm">
+        <input type="text" name="o" value="RMDIR" style="display: none"/>
+        <input type="text" name="tab" value="1" style="display: none"/>
+        <input type="text" name="d" id="deleteFoldername" style="display: none"/>
+        <input type="text" name="returnTo"
+               value="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>"
+               style="display: none"/>
+        <div class="modal-content">
+            <h4><?php echo _DELETE; ?><span></span>?</h4>
+        </div>
+        <div class="modal-footer">
+            <button type="button"
+                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _CANCEL; ?></button>
+            <button type="submit"
+                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _DELETE; ?></button>
         </div>
     </form>
 </div>
@@ -324,6 +419,9 @@ include_once "lang/en.php";
                 <i class="large material-icons">file_upload</i>
             </a>
 
+            <!-- TODO: Rename, Delete and Download Zip buttons -->
+            <!-- TODO: Rename modal -->
+            <!-- TODO: Confirm delete modal -->
             <ul class="collection">
                 <?php
                 $cloudDir = "cloud/";
@@ -344,17 +442,18 @@ include_once "lang/en.php";
                                 onclick="document.getElementsByClassName('main-directory-folder')[0].style.display='none';document.getElementById('<?php echo $file; ?>-folder').style.display='block';">
                                 <i class="mdi mdi-folder circle yellow"></i>
                                 <span class="title"><b><?php echo $file ?></b></span>
-                                <p><?php echo date("d/m/Y H:i:s.", filemtime($filePath)); ?><br>
+                                <p><?php echo date("d/m/Y H:i:s", filemtime($filePath)); ?><br>
                                     Folder - <?php echo formatSizeUnits(filesize($filePath)); ?>
                                 </p>
-                                <!-- TODO: Rename, Delete and Download Zip buttons -->
-                                <a href="#!" class="secondary-content" style="right:25px;"
+                                <a onclick="document.getElementById('old_folder_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('oldfoldername').value='<?php echo $file; ?>';document.getElementById('old_folder_name_modal_txt').classList.add('active');new M.Modal(document.querySelector('#renameFolder')).open();"
+                                   class="secondary-content" style="cursor:pointer;right:25px;"
                                    title="<?php echo _RENAME; ?>"><i
                                             class="mdi mdi-pencil mdi-24px"></i></a>
-                                <a href="#!" class="secondary-content" style="right:55px;"
+                                <a onclick="document.getElementById('deleteFoldername').value='<?php echo $file; ?>';new M.Modal(document.querySelector('#deleteFolder')).open();"
+                                   class="secondary-content" style="cursor:pointer;right:55px;"
                                    title="<?php echo _DELETE_FOREVER; ?>"><i
                                             class="mdi mdi-delete-forever mdi-24px"></i></a>
-                                <a href="#!" class="secondary-content" style="right:85px;"
+                                <a href="fileSystem.php?o=COMPRESS&c=<?php echo $file; ?>&r=<?php echo $file . ".zip"; ?>" class="secondary-content" style="cursor:pointer;right:85px;"
                                    title="<?php echo _DOWNLOAD_ZIP; ?>"><i
                                             class="mdi mdi-download mdi-24px"></i></a>
                             </li>
@@ -377,19 +476,20 @@ include_once "lang/en.php";
                                     <li class="collection-item avatar">
                                         <i class="mdi mdi-code-braces circle green"></i>
                                         <span class="title"><b><?php echo $subfile; ?></b></span>
-                                        <p><?php echo date("d/m/Y H:i:s.", filemtime($subfilePath)); ?><br>
+                                        <p><?php echo date("d/m/Y H:i:s", filemtime($subfilePath)); ?><br>
                                             <?php echo end(explode('.', $subfile)); ?>
                                             - <?php echo formatSizeUnits(filesize($subfilePath)); ?>
                                         </p>
-                                        <!-- TODO: Rename, Delete, Download and Load buttons -->
-                                        <a href="#!" class="secondary-content" style="right:25px;"
+                                        <a onclick="document.getElementById('old_file_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('new_file_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('oldfilename').value='<?php echo $file; ?>';document.getElementById('old_file_name_modal_txt').classList.add('active');new M.Modal(document.querySelector('#renameFile')).open();"
+                                           class="secondary-content" style="right:25px;"
                                            title="<?php echo _RENAME_FILE; ?>"><i
                                                     class="mdi mdi-pencil mdi-24px"></i></a>
-                                        <a href="#!" class="secondary-content" style="right:55px;"
+                                        <a onclick="document.getElementById('deleteFilename').value='<?php echo $subfile; ?>';new M.Modal(document.querySelector('#deleteFile')).open();"
+                                           class="secondary-content" style="right:55px;"
                                            title="<?php echo _DELETE_FOREVER; ?>"><i
                                                     class="mdi mdi-delete-forever mdi-24px"></i></a>
-                                        <a href="#!" class="secondary-content" style="right:85px;"
-                                           title="<?php echo _DOWNLOAD_FILE; ?>"><i
+                                        <a href="<?php echo $subfilePath; ?>" class="secondary-content" style="right:85px;"
+                                           title="<?php echo _DOWNLOAD_FILE; ?>" download><i
                                                     class="mdi mdi-download mdi-24px"></i></a>
                                         <a href="#!" class="secondary-content" style="right:115px;"
                                            title="<?php echo _LOAD_FILE; ?>"><i
@@ -407,19 +507,20 @@ include_once "lang/en.php";
                             <li class="collection-item avatar">
                                 <i class="mdi mdi-code-braces circle green"></i>
                                 <span class="title"><b><?php echo $file; ?></b></span>
-                                <p><?php echo date("d/m/Y H:i:s.", filemtime($filePath)); ?><br>
+                                <p><?php echo date("d/m/Y H:i:s", filemtime($filePath)); ?><br>
                                     <?php echo end(explode('.', $file)); ?>
                                     - <?php echo formatSizeUnits(filesize($filePath)); ?>
                                 </p>
-                                <!-- TODO: Rename, Delete, Download and Load buttons -->
-                                <a href="#!" class="secondary-content" style="right:25px;"
+                                <a onclick="document.getElementById('old_file_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('new_file_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('oldfilename').value='<?php echo $file; ?>';document.getElementById('old_file_name_modal_txt').classList.add('active');new M.Modal(document.querySelector('#renameFile')).open();"
+                                   class="secondary-content" style="right:25px;"
                                    title="<?php echo _RENAME_FILE; ?>"><i
                                             class="mdi mdi-pencil mdi-24px"></i></a>
-                                <a href="#!" class="secondary-content" style="right:55px;"
+                                <a onclick="document.getElementById('deleteFilename').value='<?php echo $file; ?>';new M.Modal(document.querySelector('#deleteFile')).open();"
+                                   class="secondary-content" style="right:55px;"
                                    title="<?php echo _DELETE_FOREVER; ?>"><i
                                             class="mdi mdi-delete-forever mdi-24px"></i></a>
-                                <a href="#!" class="secondary-content" style="right:85px;"
-                                   title="<?php echo _DOWNLOAD_FILE; ?>"><i
+                                <a href="<?php echo $filePath; ?>" class="secondary-content" style="right:85px;"
+                                   title="<?php echo _DOWNLOAD_FILE; ?>" download><i
                                             class="mdi mdi-download mdi-24px"></i></a>
                                 <a href="#!" class="secondary-content" style="right:115px;"
                                    title="<?php echo _LOAD_FILE; ?>"><i
