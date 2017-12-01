@@ -57,10 +57,11 @@ if (isset($_GET["o"])) {
     switch ($_GET["o"]) {
         // ?d as directory to make
         case "MKDIR":
-            // TODO: Check if specified is dir
-            echo "Making dir " . $_GET["d"];
-            if (!mkdir("cloud/" . $_GET["d"])) {
-                die();
+            if (is_dir("cloud/" . $_GET["d"])) {
+                echo "Making dir " . $_GET["d"];
+                if (!mkdir("cloud/" . $_GET["d"])) {
+                    die();
+                }
             }
             break;
         // ?d as directory to remove
