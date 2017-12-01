@@ -47,6 +47,7 @@ define("_NEW_FOLDER_NAME", "New Folder Name");
 define("_CREATE", "Create");
 define("_DELETE", "Delete");
 define("_CANCEL", "Cancel");
+define("_MAX_FILE_SIZE", "Max file upload size");
 
 define("_CHOOSE_LANGUAGE", "Choose your language");
 define("_SET_0_FOR_UNLIMITED", "Set 0 for unlimited");

@@ -57,7 +57,8 @@ if (isset($_GET["o"])) {
     switch ($_GET["o"]) {
         // ?d as directory to make
         case "MKDIR":
-            if (is_dir("cloud/" . $_GET["d"])) {
+            // Check if dir doesn't exist
+            if (!file_exists("cloud/" . $_GET["d"]) && !is_dir("cloud/" . $_GET["d"])) {
                 echo "Making dir " . $_GET["d"];
                 if (!mkdir("cloud/" . $_GET["d"])) {
                     die();

@@ -234,13 +234,13 @@ include_once "lang/en.php";
             <h4><?php echo _CREATE_FOLDER; ?></h4>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="folder_name_modal_txt" name="d" type="text" class="validate">
+                    <input id="folder_name_modal_txt" name="d" type="text" class="validate" autocomplete="off">
                     <label for="folder_name_modal_txt"><?php echo _FOLDER_NAME; ?></label>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" onclick="document.getElementById('createFolderModalForm').submit();"
+            <button type="submit"
                     class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _CREATE; ?></button>
         </div>
     </form>
@@ -263,7 +263,7 @@ include_once "lang/en.php";
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="new_folder_name_modal_txt" name="n" type="text" class="validate">
+                    <input id="new_folder_name_modal_txt" name="n" type="text" class="validate" autocomplete="off">
                     <label for="new_folder_name_modal_txt"><?php echo _NEW_FOLDER_NAME; ?></label>
                 </div>
             </div>
@@ -292,7 +292,7 @@ include_once "lang/en.php";
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="new_file_name_modal_txt" name="n" type="text" class="validate">
+                    <input id="new_file_name_modal_txt" name="n" type="text" class="validate" autocomplete="off">
                     <label for="new_file_name_modal_txt"><?php echo _NEW_FILE_NAME; ?></label>
                 </div>
             </div>
@@ -439,7 +439,7 @@ include_once "lang/en.php";
                         ?>
                         <div class="main-directory-folder" id="mainf">
                             <li class="collection-item avatar"
-                                onclick="document.getElementsByClassName('main-directory-folder')[0].style.display='none';document.getElementById('<?php echo $file; ?>-folder').style.display='block';">
+                                onclick="setAllCloudItemsVisibility(false);document.getElementById('<?php echo $file; ?>-folder').style.display='block';">
                                 <i class="mdi mdi-folder circle yellow"></i>
                                 <span class="title"><b><?php echo $file ?></b></span>
                                 <p><?php echo date("d/m/Y H:i:s", filemtime($filePath)); ?><br>
@@ -453,14 +453,15 @@ include_once "lang/en.php";
                                    class="secondary-content" style="cursor:pointer;right:55px;"
                                    title="<?php echo _DELETE_FOREVER; ?>"><i
                                             class="mdi mdi-delete-forever mdi-24px"></i></a>
-                                <a href="fileSystem.php?o=COMPRESS&c=<?php echo $file; ?>&r=<?php echo $file . ".zip"; ?>" class="secondary-content" style="cursor:pointer;right:85px;"
+                                <a href="fileSystem.php?o=COMPRESS&c=<?php echo $file; ?>&r=<?php echo $file . ".zip"; ?>"
+                                   class="secondary-content" style="cursor:pointer;right:85px;"
                                    title="<?php echo _DOWNLOAD_ZIP; ?>"><i
                                             class="mdi mdi-download mdi-24px"></i></a>
                             </li>
                         </div>
                         <div class="folder-contents" id="<?php echo $file; ?>-folder" style="display:none;">
                             <li class="collection-item avatar"
-                                onclick="document.getElementsByClassName('main-directory-folder')[0].style.display='block';document.getElementById('<?php echo $file; ?>-folder').style.display='none';">
+                                onclick="setAllCloudItemsVisibility(true);document.getElementById('<?php echo $file; ?>-folder').style.display='none';">
                                 <i class="mdi mdi-dots-horizontal circle"></i>
                                 <span class="title"><b></b></span>
                             </li>
@@ -488,7 +489,8 @@ include_once "lang/en.php";
                                            class="secondary-content" style="right:55px;"
                                            title="<?php echo _DELETE_FOREVER; ?>"><i
                                                     class="mdi mdi-delete-forever mdi-24px"></i></a>
-                                        <a href="<?php echo $subfilePath; ?>" class="secondary-content" style="right:85px;"
+                                        <a href="<?php echo $subfilePath; ?>" class="secondary-content"
+                                           style="right:85px;"
                                            title="<?php echo _DOWNLOAD_FILE; ?>" download><i
                                                     class="mdi mdi-download mdi-24px"></i></a>
                                         <a href="#!" class="secondary-content" style="right:115px;"
@@ -544,7 +546,7 @@ include_once "lang/en.php";
                     <div class="collection">
                         <a onclick="selectSettingsTab(0)" id="generalSelectorS"
                            class="collection-item"><?php echo _GENERAL; ?></a>
-                        <a onclick="selectSettingsTab(3)" id="cloudSelectorS"
+                        <a onclick="selectSettingsTab(2)" id="cloudSelectorS"
                            class="collection-item"><?php echo _CLOUD; ?></a>
                         <a onclick="selectSettingsTab(1)" id="aboutSelectorS"
                            class="collection-item"><?php echo _ABOUT; ?></a>
@@ -705,6 +707,15 @@ include_once "lang/en.php";
     }
 
     var notificationCounter = 0;
+
+    function setAllCloudItemsVisibility(visibility) {
+        for (var i = 0; i < document.getElementsByClassName('main-directory-folder').length; i++) {
+            if (visibility)
+                document.getElementsByClassName("main-directory-folder")[i].style.display = 'block';
+            else
+                document.getElementsByClassName("main-directory-folder")[i].style.display = 'none';
+        }
+    }
 
     function sendNotification(notificationText, clickAction) {
         M.toast({html: notificationText});
