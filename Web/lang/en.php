@@ -49,7 +49,7 @@ define("_DELETE", "Delete");
 define("_CANCEL", "Cancel");
 define("_SAVE", "Save");
 define("_MAX_FILE_SIZE", "Max file upload size");
-define("_SAVE_DETECTED_NOT_IMPL", "Save event detected, but it's still not implemented.");
+define("_SAVE_DETECTED_NOT_IMPL", "Save event detected, but it\'s still not implemented.");
 
 define("_CHOOSE_LANGUAGE", "Choose your language");
 define("_SET_0_FOR_UNLIMITED", "Set 0 for unlimited");
