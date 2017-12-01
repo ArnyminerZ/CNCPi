@@ -137,11 +137,11 @@ include_once "lang/en.php";
     <nav>
         <div class="nav-wrapper teal darken-1">
             <ul class="row">
-                <li class="col s3" style="text-align: center;" onclick="selectTab(0)">
+                <li class="col s3" style="text-align: center;" onclick="window.location.replace('dataSaver.php?o=SESSION&s=tab&v=0&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');">
                     <a class="grey-text text-lighten-3 tooltipped active" data-position="top" data-delay="50"
                        data-tooltip="<?php echo _HOME; ?>"><i class="material-icons">home</i></a>
                 </li>
-                <li class="col s3" style="text-align: center;" onclick="selectTab(1)">
+                <li class="col s3" style="text-align: center;" onclick="window.location.replace('dataSaver.php?o=SESSION&s=tab&v=1&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
                        data-tooltip="<?php echo _CLOUD; ?>"><i class="material-icons">cloud</i></a>
                 </li>
@@ -151,7 +151,7 @@ include_once "lang/en.php";
                        data-tooltip="<?php echo _MESSAGES; ?>"><i class="material-icons">message</i> <span
                                 class="new badge" id="notificationCounterBadge" style="display: none"></span></a>
                 </li>
-                <li class="col s3" style="text-align: center;" onclick="selectTab(2)">
+                <li class="col s3" style="text-align: center;" onclick="window.location.replace('dataSaver.php?o=SESSION&s=tab&v=2&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
                        data-tooltip="<?php echo _SETTINGS; ?>"><i class="material-icons">settings</i></a>
                 </li>
@@ -544,11 +544,11 @@ include_once "lang/en.php";
             <div class="card-panel row settings-tabcontrol">
                 <div class="col s3 header">
                     <div class="collection">
-                        <a onclick="selectSettingsTab(0)" id="generalSelectorS"
+                        <a onclick="window.location.replace('dataSaver.php?o=SESSION&s=settingsTab&v=0&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');" id="generalSelectorS"
                            class="collection-item"><?php echo _GENERAL; ?></a>
-                        <a onclick="selectSettingsTab(2)" id="cloudSelectorS"
+                        <a onclick="window.location.replace('dataSaver.php?o=SESSION&s=settingsTab&v=2&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');" id="cloudSelectorS"
                            class="collection-item"><?php echo _CLOUD; ?></a>
-                        <a onclick="selectSettingsTab(1)" id="aboutSelectorS"
+                        <a onclick="window.location.replace('dataSaver.php?o=SESSION&s=settingsTab&v=1&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');" id="aboutSelectorS"
                            class="collection-item"><?php echo _ABOUT; ?></a>
                     </div>
                 </div>
@@ -562,6 +562,7 @@ include_once "lang/en.php";
                             </select>
                             <label><?php echo _LANGUAGE; ?></label>
                         </div>
+                        <button type="button" class="waves-effect waves-light btn" onclick="saveSettings()"><?php echo _SAVE; ?></button>
                     </div>
                     <div id="s-cloud">
                         <br/>
@@ -571,6 +572,7 @@ include_once "lang/en.php";
                                    class="validate">
                             <label for="maxFileSize"><?php echo _MAX_FILE_SIZE; ?></label>
                         </div>
+                        <button type="button" class="waves-effect waves-light btn" onclick="saveSettings()"><?php echo _SAVE; ?></button>
                     </div>
                     <div id="s-about">
                         <!-- TODO: Update button still not working -->
@@ -684,7 +686,13 @@ include_once "lang/en.php";
         selectTab(2);
         <?php } ?>
 
-        selectSettingsTab(0)
+        <?php if(!isset($_SESSION["settingsTab"]) || $_SESSION["settingsTab"] == "0"){ ?>
+        selectSettingsTab(0);
+        <?php }else if($_SESSION["settingsTab"] == "1"){ ?>
+        selectSettingsTab(1);
+        <?php }else if($_SESSION["settingsTab"] == "2"){ ?>
+        selectSettingsTab(2);
+        <?php } ?>
     });
     $(".bottom-navbar").ready(function () {
         $('.tooltipped').tooltip();
@@ -730,6 +738,10 @@ include_once "lang/en.php";
 
         document.getElementById("notificationCounterBadge").style.display = "inline-block";
         document.getElementById("notificationCounterBadge").innerHTML = notificationCounter;
+    }
+
+    function saveSettings(){
+        M.toast({html: '<?php echo _SAVE_DETECTED_NOT_IMPL; ?>'})
     }
 
     function selectTab(tabIndex) {
