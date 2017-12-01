@@ -1,4 +1,4 @@
-# CNCPi [![RPi Image](https://img.shields.io/badge/RPi%20version-v0.1.1-green.svg)](https://mega.nz/#!stdl1KhJ!xKgWGLVipQiJaQ315iOKmivwXRzTCyXC6xjMysisvio) [![Bakery](https://img.shields.io/badge/Bakery%20version-v0.1.8-green.svg)](https://github.com/ArnyminerZ/CNCPi/blob/master/image_settings.xml) [![Web](https://img.shields.io/badge/Web%20version-v0.1.105-green.svg)](https://github.com/ArnyminerZ/CNCPi/archive/master.zip)
+# CNCPi [![RPi Image](https://img.shields.io/badge/RPi%20version-v0.1.1-green.svg)](https://mega.nz/#!stdl1KhJ!xKgWGLVipQiJaQ315iOKmivwXRzTCyXC6xjMysisvio) [![Bakery](https://img.shields.io/badge/Bakery%20version-v0.1.8-green.svg)](https://github.com/ArnyminerZ/CNCPi/blob/master/image_settings.xml) [![Web](https://img.shields.io/badge/Web%20version-v0.1.107-green.svg)](https://github.com/ArnyminerZ/CNCPi/archive/master.zip)
 ## How to Install CNCPi in a RaspberryPi
 ### Method 1 (Most Recommended): BakeryPi
 1. Download [Pi Bakery](http://www.pibakery.org/download.html)
