@@ -741,7 +741,7 @@ include_once "lang/en.php";
     }
 
     function saveSettings(){
-        M.toast({html: '<?php echo _SAVE_DETECTED_NOT_IMPL; ?>'})
+        M.toast({html: '<?php echo _SAVE_DETECTED_NOT_IMPL; ?>'});
     }
 
     function selectTab(tabIndex) {
