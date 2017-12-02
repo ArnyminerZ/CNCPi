@@ -2,6 +2,43 @@
 <?php
 session_start();
 
+class MyDB extends SQLite3
+{
+    function __construct()
+    {
+        $this->open('settings.db');
+    }
+}
+
+$lj = "<br/>";
+
+$db = new MyDB();
+if (!$db) {
+    // echo $db->lastErrorMsg();
+    echo "Cannot open database$lj";
+}
+
+$language = "";
+$maxFileSize = "";
+
+$sql = <<<EOF
+      SELECT * from SETTINGS;
+EOF;
+$ret = $db->query($sql);
+while ($row = $ret->fetchArray(SQLITE3_ASSOC)) {
+    // $row['ID']
+    if ($row['NAME'] == "language")
+        $language = $row['VALUE'];
+    else if ($row['NAME'] == "maxFileSize")
+        $maxFileSize = $row['VALUE'];
+}
+if ($language == "")
+    $language = "en";
+if ($maxFileSize == "")
+    $maxFileSize = "0";
+
+echo "<script>console.log('language=$language');console.log('maxFileSize=$maxFileSize');</script>";
+
 if (!isset($_COOKIE["pref_maxFileSize"])) {
     // Set 0 for unlimited
     setcookie("pref_maxFileSize", "0", time() + (86400 * 30), "/");
@@ -137,11 +174,11 @@ include_once "lang/en.php";
     <nav>
         <div class="nav-wrapper teal darken-1">
             <ul class="row">
-                <li class="col s3" style="text-align: center;" onclick="window.location.replace('dataSaver.php?o=SESSION&s=tab&v=0&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');">
+                <li class="col s3" style="text-align: center;" onclick="clickTabSelection(0)">
                     <a class="grey-text text-lighten-3 tooltipped active" data-position="top" data-delay="50"
                        data-tooltip="<?php echo _HOME; ?>"><i class="material-icons">home</i></a>
                 </li>
-                <li class="col s3" style="text-align: center;" onclick="window.location.replace('dataSaver.php?o=SESSION&s=tab&v=1&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');">
+                <li class="col s3" style="text-align: center;" onclick="clickTabSelection(1)">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
                        data-tooltip="<?php echo _CLOUD; ?>"><i class="material-icons">cloud</i></a>
                 </li>
@@ -151,7 +188,7 @@ include_once "lang/en.php";
                        data-tooltip="<?php echo _MESSAGES; ?>"><i class="material-icons">message</i> <span
                                 class="new badge" id="notificationCounterBadge" style="display: none"></span></a>
                 </li>
-                <li class="col s3" style="text-align: center;" onclick="window.location.replace('dataSaver.php?o=SESSION&s=tab&v=2&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');">
+                <li class="col s3" style="text-align: center;" onclick="clickTabSelection(2)">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
                        data-tooltip="<?php echo _SETTINGS; ?>"><i class="material-icons">settings</i></a>
                 </li>
@@ -544,11 +581,11 @@ include_once "lang/en.php";
             <div class="card-panel row settings-tabcontrol">
                 <div class="col s3 header">
                     <div class="collection">
-                        <a onclick="window.location.replace('dataSaver.php?o=SESSION&s=settingsTab&v=0&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');" id="generalSelectorS"
+                        <a onclick="clickSettingsSectionSelection(0);" id="generalSelectorS"
                            class="collection-item"><?php echo _GENERAL; ?></a>
-                        <a onclick="window.location.replace('dataSaver.php?o=SESSION&s=settingsTab&v=2&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');" id="cloudSelectorS"
+                        <a onclick="clickSettingsSectionSelection(2);" id="cloudSelectorS"
                            class="collection-item"><?php echo _CLOUD; ?></a>
-                        <a onclick="window.location.replace('dataSaver.php?o=SESSION&s=settingsTab&v=1&returnTo=<?php echo "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]; ?>');" id="aboutSelectorS"
+                        <a onclick="clickSettingsSectionSelection(1)" id="aboutSelectorS"
                            class="collection-item"><?php echo _ABOUT; ?></a>
                     </div>
                 </div>
@@ -556,23 +593,31 @@ include_once "lang/en.php";
                     <div id="s-general">
                         <br/>
                         <div class="input-field col s12">
-                            <select>
+                            <select id="languageSelector">
                                 <option value="" disabled><?php echo _CHOOSE_LANGUAGE; ?></option>
-                                <option value="en" selected>English</option>
+                                <option value="en" <?php if ($language == "en") {
+                                    echo "selected";
+                                } ?>>English
+                                </option>
                             </select>
                             <label><?php echo _LANGUAGE; ?></label>
                         </div>
-                        <button type="button" class="waves-effect waves-light btn" onclick="saveSettings()"><?php echo _SAVE; ?></button>
+                        <button type="button" class="waves-effect waves-light btn"
+                                onclick="saveSettings()"><?php echo _SAVE; ?></button>
+                        <br/>
+                        <br/>
                     </div>
                     <div id="s-cloud">
-                        <br/>
                         <p><?php echo _SET_0_FOR_UNLIMITED; ?></p>
                         <div class="input-field col s12">
-                            <input value="<?php echo $_COOKIE["pref_maxFileSize"]; ?>" id="maxFileSize" type="number"
+                            <input value="<?php echo $maxFileSize; ?>" id="maxFileSize" type="number"
                                    class="validate">
                             <label for="maxFileSize"><?php echo _MAX_FILE_SIZE; ?></label>
                         </div>
-                        <button type="button" class="waves-effect waves-light btn" onclick="saveSettings()"><?php echo _SAVE; ?></button>
+                        <button type="button" class="waves-effect waves-light btn"
+                                onclick="saveSettings()"><?php echo _SAVE; ?></button>
+                        <br/>
+                        <br/>
                     </div>
                     <div id="s-about">
                         <!-- TODO: Update button still not working -->
@@ -652,7 +697,27 @@ include_once "lang/en.php";
                         </ul>
                     </div>
                 </div>
-                <div id="terminal" class="col s12">Test 3</div>
+                <div id="terminal" class="col s12">
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="textarea1" class="materialize-textarea" disabled></textarea>
+                                    <label for="textarea1">Terminal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s11">
+                                    <input id="command" type="text" class="validate">
+                                    <label for="command">Command</label>
+                                </div>
+                                <div class="input-field col s1">
+                                    <button type="submit" class="waves-effect waves-teal btn-flat"><i class="material-icons">send</i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -678,21 +743,26 @@ include_once "lang/en.php";
 
         $('select').select();
 
-        <?php if(!isset($_SESSION["tab"]) || $_SESSION["tab"] == "0"){ ?>
-        selectTab(0);
-        <?php }else if($_SESSION["tab"] == "1"){ ?>
-        selectTab(1);
-        <?php }else if($_SESSION["tab"] == "2"){ ?>
-        selectTab(2);
-        <?php } ?>
+        if (sessionStorage.getItem("tab") === null || sessionStorage.getItem("tab") === 0)
+            clickTabSelection(0);
+        else
+            clickTabSelection(sessionStorage.getItem("tab"));
 
-        <?php if(!isset($_SESSION["settingsTab"]) || $_SESSION["settingsTab"] == "0"){ ?>
-        selectSettingsTab(0);
-        <?php }else if($_SESSION["settingsTab"] == "1"){ ?>
-        selectSettingsTab(1);
-        <?php }else if($_SESSION["settingsTab"] == "2"){ ?>
-        selectSettingsTab(2);
-        <?php } ?>
+        if (sessionStorage.getItem("tabSettings") === null || sessionStorage.getItem("tabSettings") === 0)
+            clickSettingsSectionSelection(0);
+        else
+            clickSettingsSectionSelection(sessionStorage.getItem("tabSettings"));
+
+        if (typeof(Storage) === "undefined") {
+            // TODO: Translation
+            M.toast({html: 'Your browser does not support data saving'});
+        }
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            // Great success! All the File APIs are supported.
+        } else {
+            // TODO: Translation
+            M.toast({html: 'File APIs are not fully supported by this browser. You won\'t be able to save settings'});
+        }
     });
     $(".bottom-navbar").ready(function () {
         $('.tooltipped').tooltip();
@@ -740,34 +810,77 @@ include_once "lang/en.php";
         document.getElementById("notificationCounterBadge").innerHTML = notificationCounter;
     }
 
-    function saveSettings(){
-        M.toast({html: '<?php echo _SAVE_DETECTED_NOT_IMPL; ?>'});
+    function saveSettings() {
+        // Dropdowns: languageSelector
+        // Inputs: maxFileSize
+
+        window.location.replace("settingsSet.php?language="
+            + document.getElementById("languageSelector").options[document.getElementById("languageSelector").selectedIndex].value
+            + "&maxFileSize="
+            + document.getElementById("maxFileSize").value
+            + "&returnTo=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>");
     }
 
-    function selectTab(tabIndex) {
-        if (tabIndex === 0) {
-            document.getElementById("home-tab").style.display = "block";
-            document.getElementById("cloud-tab").style.display = "none";
-            document.getElementById("settings-tab").style.display = "none";
+    function clickTabSelection(index) {
+        sessionStorage.setItem("tab", index);
+        selectTab(index);
+        console.log("tab=" + sessionStorage.getItem("tab"));
+    }
 
-            document.getElementById("machine-tab").style.display = "none";
-        } else if (tabIndex === 1) {
-            document.getElementById("home-tab").style.display = "none";
-            document.getElementById("cloud-tab").style.display = "block";
-            document.getElementById("settings-tab").style.display = "none";
+    function clickSettingsSectionSelection(index) {
+        sessionStorage.setItem("tabSettings", index);
+        selectSettingsTab(index);
+        console.log("tabSettings=" + sessionStorage.getItem("tabSettings"));
+    }
 
-            document.getElementById("machine-tab").style.display = "none";
-        } else if (tabIndex === 2) {
-            document.getElementById("home-tab").style.display = "none";
-            document.getElementById("cloud-tab").style.display = "none";
-            document.getElementById("settings-tab").style.display = "block";
+    function selectTab(tabIndex, isInFirstBoot = false) {
+        if (isInFirstBoot)
+            console.log("preselected tab " + tabIndex);
 
-            document.getElementById("machine-tab").style.display = "none";
+        switch (tabIndex) {
+            case "0":
+            case 0:
+                document.getElementById("home-tab").style.display = "block";
+                document.getElementById("cloud-tab").style.display = "none";
+                document.getElementById("settings-tab").style.display = "none";
+
+                document.getElementById("machine-tab").style.display = "none";
+                break;
+            case "1":
+            case 1:
+                document.getElementById("home-tab").style.display = "none";
+                document.getElementById("cloud-tab").style.display = "block";
+                document.getElementById("settings-tab").style.display = "none";
+
+                document.getElementById("machine-tab").style.display = "none";
+                break;
+            case "2":
+            case 2:
+                document.getElementById("home-tab").style.display = "none";
+                document.getElementById("cloud-tab").style.display = "none";
+                document.getElementById("settings-tab").style.display = "block";
+
+                document.getElementById("machine-tab").style.display = "none";
+                break;
+            default:
+                document.getElementById("home-tab").style.display = "none";
+                document.getElementById("cloud-tab").style.display = "none";
+                document.getElementById("settings-tab").style.display = "none";
+
+                document.getElementById("machine-tab").style.display = "none";
+
+                // TODO: Translation
+                M.toast({html: 'Error while loading tabs'});
+                break;
         }
     }
 
-    function selectSettingsTab(tabIndex) {
+    function selectSettingsTab(tabIndex, isInFirstBoot = false) {
+        if (isInFirstBoot)
+            console.log("preselected settings section " + tabIndex);
+
         switch (tabIndex) {
+            case "0":
             case 0:
                 document.getElementById("s-general").style.display = "block";
                 document.getElementById("s-about").style.display = "none";
@@ -777,6 +890,7 @@ include_once "lang/en.php";
                 document.getElementById("aboutSelectorS").classList.remove("active");
                 document.getElementById("cloudSelectorS").classList.remove("active");
                 break;
+            case "1":
             case 1:
                 document.getElementById("s-general").style.display = "none";
                 document.getElementById("s-about").style.display = "block";
@@ -786,6 +900,7 @@ include_once "lang/en.php";
                 document.getElementById("aboutSelectorS").classList.add("active");
                 document.getElementById("cloudSelectorS").classList.remove("active");
                 break;
+            case "2":
             case 2:
                 document.getElementById("s-general").style.display = "none";
                 document.getElementById("s-about").style.display = "none";

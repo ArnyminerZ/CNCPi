@@ -77,10 +77,11 @@ if (isset($_GET["o"])) {
             break;
         // ?f as the file to remove
         case "RM":
-            // TODO: Check if specified is file
-            echo "Removing file \"" . $_GET["f"] . "\"";
-            if (!unlink("cloud/" . $_GET["f"])) {
-                die();
+            if (file_exists("cloud/" . $_GET["f"]) && !is_dir("cloud/" . $_GET["f"])) {
+                echo "Removing file \"" . $_GET["f"] . "\"";
+                if (!unlink("cloud/" . $_GET["f"])) {
+                    die();
+                }
             }
             break;
         // ?d as directory to rename
@@ -96,10 +97,11 @@ if (isset($_GET["o"])) {
         // ?f as the file to rename
         // ?n as the new name
         case "RN":
-            // TODO: Check if specified is file
-            echo "Renaming file " . $_GET["f"] . " to " . $_GET["n"];
-            if (!rename("cloud/" . $_GET["f"], "cloud/" . $_GET["n"])) {
-                die();
+            if (file_exists("cloud/" . $_GET["f"]) && !is_dir("cloud/" . $_GET["f"])) {
+                echo "Renaming file " . $_GET["f"] . " to " . $_GET["n"];
+                if (!rename("cloud/" . $_GET["f"], "cloud/" . $_GET["n"])) {
+                    die();
+                }
             }
             break;
         // ?c as the file path
@@ -107,7 +109,7 @@ if (isset($_GET["o"])) {
         case "COMPRESS":
             echo "Compressing " . $_GET["c"];
             Compress("cloud/" . $_GET["c"], "cloud/" . $_GET["r"]);
-            if(file_exists("cloud/" . $_GET["r"]))
+            if (file_exists("cloud/" . $_GET["r"]))
                 header("Location: " . $_GET["r"]);
             else
                 die("An error occurred while compressing");
@@ -147,10 +149,10 @@ if (isset($_GET["o"])) {
     }
 
     if (isset($_GET["tab"])) {
-        $_SESSION["tab"] = $_GET["tab"];
+        echo "<script>localStorage.setItem('tab', '" . $_GET["tab"] . "');</script>";
     }
     if (isset($_POST["tab"])) {
-        $_SESSION["tab"] = $_GET["tab"];
+        echo "<script>localStorage.setItem('tab', '" . $_POST["tab"] . "');</script>";
     }
 
     if (isset($_POST["returnTo"])) {

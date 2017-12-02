@@ -29,11 +29,15 @@ if (isset($_POST["hi"])) {
 <form method="POST">
     <select name="port">
         <?php
+        echo exec('whoami');
+
         $ports = exec("ls /dev/serial/by-id/");
+
+        echo $ports;
 
         foreach (explode(" ", $ports) as $port){
             // <option value="volvo">Volvo</option>
-            echo '<option value="$port">$port</option>';
+            echo '<option value="' . $port . '">' . $port . '</option>';
         }
         ?>
     </select>
