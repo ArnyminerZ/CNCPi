@@ -1,4 +1,5 @@
 <?php
+
 class MyDB extends SQLite3
 {
     function __construct()
@@ -17,23 +18,21 @@ if (!$db) {
     echo "Opened database successfully$n";
 }
 
-if (isset($_GET["language"]) ||
-    isset($_GET["maxFileSize"])) {
-
-    $sql = <<<EOF
+$sql = <<<EOF
       CREATE TABLE IF NOT EXISTS SETTINGS
       (
       NAME  TEXT UNIQUE NOT NULL,
       VALUE TEXT UNIQUE NOT NULL);
 EOF;
 
-    $ret = $db->exec($sql);
-    if (!$ret) {
-        echo $db->lastErrorMsg();
-    } else {
-        echo "Table created successfully$n";
-    }
+$ret = $db->exec($sql);
+if (!$ret) {
+    echo $db->lastErrorMsg();
+} else {
+    echo "Table created successfully$n";
+}
 
+if (isset($_GET["language"])) {
     $language = $_GET['language'];
     $sql = <<<EOF
       INSERT OR REPLACE INTO SETTINGS (NAME, VALUE) VALUES ("language", "$language");
@@ -44,7 +43,7 @@ EOF;
     } else {
         echo "Language updated correctly$n";
     }
-
+}else if (isset($_GET["maxFileSize"])) {
     $maxFileSize = $_GET['maxFileSize'];
     $sql = <<<EOF
       INSERT OR REPLACE INTO SETTINGS (NAME, VALUE) VALUES ("maxFileSize", "$maxFileSize");
@@ -55,17 +54,32 @@ EOF;
     } else {
         echo "maxFileSize updated correctly$n";
     }
+}else if (isset($_GET["terminalLog"])) {
+    $terminalLog = $_GET['terminalLog'];
 
     $sql = <<<EOF
       SELECT * from SETTINGS;
 EOF;
 
+    $oldTerminalLog = "";
     $ret = $db->query($sql);
     while ($row = $ret->fetchArray(SQLITE3_ASSOC)) {
-        echo "NAME = " . $row['NAME'] . "$n";
-        echo "VALUE = " . $row['VALUE'] . "$n$n";
+        if($row['NAME'] == "terminalLog")
+            $oldTerminalLog = $row["VALUE"];
     }
-} else {
+    $oldTerminalLog .= "\n$ ";
+    $oldTerminalLog .= $terminalLog;
+
+    $sql = <<<EOF
+      INSERT OR REPLACE INTO SETTINGS (NAME, VALUE) VALUES ("terminalLog", "$oldTerminalLog");
+EOF;
+    $ret = $db->exec($sql);
+    if (!$ret) {
+        echo $db->lastErrorMsg();
+    } else {
+        echo "terminalLog updated correctly$n";
+    }
+}else{
     $sql = <<<EOF
       SELECT * from SETTINGS;
 EOF;
@@ -76,9 +90,10 @@ EOF;
         echo "VALUE = " . $row['VALUE'] . "$n$n";
     }
 }
+
 $db->close();
 
-if(isset($_GET["returnTo"])){
+if (isset($_GET["returnTo"])) {
     header("Location: " . $_GET["returnTo"]);
     die();
 }

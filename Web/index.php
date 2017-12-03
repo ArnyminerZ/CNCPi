@@ -20,6 +20,7 @@ if (!$db) {
 
 $language = "";
 $maxFileSize = "";
+$terminalLog = "";
 
 $sql = <<<EOF
       SELECT * from SETTINGS;
@@ -31,11 +32,15 @@ while ($row = $ret->fetchArray(SQLITE3_ASSOC)) {
         $language = $row['VALUE'];
     else if ($row['NAME'] == "maxFileSize")
         $maxFileSize = $row['VALUE'];
+    else if ($row['NAME'] == "terminalLog")
+        $terminalLog = $row['VALUE'];
 }
 if ($language == "")
     $language = "en";
 if ($maxFileSize == "")
     $maxFileSize = "0";
+if ($terminalLog == "")
+    $terminalLog = "";
 
 echo "<script>console.log('language=$language');console.log('maxFileSize=$maxFileSize');</script>";
 
@@ -174,21 +179,25 @@ include_once "lang/en.php";
     <nav>
         <div class="nav-wrapper teal darken-1">
             <ul class="row">
-                <li class="col s3" style="text-align: center;" onclick="clickTabSelection(0)">
+                <li class="col s2" style="text-align: center;" onclick="clickTabSelection(0)">
                     <a class="grey-text text-lighten-3 tooltipped active" data-position="top" data-delay="50"
                        data-tooltip="<?php echo _HOME; ?>"><i class="material-icons">home</i></a>
                 </li>
-                <li class="col s3" style="text-align: center;" onclick="clickTabSelection(1)">
+                <li class="col s2" style="text-align: center;" onclick="clickTabSelection(1)">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
                        data-tooltip="<?php echo _CLOUD; ?>"><i class="material-icons">cloud</i></a>
                 </li>
-                <li class="col s3" style="text-align: center;">
+                <li class="col s2" style="text-align: center;">
                     <a class="grey-text text-lighten-3 tooltipped modal-trigger" data-position="top" data-delay="50"
                        href="#messages-modal"
                        data-tooltip="<?php echo _MESSAGES; ?>"><i class="material-icons">message</i> <span
                                 class="new badge" id="notificationCounterBadge" style="display: none"></span></a>
                 </li>
-                <li class="col s3" style="text-align: center;" onclick="clickTabSelection(2)">
+                <li class="col s2" style="text-align: center;" onclick="clickTabSelection(3)">
+                    <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                       data-tooltip="<?php echo _TERMINAL; ?>"><i class="mdi mdi-console"></i></a>
+                </li>
+                <li class="col s2" style="text-align: center;" onclick="clickTabSelection(2)">
                     <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
                        data-tooltip="<?php echo _SETTINGS; ?>"><i class="material-icons">settings</i></a>
                 </li>
@@ -236,6 +245,10 @@ include_once "lang/en.php";
         <p id="anymessage-label"><?php echo _ANY_MESSAGE ?></p>
     </div>
 </div>
+<ul id='terminalDropdown' class='dropdown-content'>
+    <li><a href="#!"><?php echo _CLEAR; ?></a></li>
+    <li><button class="copyTerminal" data-clipboard-target="#terminalContent"><?php echo _COPY; ?></button></li>
+</ul>
 
 <div id="uploadFileModal" class="modal">
     <form action="fileSystem.php?o=UPL_FILE" method="post" id="uploadFileModalForm" enctype="multipart/form-data">
@@ -574,6 +587,42 @@ include_once "lang/en.php";
         </div>
     </div>
 </div>
+<div id="terminal-tab" class="col s12">
+    <div class="container">
+        <div class="card-panel">
+            <h1><?php echo _TERMINAL ?></h1>
+
+            <div class="row">
+                <form class="col s12" method="get" action="runCommand.php">
+                    <input type="text" name="returnTo"
+                           value="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>"
+                           style="display: none"/>
+                    <?php
+                    $terminalLog = str_replace("\n", "<br/>", $terminalLog);
+                    ?>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <div
+                                    id="terminalContent"
+                                    style="height: 250px; resize: none; padding-left: 10px; padding-top: 15px; font-size: large; border: none; cursor: default"><?php echo $terminalLog; ?></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s11">
+                            <i class="material-icons prefix">attach_money</i>
+                            <input id="command" name="c" type="text" class="validate">
+                            <label for="command"><?php _COMMAND; ?></label>
+                        </div>
+                        <div class="input-field col s1">
+                            <button type="submit" class="waves-effect waves-teal btn-flat"><i class="material-icons">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="settings-tab" class="col s12">
     <div class="container">
         <div class="card-panel">
@@ -702,8 +751,7 @@ include_once "lang/en.php";
                         <form class="col s12">
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <textarea id="textarea1" class="materialize-textarea" disabled></textarea>
-                                    <label for="textarea1">Terminal</label>
+                                    <div style="height: 250px;">$ sudo apt-get install apache2</div>
                                 </div>
                             </div>
                             <div class="row">
@@ -712,7 +760,8 @@ include_once "lang/en.php";
                                     <label for="command">Command</label>
                                 </div>
                                 <div class="input-field col s1">
-                                    <button type="submit" class="waves-effect waves-teal btn-flat"><i class="material-icons">send</i></button>
+                                    <button type="submit" class="waves-effect waves-teal btn-flat"><i
+                                                class="material-icons">send</i></button>
                                 </div>
                             </div>
                         </form>
@@ -726,6 +775,7 @@ include_once "lang/en.php";
 <!--JavaScript at end of body for optimized loading-->
 <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
+<script src="dist/clipboard.min.js"></script>
 <script>
     $(document).ready(function () {
         $('.dropdown-trigger').dropdown({
@@ -742,6 +792,8 @@ include_once "lang/en.php";
         $('ul.tabs').tabs();
 
         $('select').select();
+
+        new Clipboard('.copyTerminal');
 
         if (sessionStorage.getItem("tab") === null || sessionStorage.getItem("tab") === 0)
             clickTabSelection(0);
@@ -764,6 +816,7 @@ include_once "lang/en.php";
             M.toast({html: 'File APIs are not fully supported by this browser. You won\'t be able to save settings'});
         }
     });
+
     $(".bottom-navbar").ready(function () {
         $('.tooltipped').tooltip();
     });
@@ -785,6 +838,53 @@ include_once "lang/en.php";
     }
 
     var notificationCounter = 0;
+
+    var x = null;
+    var y = null;
+    document.addEventListener('mousemove', onMouseUpdate, false);
+    document.addEventListener('mouseenter', onMouseUpdate, false);
+    function onMouseUpdate(e) {
+        x = e.pageX;
+        y = e.pageY;
+    }
+    function getMouseX() {
+        return x;
+    }
+    function getMouseY() {
+        return y;
+    }
+
+    if (document.getElementById("terminalContent").addEventListener) {
+        document.getElementById("terminalContent").addEventListener('contextmenu', function (e) {
+            document.getElementById("terminalDropdown").style.position = "fixed";
+            document.getElementById("terminalDropdown").style.display = "block";
+            document.getElementById("terminalDropdown").style.opacity = "1";
+
+            document.getElementById("terminalDropdown").style.top = y + "px";
+            document.getElementById("terminalDropdown").style.left = x + "px";
+
+            e.preventDefault();
+        }, false);
+    } else {
+        document.getElementById("terminalContent").attachEvent('oncontextmenu', function () {
+            document.getElementById("terminalDropdown").style.position = "fixed";
+            document.getElementById("terminalDropdown").style.display = "block";
+            document.getElementById("terminalDropdown").style.opacity = "1";
+
+            document.getElementById("terminalDropdown").style.top = y + "px";
+            document.getElementById("terminalDropdown").style.left = x + "px";
+
+            window.event.returnValue = false;
+        });
+    }
+
+    $(window).click(function() {
+        document.getElementById("terminalDropdown").style.display = "none";
+        document.getElementById("terminalDropdown").style.opacity = "0";
+    });
+    $('#terminalDropdown').click(function(event){
+        event.stopPropagation();
+    });
 
     function setAllCloudItemsVisibility(visibility) {
         for (var i = 0; i < document.getElementsByClassName('main-directory-folder').length; i++) {
@@ -842,6 +942,7 @@ include_once "lang/en.php";
             case 0:
                 document.getElementById("home-tab").style.display = "block";
                 document.getElementById("cloud-tab").style.display = "none";
+                document.getElementById("terminal-tab").style.display = "none";
                 document.getElementById("settings-tab").style.display = "none";
 
                 document.getElementById("machine-tab").style.display = "none";
@@ -850,6 +951,7 @@ include_once "lang/en.php";
             case 1:
                 document.getElementById("home-tab").style.display = "none";
                 document.getElementById("cloud-tab").style.display = "block";
+                document.getElementById("terminal-tab").style.display = "none";
                 document.getElementById("settings-tab").style.display = "none";
 
                 document.getElementById("machine-tab").style.display = "none";
@@ -858,13 +960,24 @@ include_once "lang/en.php";
             case 2:
                 document.getElementById("home-tab").style.display = "none";
                 document.getElementById("cloud-tab").style.display = "none";
+                document.getElementById("terminal-tab").style.display = "none";
                 document.getElementById("settings-tab").style.display = "block";
+
+                document.getElementById("machine-tab").style.display = "none";
+                break;
+            case "3":
+            case 3:
+                document.getElementById("home-tab").style.display = "none";
+                document.getElementById("cloud-tab").style.display = "none";
+                document.getElementById("terminal-tab").style.display = "block";
+                document.getElementById("settings-tab").style.display = "none";
 
                 document.getElementById("machine-tab").style.display = "none";
                 break;
             default:
                 document.getElementById("home-tab").style.display = "none";
                 document.getElementById("cloud-tab").style.display = "none";
+                document.getElementById("terminal-tab").style.display = "none";
                 document.getElementById("settings-tab").style.display = "none";
 
                 document.getElementById("machine-tab").style.display = "none";
@@ -919,6 +1032,7 @@ include_once "lang/en.php";
 
         document.getElementById("machine-tab").style.display = "block";
     }
+
 </script>
 </body>
 </html>
