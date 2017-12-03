@@ -793,8 +793,6 @@ include_once "lang/en.php";
 
         $('select').select();
 
-        new Clipboard('.copyTerminal');
-
         if (sessionStorage.getItem("tab") === null || sessionStorage.getItem("tab") === 0)
             clickTabSelection(0);
         else
@@ -884,6 +882,23 @@ include_once "lang/en.php";
     });
     $('#terminalDropdown').click(function(event){
         event.stopPropagation();
+    });
+
+    var clipboard = new Clipboard('.copyTerminal');
+    clipboard.on('success', function(e) {
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+
+        M.toast({html: '<?php echo _COPIED; ?>'});
+
+        e.clearSelection();
+    });
+    clipboard.on('error', function(e) {
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+
+        M.toast({html: '<?php echo _CANNOT_COPY; ?>'});
     });
 
     function setAllCloudItemsVisibility(visibility) {
