@@ -7,6 +7,7 @@ define("_HOME", "Home");
 define("_CLOUD", "Cloud");
 define("_MESSAGES", "Messages");
 define("_SETTINGS", "Settings");
+define("_INTERFACE", "Interface");
 
 define("_ADD_MACHINE", "Add Machine");
 define("_MACHINE_NAME", "Machine Name");
