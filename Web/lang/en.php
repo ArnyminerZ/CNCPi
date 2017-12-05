@@ -53,6 +53,8 @@ define("_MAX_FILE_SIZE", "Max file upload size");
 define("_SAVE_DETECTED_NOT_IMPL", "Save event detected, but it\'s still not implemented.");
 define("_CLICK_SOUND", "Click Sound");
 define("_NOTIFICATION_NEW", "new");
+define("_PRINTING_FILE", "Milling file: &f");
+define("_ETA_MILLING", "Milling ETA: &hh, &mm and &ss");
 
 define("_CHOOSE_LANGUAGE", "Choose your language");
 define("_SET_0_FOR_UNLIMITED", "Set 0 for unlimited");

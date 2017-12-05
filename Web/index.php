@@ -91,7 +91,7 @@ include_once "lang/en.php";
 
     <style>
         .bottom-navbar {
-            position: fixed;
+            position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
@@ -174,12 +174,14 @@ include_once "lang/en.php";
 </head>
 <body>
 <script>
-    function playClick(){
+    var shouldSendUpdateNotification = false;
+
+    function playClick() {
         new Audio('src/sound/click.wav').play();
     }
 </script>
 <nav>
-    <div class="nav-wrapper teal darken-1">
+    <div class="nav-wrapper teal darken-1" id="top-navbar">
         <a href="#!" class="brand-logo"><?php echo _TITLE; ?></a>
     </div>
 </nav>
@@ -187,34 +189,39 @@ include_once "lang/en.php";
     <nav>
         <div class="nav-wrapper teal darken-1">
             <ul class="row">
-                <li class="col s2" style="text-align: center;" onclick="clickTabSelection(0)">
-                    <a class="waves-effect waves-light grey-text text-lighten-3 tooltipped active" data-position="top" data-delay="50"
-                       data-tooltip="<?php echo _HOME; ?>">
+                <li class="col s3" style="text-align: center;" onclick="clickTabSelection(0)">
+                    <a  id="home-tab-selector" class="grey-text text-lighten-3 tooltipped" data-position="bottom"
+                       data-delay="50" data-tooltip="<?php echo _HOME; ?>">
                         <i class="material-icons">home</i>
                     </a>
                 </li>
                 <li class="col s2" style="text-align: center;" onclick="clickTabSelection(1)">
-                    <a class="waves-effect waves-light grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                    <a class="grey-text text-lighten-3 tooltipped" data-position="top"
+                       data-delay="50"
                        data-tooltip="<?php echo _CLOUD; ?>">
                         <i class="material-icons">cloud</i>
                     </a>
                 </li>
                 <li class="col s2" style="text-align: center;">
-                    <a class="waves-effect waves-light grey-text text-lighten-3 tooltipped modal-trigger" data-position="top" data-delay="50"
+                    <a class="grey-text text-lighten-3 tooltipped modal-trigger"
+                       data-position="top" data-delay="50"
                        href="#messages-modal"
                        data-tooltip="<?php echo _MESSAGES; ?>">
-                        <i class="material-icons left">message</i>
-                        <span class="new badge" data-badge-caption="<?php echo _NOTIFICATION_NEW; ?>" id="notificationCounterBadge" style="display: none"></span>
+                        <i id="messages-icon" class="material-icons">message</i>
+                        <span class="new badge" data-badge-caption="<?php echo _NOTIFICATION_NEW; ?>"
+                              id="notificationCounterBadge" style="display: none"></span>
                     </a>
                 </li>
                 <li class="col s2" style="text-align: center;" onclick="clickTabSelection(3)">
-                    <a class="waves-effect waves-light grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                    <a class="grey-text text-lighten-3 tooltipped" data-position="top"
+                       data-delay="50"
                        data-tooltip="<?php echo _TERMINAL; ?>">
                         <i class="mdi mdi-console"></i>
                     </a>
                 </li>
-                <li class="col s2" style="text-align: center;" onclick="clickTabSelection(2)">
-                    <a class="waves-effect waves-light grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                <li class="col s3" style="text-align: center;" onclick="clickTabSelection(2)">
+                    <a class="grey-text text-lighten-3 tooltipped" data-position="top"
+                       data-delay="50"
                        data-tooltip="<?php echo _SETTINGS; ?>">
                         <i class="material-icons">settings</i>
                     </a>
@@ -222,6 +229,22 @@ include_once "lang/en.php";
             </ul>
         </div>
     </nav>
+</div>
+
+<div id="loadingSpinner" style="display: none;position:fixed;top: 50%;left: 50%;">
+    <div class="preloader-wrapper big active">
+        <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left">
+                <div class="circle"></div>
+            </div>
+            <div class="gap-patch">
+                <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+                <div class="circle"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Add Machine Modal -->
@@ -265,7 +288,9 @@ include_once "lang/en.php";
 </div>
 <ul id='terminalDropdown' class='dropdown-content'>
     <li><a href="#!"><?php echo _CLEAR; ?></a></li>
-    <li><button class="copyTerminal" data-clipboard-target="#terminalContent"><?php echo _COPY; ?></button></li>
+    <li>
+        <button class="copyTerminal" data-clipboard-target="#terminalContent"><?php echo _COPY; ?></button>
+    </li>
 </ul>
 
 <div id="uploadFileModal" class="modal">
@@ -331,7 +356,8 @@ include_once "lang/en.php";
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="new_folder_name_modal_txt" name="n" type="text" class="validate" autocomplete="off" required>
+                    <input id="new_folder_name_modal_txt" name="n" type="text" class="validate" autocomplete="off"
+                           required>
                     <label for="new_folder_name_modal_txt"><?php echo _NEW_FOLDER_NAME; ?></label>
                 </div>
             </div>
@@ -360,7 +386,8 @@ include_once "lang/en.php";
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="new_file_name_modal_txt" name="n" type="text" class="validate" autocomplete="off" required>
+                    <input id="new_file_name_modal_txt" name="n" type="text" class="validate" autocomplete="off"
+                           required>
                     <label for="new_file_name_modal_txt"><?php echo _NEW_FILE_NAME; ?></label>
                 </div>
             </div>
@@ -410,7 +437,7 @@ include_once "lang/en.php";
     </form>
 </div>
 
-<div id="home-tab" class="col s12">
+<div id="home-tab" style="display: none" class="col s12">
     <div class="container">
         <div class="card-panel">
             <h1><?php echo _DASHBOARD ?>
@@ -440,7 +467,7 @@ include_once "lang/en.php";
                         </div>
                         <div class="card-action">
                             <a style="cursor:pointer;"
-                               onclick="document.getElementById('home-tab').style.display='none';loadMachine('CNC 1')"><?php echo _GO_TO_MACHINE; ?></a>
+                               onclick="clickTabSelection(66, 'CNC 1');"><?php echo _GO_TO_MACHINE; ?></a>
                         </div>
                     </div>
                 </div>
@@ -464,7 +491,7 @@ include_once "lang/en.php";
                         </div>
                         <div class="card-action">
                             <a style="cursor:pointer;"
-                               onclick="document.getElementById('home-tab').style.display='none';loadMachine('CNC 2')"><?php echo _GO_TO_MACHINE; ?></a>
+                               onclick="clickTabSelection(66, 'CNC 2');"><?php echo _GO_TO_MACHINE; ?></a>
                         </div>
                     </div>
                 </div>
@@ -472,7 +499,7 @@ include_once "lang/en.php";
         </div>
     </div>
 </div>
-<div id="cloud-tab" class="col s12">
+<div id="cloud-tab" style="display: none" class="col s12">
     <div class="container">
         <div class="card-panel">
             <h1><?php echo _CLOUD; ?></h1>
@@ -491,8 +518,11 @@ include_once "lang/en.php";
                     <i class="large material-icons">mode_edit</i>
                 </a>
                 <ul>
-                    <li><a class="btn-floating red modal-trigger" href="#createFolder" title="<?php echo _CREATE_FOLDER; ?>"><i class="material-icons">create_new_folder</i></a></li>
-                    <li><a class="btn-floating yellow darken-1 modal-trigger" href="#uploadFileModal" title="<?php echo _UPLOAD_FILE; ?>"><i class="material-icons">file_upload</i></a></li>
+                    <li><a class="btn-floating red modal-trigger" href="#createFolder"
+                           title="<?php echo _CREATE_FOLDER; ?>"><i class="material-icons">create_new_folder</i></a>
+                    </li>
+                    <li><a class="btn-floating yellow darken-1 modal-trigger" href="#uploadFileModal"
+                           title="<?php echo _UPLOAD_FILE; ?>"><i class="material-icons">file_upload</i></a></li>
                 </ul>
             </div>
 
@@ -530,7 +560,8 @@ include_once "lang/en.php";
                                    class="secondary-content" style="cursor:pointer;right:55px;"
                                    title="<?php echo _DELETE_FOREVER; ?>"><i
                                             class="mdi mdi-delete-forever mdi-24px"></i></a>
-                                <a onclick="event.stopPropagation();" href="fileSystem.php?o=COMPRESS&c=<?php echo $file; ?>&r=<?php echo $file . ".zip"; ?>"
+                                <a onclick="event.stopPropagation();"
+                                   href="fileSystem.php?o=COMPRESS&c=<?php echo $file; ?>&r=<?php echo $file . ".zip"; ?>"
                                    class="secondary-content" style="cursor:pointer;right:85px;"
                                    title="<?php echo _DOWNLOAD_ZIP; ?>"><i
                                             class="mdi mdi-download mdi-24px"></i></a>
@@ -566,11 +597,13 @@ include_once "lang/en.php";
                                            class="secondary-content" style="right:55px;"
                                            title="<?php echo _DELETE_FOREVER; ?>"><i
                                                     class="mdi mdi-delete-forever mdi-24px"></i></a>
-                                        <a onclick="event.stopPropagation();" href="<?php echo $subfilePath; ?>" class="secondary-content"
+                                        <a onclick="event.stopPropagation();" href="<?php echo $subfilePath; ?>"
+                                           class="secondary-content"
                                            style="right:85px;"
                                            title="<?php echo _DOWNLOAD_FILE; ?>" download><i
                                                     class="mdi mdi-download mdi-24px"></i></a>
-                                        <a onclick="event.preventDefault();" href="#!" class="secondary-content" style="right:115px;"
+                                        <a onclick="event.preventDefault();" href="#!" class="secondary-content"
+                                           style="right:115px;"
                                            title="<?php echo _LOAD_FILE; ?>"><i
                                                     class="mdi mdi-upload-network mdi-24px"></i></a>
                                     </li>
@@ -614,7 +647,7 @@ include_once "lang/en.php";
         </div>
     </div>
 </div>
-<div id="terminal-tab" class="col s12">
+<div id="terminal-tab" style="display: none" class="col s12">
     <div class="container">
         <div class="card-panel">
             <h1><?php echo _TERMINAL ?></h1>
@@ -650,7 +683,7 @@ include_once "lang/en.php";
         </div>
     </div>
 </div>
-<div id="settings-tab" class="col s12">
+<div id="settings-tab" style="display: none" class="col s12">
     <div class="container">
         <div class="card-panel">
             <h1><?php echo _SETTINGS; ?></h1>
@@ -688,7 +721,10 @@ include_once "lang/en.php";
                     <div id="s-interface">
                         <p>
                             <label>
-                                <input type="checkbox" class="filled-in" id="clickSoundSelector" <?php if($clickSound == "true" || $clickSound == ""){ echo "checked"; } ?> />
+                                <input type="checkbox" class="filled-in"
+                                       id="clickSoundSelector" <?php if ($clickSound == "true" || $clickSound == "") {
+                                    echo "checked";
+                                } ?> />
                                 <span><?php echo _CLICK_SOUND; ?></span>
                             </label>
                         </p>
@@ -727,7 +763,7 @@ include_once "lang/en.php";
                             echo '<h6><span style="color:#8bc34a"><i class="material-icons">info_outline</i>' . _SYSTEM_UPTODATE . '</span></h6>';
                         } else {
                             echo '<h6><span style="color:#f44336"><i class="material-icons">info_outline</i>' . _UPDATE_AVAILABLE . '</span> <a id="updateLink" style="cursor: pointer">' . _UPDATE . '</a></h6>';
-                            echo "<script>var shouldSendUpdateNotification = true;</script>";
+                            echo "<script>shouldSendUpdateNotification = true;</script>";
                         }
                         ?>
                         <?php echo _CNCPI_RELEASE_VERSION . ": ";
@@ -764,7 +800,23 @@ include_once "lang/en.php";
                         <li class="tab col s3"><a href="#terminal"><?php echo _TERMINAL; ?></a></li>
                     </ul>
                 </div>
-                <div id="milling" class="col s12">Test 1</div>
+                <div id="milling" class="col s12">
+                    <div class="row">
+                        <div class="col s4">
+                            <div class="card-panel">
+                                <h6>
+                                    <?php echo str_replace("&f", _NOT_MILLING, _PRINTING_FILE); ?><br/>
+                                    <?php echo str_replace("&h", "1", str_replace("&m", "17", str_replace("&s", "53", _ETA_MILLING))); ?><br/>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="col s8">
+                            <div class="card-panel">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="control" class="col s12">
                     <!-- TODO: Movement controls script -->
                     <div class="positionCameras card-panel">
@@ -819,6 +871,20 @@ include_once "lang/en.php";
 <script src="dist/clipboard.min.js"></script>
 <script>
     $(document).ready(function () {
+        if (sessionStorage.getItem("tab") === null || sessionStorage.getItem("tab") === 0)
+            clickTabSelection(0);
+        else if (sessionStorage.getItem("machineName") !== null) {
+            loadMachine(sessionStorage.getItem("machineName"));
+            clickTabSelection(sessionStorage.getItem("tab"));
+        } else
+            clickTabSelection(sessionStorage.getItem("tab"));
+
+
+        if (sessionStorage.getItem("tabSettings") === null || sessionStorage.getItem("tabSettings") === 0)
+            clickSettingsSectionSelection(0);
+        else
+            clickSettingsSectionSelection(sessionStorage.getItem("tabSettings"));
+
         $('.dropdown-trigger').dropdown({
                 inDuration: 300,
                 outDuration: 225,
@@ -826,6 +892,10 @@ include_once "lang/en.php";
                 coverTrigger: false,
                 alignment: 'left'
             }
+        );
+        $('.tooltipped').tooltip({
+            margin: -Math.abs(5 - (((window.screen.height - document.getElementsByClassName('bottom-navbar')[0].style.height) - document.getElementById('top-navbar').style.height) - 5))
+        }
         );
 
         $('.modal').modal();
@@ -840,16 +910,6 @@ include_once "lang/en.php";
             toolbarEnabled: false // Toolbar transition enabled
         });
 
-        if (sessionStorage.getItem("tab") === null || sessionStorage.getItem("tab") === 0)
-            clickTabSelection(0);
-        else
-            clickTabSelection(sessionStorage.getItem("tab"));
-
-        if (sessionStorage.getItem("tabSettings") === null || sessionStorage.getItem("tabSettings") === 0)
-            clickSettingsSectionSelection(0);
-        else
-            clickSettingsSectionSelection(sessionStorage.getItem("tabSettings"));
-
         if (typeof(Storage) === "undefined") {
             // TODO: Translation
             M.toast({html: 'Your browser does not support data saving'});
@@ -861,37 +921,41 @@ include_once "lang/en.php";
             M.toast({html: 'File APIs are not fully supported by this browser. You won\'t be able to save settings'});
         }
     });
+
     function addtoev() {
         var bns = document.getElementsByTagName("button");
         for (i = 0; i < bns.length; i++) {
-            bns[i].addEventListener("click", function() {
+            bns[i].addEventListener("click", function () {
                 playClick();
             });
         }
         var as = document.getElementsByTagName("a");
         for (i = 0; i < as.length; i++) {
-            as[i].addEventListener("click", function() {
+            as[i].addEventListener("click", function () {
                 playClick();
             });
         }
         var lis = document.getElementsByTagName("li");
         for (i = 0; i < lis.length; i++) {
-            lis[i].addEventListener("click", function() {
+            lis[i].addEventListener("click", function () {
                 playClick();
             });
         }
         var inputs = document.getElementsByTagName("input");
         for (i = 0; i < inputs.length; i++) {
-            inputs[i].addEventListener("click", function() {
+            inputs[i].addEventListener("click", function () {
                 playClick();
             });
         }
     }
-    window.addEventListener("load",function() {
-        <?php if($clickSound == "true" || $clickSound == ""){ echo "addtoev();"; } ?>
+
+    window.addEventListener("load", function () {
+        <?php if ($clickSound == "true" || $clickSound == "") {
+        echo "addtoev();";
+    } ?>
     });
 
-    if(shouldSendUpdateNotification)
+    if (shouldSendUpdateNotification)
         sendNotification('<?php echo _UPDATE_AVAILABLE; ?>', 'update()');
 
     $(".bottom-navbar").ready(function () {
@@ -918,13 +982,16 @@ include_once "lang/en.php";
     var y = null;
     document.addEventListener('mousemove', onMouseUpdate, false);
     document.addEventListener('mouseenter', onMouseUpdate, false);
+
     function onMouseUpdate(e) {
         x = e.pageX;
         y = e.pageY;
     }
+
     function getMouseX() {
         return x;
     }
+
     function getMouseY() {
         return y;
     }
@@ -953,16 +1020,16 @@ include_once "lang/en.php";
         });
     }
 
-    $(window).click(function() {
+    $(window).click(function () {
         document.getElementById("terminalDropdown").style.display = "none";
         document.getElementById("terminalDropdown").style.opacity = "0";
     });
-    $('#terminalDropdown').click(function(event){
+    $('#terminalDropdown').click(function (event) {
         event.stopPropagation();
     });
 
     var clipboard = new Clipboard('.copyTerminal');
-    clipboard.on('success', function(e) {
+    clipboard.on('success', function (e) {
         console.info('Action:', e.action);
         console.info('Text:', e.text);
         console.info('Trigger:', e.trigger);
@@ -971,7 +1038,7 @@ include_once "lang/en.php";
 
         e.clearSelection();
     });
-    clipboard.on('error', function(e) {
+    clipboard.on('error', function (e) {
         console.error('Action:', e.action);
         console.error('Trigger:', e.trigger);
 
@@ -987,17 +1054,19 @@ include_once "lang/en.php";
         }
     }
 
-    var notificationCounter=0;
+    var notificationCounter = 0;
+
     function countNotification() {
         notificationCounter += 1;
     }
+
     function sendNotification(notificationText, clickAction) {
         M.toast({html: notificationText});
 
         // <li class="collection-item"><div>Message Content<a href="#!" class="secondary-content"><i class="material-icons">delete</i></a></div></li>
         // Any Message id = anymessage-label
 
-        if(notificationCounter === undefined)
+        if (notificationCounter === undefined)
             notificationCounter = 0;
 
         // TODO: Delete Button
@@ -1007,14 +1076,29 @@ include_once "lang/en.php";
         document.getElementById("anymessage-label").style.display = "none";
         document.getElementById("messages-container").innerHTML += '<li class="collection-item" onclick="' + clickAction + '" style="cursor: pointer"><div>' + notificationText + '</div></li>';
 
+        if(notificationCounter > 0)
+            document.getElementById("messages-icon").classList.add("left");
+        else
+            document.getElementById("messages-icon").classList.remove("left");
+
         document.getElementById("notificationCounterBadge").style.display = "inline-block";
         document.getElementById("notificationCounterBadge").innerHTML = notificationCounter.toString();
+    }
+
+    function loadingSpinner(enabled) {
+        if (enabled)
+            document.getElementById("loadingSpinner").style.display = "block";
+        else
+            document.getElementById("loadingSpinner").style.display = "none";
     }
 
     function saveSettings() {
         // Dropdowns: languageSelector
         // Inputs: maxFileSize
         // Logic: clickSoundSelector
+
+        loadingSpinner(true);
+        selectTab("-1");
 
         window.location.replace("settingsSet.php?language="
             + document.getElementById("languageSelector").options[document.getElementById("languageSelector").selectedIndex].value
@@ -1025,10 +1109,20 @@ include_once "lang/en.php";
             + "&returnTo=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>");
     }
 
-    function clickTabSelection(index) {
-        sessionStorage.setItem("tab", index);
-        selectTab(index);
-        console.log("tab=" + sessionStorage.getItem("tab"));
+    function clickTabSelection(index, machineName = "") {
+        if (machineName === "") {
+            sessionStorage.setItem("tab", index);
+            sessionStorage.removeItem("machineName");
+            selectTab(index);
+            console.log("tab=" + sessionStorage.getItem("tab"));
+        } else {
+            sessionStorage.setItem("tab", index);
+            sessionStorage.setItem("machineName", machineName);
+            loadMachine(machineName);
+            selectTab(index);
+            console.log("tab=" + sessionStorage.getItem("tab"));
+        }
+        console.log("machineName=" + machineName);
     }
 
     function clickSettingsSectionSelection(index) {
@@ -1078,6 +1172,15 @@ include_once "lang/en.php";
 
                 document.getElementById("machine-tab").style.display = "none";
                 break;
+            case "66":
+            case 66:
+                document.getElementById("home-tab").style.display = "none";
+                document.getElementById("cloud-tab").style.display = "none";
+                document.getElementById("terminal-tab").style.display = "none";
+                document.getElementById("settings-tab").style.display = "none";
+
+                document.getElementById("machine-tab").style.display = "block";
+                break;
             default:
                 document.getElementById("home-tab").style.display = "none";
                 document.getElementById("cloud-tab").style.display = "none";
@@ -1085,9 +1188,6 @@ include_once "lang/en.php";
                 document.getElementById("settings-tab").style.display = "none";
 
                 document.getElementById("machine-tab").style.display = "none";
-
-                // TODO: Translation
-                M.toast({html: 'Error while loading tabs'});
                 break;
         }
     }
@@ -1148,9 +1248,8 @@ include_once "lang/en.php";
         }
     }
 
-    function loadMachine(machineName) {
-        if (machineName)
-            document.getElementById("machine-title").innerHTML = machineName;
+    function loadMachine(machineName = "Error!") {
+        document.getElementById("machine-title").innerHTML = machineName;
 
         document.getElementById("machine-tab").style.display = "block";
     }
