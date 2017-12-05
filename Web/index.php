@@ -6,7 +6,17 @@ class MyDB extends SQLite3
 {
     function __construct()
     {
-        $this->open('settings.db');
+        $settingsDatabase = "settings.db";
+
+        if(file_exists("settingsLocation.txt")) {
+            $myfile = fopen("settingsLocation.txt", "r") or die("Unable to open file!");
+            $settingsDatabase = fread($myfile, filesize("settingsLocation.txt"));
+            fclose($myfile);
+        }
+
+        echo "Opening database in " . $settingsDatabase;
+
+        $this->open($settingsDatabase);
     }
 }
 
@@ -22,6 +32,7 @@ $language = "";
 $maxFileSize = "";
 $clickSound = "";
 $terminalLog = "";
+$settingsLocation = "";
 
 $sql = <<<EOF
       SELECT * from SETTINGS;
@@ -35,6 +46,8 @@ while ($row = $ret->fetchArray(SQLITE3_ASSOC)) {
         $maxFileSize = $row['VALUE'];
     else if ($row['NAME'] == "clickSound")
         $clickSound = $row['VALUE'];
+    else if ($row['NAME'] == "settingsLocation")
+        $clickSound = $row['VALUE'];
     else if ($row['NAME'] == "terminalLog")
         $terminalLog = $row['VALUE'];
 }
@@ -44,8 +57,10 @@ if ($maxFileSize == "")
     $maxFileSize = "0";
 if ($terminalLog == "")
     $terminalLog = "";
+if ($settingsLocation == "")
+    $settingsLocation = "settings.db";
 
-echo "<script>console.log('language=$language');console.log('maxFileSize=$maxFileSize');console.log('clickSound=$clickSound');</script>";
+echo "<script>console.log('language=$language');console.log('maxFileSize=$maxFileSize');console.log('clickSound=$clickSound');console.log('settingsLocation=$settingsLocation');</script>";
 
 if (!isset($_COOKIE["pref_maxFileSize"])) {
     // Set 0 for unlimited
@@ -696,6 +711,8 @@ include_once "lang/en.php";
                            class="collection-item"><?php echo _INTERFACE; ?></a>
                         <a onclick="clickSettingsSectionSelection(2);" id="cloudSelectorS"
                            class="collection-item"><?php echo _CLOUD; ?></a>
+                        <a onclick="clickSettingsSectionSelection(4);" id="advancedSelectorS"
+                           class="collection-item"><?php echo _ADVANCED_SETTINGS; ?></a>
                         <a onclick="clickSettingsSectionSelection(1)" id="aboutSelectorS"
                            class="collection-item"><?php echo _ABOUT; ?></a>
                     </div>
@@ -739,6 +756,17 @@ include_once "lang/en.php";
                             <input value="<?php echo $maxFileSize; ?>" id="maxFileSize" type="number"
                                    class="validate">
                             <label for="maxFileSize"><?php echo _MAX_FILE_SIZE; ?></label>
+                        </div>
+                        <button type="button" class="waves-effect waves-light btn"
+                                onclick="saveSettings()"><?php echo _SAVE; ?></button>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div id="s-advanced">
+                        <br/>
+                        <div class="input-field col s12">
+                            <input id="settings_db_loc" type="text" class="validate" value="<?php echo $settingsLocation; ?>">
+                            <label for="settings_db_loc"><?php echo _SETTINGS_DB_LOC; ?></label>
                         </div>
                         <button type="button" class="waves-effect waves-light btn"
                                 onclick="saveSettings()"><?php echo _SAVE; ?></button>
@@ -982,16 +1010,13 @@ include_once "lang/en.php";
     var y = null;
     document.addEventListener('mousemove', onMouseUpdate, false);
     document.addEventListener('mouseenter', onMouseUpdate, false);
-
     function onMouseUpdate(e) {
         x = e.pageX;
         y = e.pageY;
     }
-
     function getMouseX() {
         return x;
     }
-
     function getMouseY() {
         return y;
     }
@@ -1106,6 +1131,8 @@ include_once "lang/en.php";
             + document.getElementById("maxFileSize").value
             + "&clickSound="
             + document.getElementById("clickSoundSelector").checked
+            + "&settingsDatabase="
+            + document.getElementById("settings_db_loc").value
             + "&returnTo=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>");
     }
 
@@ -1203,11 +1230,13 @@ include_once "lang/en.php";
                 document.getElementById("s-about").style.display = "none";
                 document.getElementById("s-cloud").style.display = "none";
                 document.getElementById("s-interface").style.display = "none";
+                document.getElementById("s-advanced").style.display = "none";
 
                 document.getElementById("generalSelectorS").classList.add("active");
                 document.getElementById("aboutSelectorS").classList.remove("active");
                 document.getElementById("cloudSelectorS").classList.remove("active");
                 document.getElementById("interfaceSelectorS").classList.remove("active");
+                document.getElementById("advancedSelectorS").classList.remove("active");
                 break;
             case "1":
             case 1:
@@ -1215,11 +1244,13 @@ include_once "lang/en.php";
                 document.getElementById("s-about").style.display = "block";
                 document.getElementById("s-cloud").style.display = "none";
                 document.getElementById("s-interface").style.display = "none";
+                document.getElementById("s-advanced").style.display = "none";
 
                 document.getElementById("generalSelectorS").classList.remove("active");
                 document.getElementById("aboutSelectorS").classList.add("active");
                 document.getElementById("cloudSelectorS").classList.remove("active");
                 document.getElementById("interfaceSelectorS").classList.remove("active");
+                document.getElementById("advancedSelectorS").classList.remove("active");
                 break;
             case "2":
             case 2:
@@ -1227,11 +1258,13 @@ include_once "lang/en.php";
                 document.getElementById("s-about").style.display = "none";
                 document.getElementById("s-cloud").style.display = "block";
                 document.getElementById("s-interface").style.display = "none";
+                document.getElementById("s-advanced").style.display = "none";
 
                 document.getElementById("generalSelectorS").classList.remove("active");
                 document.getElementById("aboutSelectorS").classList.remove("active");
                 document.getElementById("cloudSelectorS").classList.add("active");
                 document.getElementById("interfaceSelectorS").classList.remove("active");
+                document.getElementById("advancedSelectorS").classList.remove("active");
                 break;
             case "3":
             case 3:
@@ -1239,11 +1272,27 @@ include_once "lang/en.php";
                 document.getElementById("s-about").style.display = "none";
                 document.getElementById("s-cloud").style.display = "none";
                 document.getElementById("s-interface").style.display = "block";
+                document.getElementById("s-advanced").style.display = "none";
 
                 document.getElementById("generalSelectorS").classList.remove("active");
                 document.getElementById("aboutSelectorS").classList.remove("active");
                 document.getElementById("cloudSelectorS").classList.remove("active");
                 document.getElementById("interfaceSelectorS").classList.add("active");
+                document.getElementById("advancedSelectorS").classList.remove("active");
+                break;
+            case "4":
+            case 4:
+                document.getElementById("s-general").style.display = "none";
+                document.getElementById("s-about").style.display = "none";
+                document.getElementById("s-cloud").style.display = "none";
+                document.getElementById("s-interface").style.display = "none";
+                document.getElementById("s-advanced").style.display = "block";
+
+                document.getElementById("generalSelectorS").classList.remove("active");
+                document.getElementById("aboutSelectorS").classList.remove("active");
+                document.getElementById("cloudSelectorS").classList.remove("active");
+                document.getElementById("interfaceSelectorS").classList.remove("active");
+                document.getElementById("advancedSelectorS").classList.add("active");
                 break;
         }
     }

@@ -8,6 +8,7 @@ define("_CLOUD", "Cloud");
 define("_MESSAGES", "Messages");
 define("_SETTINGS", "Settings");
 define("_INTERFACE", "Interface");
+define("_ADVANCED_SETTINGS", "Advanced Settings");
 
 define("_ADD_MACHINE", "Add Machine");
 define("_MACHINE_NAME", "Machine Name");
@@ -55,6 +56,7 @@ define("_CLICK_SOUND", "Click Sound");
 define("_NOTIFICATION_NEW", "new");
 define("_PRINTING_FILE", "Milling file: &f");
 define("_ETA_MILLING", "Milling ETA: &hh, &mm and &ss");
+define("_SETTINGS_DB_LOC", "Settings Database Location");
 
 define("_CHOOSE_LANGUAGE", "Choose your language");
 define("_SET_0_FOR_UNLIMITED", "Set 0 for unlimited");

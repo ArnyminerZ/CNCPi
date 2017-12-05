@@ -4,7 +4,15 @@ class MyDB extends SQLite3
 {
     function __construct()
     {
-        $this->open('settings.db');
+        $settingsDatabase = "settings.db";
+
+        if (file_exists("settingsLocation.txt")) {
+            $myfile = fopen("settingsLocation.txt", "r") or die("Unable to open file!");
+            $settingsDatabase = fread($myfile, filesize("settingsLocation.txt"));
+            fclose($myfile);
+        }
+
+        $this->open($settingsDatabase);
     }
 }
 
@@ -68,6 +76,24 @@ EOF;
         echo "clickSound updated correctly$n";
     }
 }
+if (isset($_GET["settingsDatabase"])) {
+    $settingsDatabase = $_GET['settingsDatabase'];
+
+    unlink("settingsLocation.txt");
+    $myfile = fopen("settingsLocation.txt", "w") or die("Unable to open settingsLocation file!");
+    fwrite($myfile, $settingsDatabase);
+    fclose($myfile);
+
+    $sql = <<<EOF
+      INSERT OR REPLACE INTO SETTINGS (NAME, VALUE) VALUES ("settingsDatabase", "$settingsDatabase");
+EOF;
+    $ret = $db->exec($sql);
+    if (!$ret) {
+        echo $db->lastErrorMsg();
+    } else {
+        echo "settingsDatabase updated correctly$n";
+    }
+}
 if (isset($_GET["terminalLog"])) {
     $terminalLog = $_GET['terminalLog'];
 
@@ -78,7 +104,7 @@ EOF;
     $oldTerminalLog = "";
     $ret = $db->query($sql);
     while ($row = $ret->fetchArray(SQLITE3_ASSOC)) {
-        if($row['NAME'] == "terminalLog")
+        if ($row['NAME'] == "terminalLog")
             $oldTerminalLog = $row["VALUE"];
     }
     $oldTerminalLog .= "\n$ ";
@@ -95,9 +121,10 @@ EOF;
     }
 }
 
-if(!isset($_GET["language"]) &&
-   !isset($_GET["maxFileSize"]) &&
-    !isset($_GET["terminalLog"])){
+if (!isset($_GET["language"]) &&
+    !isset($_GET["maxFileSize"]) &&
+    !isset($_GET["terminalLog"]) &&
+    !isset($_GET["settingsDatabase"])) {
     $sql = <<<EOF
       SELECT * from SETTINGS;
 EOF;
