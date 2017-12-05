@@ -20,6 +20,7 @@ if (!$db) {
 
 $language = "";
 $maxFileSize = "";
+$clickSound = "";
 $terminalLog = "";
 
 $sql = <<<EOF
@@ -32,6 +33,8 @@ while ($row = $ret->fetchArray(SQLITE3_ASSOC)) {
         $language = $row['VALUE'];
     else if ($row['NAME'] == "maxFileSize")
         $maxFileSize = $row['VALUE'];
+    else if ($row['NAME'] == "clickSound")
+        $clickSound = $row['VALUE'];
     else if ($row['NAME'] == "terminalLog")
         $terminalLog = $row['VALUE'];
 }
@@ -42,7 +45,7 @@ if ($maxFileSize == "")
 if ($terminalLog == "")
     $terminalLog = "";
 
-echo "<script>console.log('language=$language');console.log('maxFileSize=$maxFileSize');</script>";
+echo "<script>console.log('language=$language');console.log('maxFileSize=$maxFileSize');console.log('clickSound=$clickSound');</script>";
 
 if (!isset($_COOKIE["pref_maxFileSize"])) {
     // Set 0 for unlimited
@@ -170,6 +173,11 @@ include_once "lang/en.php";
     </style>
 </head>
 <body>
+<script>
+    function playClick(){
+        new Audio('src/sound/click.wav').play();
+    }
+</script>
 <nav>
     <div class="nav-wrapper teal darken-1">
         <a href="#!" class="brand-logo"><?php echo _TITLE; ?></a>
@@ -180,26 +188,36 @@ include_once "lang/en.php";
         <div class="nav-wrapper teal darken-1">
             <ul class="row">
                 <li class="col s2" style="text-align: center;" onclick="clickTabSelection(0)">
-                    <a class="grey-text text-lighten-3 tooltipped active" data-position="top" data-delay="50"
-                       data-tooltip="<?php echo _HOME; ?>"><i class="material-icons">home</i></a>
+                    <a class="waves-effect waves-light grey-text text-lighten-3 tooltipped active" data-position="top" data-delay="50"
+                       data-tooltip="<?php echo _HOME; ?>">
+                        <i class="material-icons">home</i>
+                    </a>
                 </li>
                 <li class="col s2" style="text-align: center;" onclick="clickTabSelection(1)">
-                    <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
-                       data-tooltip="<?php echo _CLOUD; ?>"><i class="material-icons">cloud</i></a>
+                    <a class="waves-effect waves-light grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                       data-tooltip="<?php echo _CLOUD; ?>">
+                        <i class="material-icons">cloud</i>
+                    </a>
                 </li>
                 <li class="col s2" style="text-align: center;">
-                    <a class="grey-text text-lighten-3 tooltipped modal-trigger" data-position="top" data-delay="50"
+                    <a class="waves-effect waves-light grey-text text-lighten-3 tooltipped modal-trigger" data-position="top" data-delay="50"
                        href="#messages-modal"
-                       data-tooltip="<?php echo _MESSAGES; ?>"><i class="material-icons">message</i> <span
-                                class="new badge" id="notificationCounterBadge" style="display: none"></span></a>
+                       data-tooltip="<?php echo _MESSAGES; ?>">
+                        <i class="material-icons left">message</i>
+                        <span class="new badge" data-badge-caption="<?php echo _NOTIFICATION_NEW; ?>" id="notificationCounterBadge" style="display: none"></span>
+                    </a>
                 </li>
                 <li class="col s2" style="text-align: center;" onclick="clickTabSelection(3)">
-                    <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
-                       data-tooltip="<?php echo _TERMINAL; ?>"><i class="mdi mdi-console"></i></a>
+                    <a class="waves-effect waves-light grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                       data-tooltip="<?php echo _TERMINAL; ?>">
+                        <i class="mdi mdi-console"></i>
+                    </a>
                 </li>
                 <li class="col s2" style="text-align: center;" onclick="clickTabSelection(2)">
-                    <a class="grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
-                       data-tooltip="<?php echo _SETTINGS; ?>"><i class="material-icons">settings</i></a>
+                    <a class="waves-effect waves-light grey-text text-lighten-3 tooltipped" data-position="top" data-delay="50"
+                       data-tooltip="<?php echo _SETTINGS; ?>">
+                        <i class="material-icons">settings</i>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -260,7 +278,7 @@ include_once "lang/en.php";
             <div class="file-field input-field">
                 <div class="btn">
                     <span><?php echo _FILE; ?></span>
-                    <input type="file" name="fileToUpload" id="fileToUpload">
+                    <input type="file" name="fileToUpload" id="fileToUpload" required>
                 </div>
                 <div class="file-path-wrapper">
                     <input class="file-path validate" type="text">
@@ -269,7 +287,7 @@ include_once "lang/en.php";
         </div>
         <div class="modal-footer">
             <button type="submit"
-                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _UPLOAD; ?></button>
+                    class="modal-action waves-effect waves-green btn-flat"><?php echo _UPLOAD; ?></button>
         </div>
     </form>
 </div>
@@ -284,14 +302,14 @@ include_once "lang/en.php";
             <h4><?php echo _CREATE_FOLDER; ?></h4>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="folder_name_modal_txt" name="d" type="text" class="validate" autocomplete="off">
+                    <input id="folder_name_modal_txt" name="d" type="text" class="validate" autocomplete="off" required>
                     <label for="folder_name_modal_txt"><?php echo _FOLDER_NAME; ?></label>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="submit"
-                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _CREATE; ?></button>
+                    class="modal-action waves-effect waves-green btn-flat"><?php echo _CREATE; ?></button>
         </div>
     </form>
 </div>
@@ -313,14 +331,14 @@ include_once "lang/en.php";
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="new_folder_name_modal_txt" name="n" type="text" class="validate" autocomplete="off">
+                    <input id="new_folder_name_modal_txt" name="n" type="text" class="validate" autocomplete="off" required>
                     <label for="new_folder_name_modal_txt"><?php echo _NEW_FOLDER_NAME; ?></label>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="submit"
-                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _RENAME; ?></button>
+                    class="modal-action waves-effect waves-green btn-flat"><?php echo _RENAME; ?></button>
         </div>
     </form>
 </div>
@@ -342,14 +360,14 @@ include_once "lang/en.php";
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input id="new_file_name_modal_txt" name="n" type="text" class="validate" autocomplete="off">
+                    <input id="new_file_name_modal_txt" name="n" type="text" class="validate" autocomplete="off" required>
                     <label for="new_file_name_modal_txt"><?php echo _NEW_FILE_NAME; ?></label>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="submit"
-                    class="modal-action modal-close waves-effect waves-green btn-flat"><?php echo _RENAME; ?></button>
+                    class="modal-action waves-effect waves-green btn-flat"><?php echo _RENAME; ?></button>
         </div>
     </form>
 </div>
@@ -458,16 +476,25 @@ include_once "lang/en.php";
     <div class="container">
         <div class="card-panel">
             <h1><?php echo _CLOUD; ?></h1>
-            <a class="btn-floating btn-large red modal-trigger" href="#createFolder"
+            <!--<a class="btn-floating btn-large red modal-trigger" href="#createFolder"
                style="position:absolute;right:18%;top:160px;"
-               title="<?php echo _CREATE_FOLDER; ?>">
+               title="<?php //echo _CREATE_FOLDER; ?>">
                 <i class="large material-icons">create_new_folder</i>
             </a>
             <a class="btn-floating btn-large green modal-trigger" href="#uploadFileModal"
                style="position:absolute;right:22.5%;top:160px;"
-               title="<?php echo _UPLOAD_FILE; ?>">
+               title="<?php //echo _UPLOAD_FILE; ?>">
                 <i class="large material-icons">file_upload</i>
-            </a>
+            </a>-->
+            <div class="fixed-action-btn" style="bottom: 75px">
+                <a class="btn-floating btn-large red">
+                    <i class="large material-icons">mode_edit</i>
+                </a>
+                <ul>
+                    <li><a class="btn-floating red modal-trigger" href="#createFolder" title="<?php echo _CREATE_FOLDER; ?>"><i class="material-icons">create_new_folder</i></a></li>
+                    <li><a class="btn-floating yellow darken-1 modal-trigger" href="#uploadFileModal" title="<?php echo _UPLOAD_FILE; ?>"><i class="material-icons">file_upload</i></a></li>
+                </ul>
+            </div>
 
             <!-- TODO: Rename, Delete and Download Zip buttons -->
             <!-- TODO: Rename modal -->
@@ -495,15 +522,15 @@ include_once "lang/en.php";
                                 <p><?php echo date("d/m/Y H:i:s", filemtime($filePath)); ?><br>
                                     Folder - <?php echo formatSizeUnits(filesize($filePath)); ?>
                                 </p>
-                                <a onclick="document.getElementById('old_folder_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('oldfoldername').value='<?php echo $file; ?>';document.getElementById('old_folder_name_modal_txt').classList.add('active');new M.Modal(document.querySelector('#renameFolder')).open();"
+                                <a onclick="document.getElementById('old_folder_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('oldfoldername').value='<?php echo $file; ?>';document.getElementById('old_folder_name_modal_txt').classList.add('active');new M.Modal(document.querySelector('#renameFolder')).open();event.stopPropagation();"
                                    class="secondary-content" style="cursor:pointer;right:25px;"
                                    title="<?php echo _RENAME; ?>"><i
                                             class="mdi mdi-pencil mdi-24px"></i></a>
-                                <a onclick="document.getElementById('deleteFoldername').value='<?php echo $file; ?>';new M.Modal(document.querySelector('#deleteFolder')).open();"
+                                <a onclick="document.getElementById('deleteFoldername').value='<?php echo $file; ?>';new M.Modal(document.querySelector('#deleteFolder')).open();event.stopPropagation();"
                                    class="secondary-content" style="cursor:pointer;right:55px;"
                                    title="<?php echo _DELETE_FOREVER; ?>"><i
                                             class="mdi mdi-delete-forever mdi-24px"></i></a>
-                                <a href="fileSystem.php?o=COMPRESS&c=<?php echo $file; ?>&r=<?php echo $file . ".zip"; ?>"
+                                <a onclick="event.stopPropagation();" href="fileSystem.php?o=COMPRESS&c=<?php echo $file; ?>&r=<?php echo $file . ".zip"; ?>"
                                    class="secondary-content" style="cursor:pointer;right:85px;"
                                    title="<?php echo _DOWNLOAD_ZIP; ?>"><i
                                             class="mdi mdi-download mdi-24px"></i></a>
@@ -531,19 +558,19 @@ include_once "lang/en.php";
                                             <?php echo end(explode('.', $subfile)); ?>
                                             - <?php echo formatSizeUnits(filesize($subfilePath)); ?>
                                         </p>
-                                        <a onclick="document.getElementById('old_file_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('new_file_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('oldfilename').value='<?php echo $file; ?>';document.getElementById('old_file_name_modal_txt').classList.add('active');new M.Modal(document.querySelector('#renameFile')).open();"
+                                        <a onclick="document.getElementById('old_file_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('new_file_name_modal_txt').value='<?php echo $file; ?>';document.getElementById('oldfilename').value='<?php echo $file; ?>';document.getElementById('old_file_name_modal_txt').classList.add('active');new M.Modal(document.querySelector('#renameFile')).open();event.stopPropagation();"
                                            class="secondary-content" style="right:25px;"
                                            title="<?php echo _RENAME_FILE; ?>"><i
                                                     class="mdi mdi-pencil mdi-24px"></i></a>
-                                        <a onclick="document.getElementById('deleteFilename').value='<?php echo $subfile; ?>';new M.Modal(document.querySelector('#deleteFile')).open();"
+                                        <a onclick="document.getElementById('deleteFilename').value='<?php echo $subfile; ?>';new M.Modal(document.querySelector('#deleteFile')).open();event.stopPropagation();"
                                            class="secondary-content" style="right:55px;"
                                            title="<?php echo _DELETE_FOREVER; ?>"><i
                                                     class="mdi mdi-delete-forever mdi-24px"></i></a>
-                                        <a href="<?php echo $subfilePath; ?>" class="secondary-content"
+                                        <a onclick="event.stopPropagation();" href="<?php echo $subfilePath; ?>" class="secondary-content"
                                            style="right:85px;"
                                            title="<?php echo _DOWNLOAD_FILE; ?>" download><i
                                                     class="mdi mdi-download mdi-24px"></i></a>
-                                        <a href="#!" class="secondary-content" style="right:115px;"
+                                        <a onclick="event.preventDefault();" href="#!" class="secondary-content" style="right:115px;"
                                            title="<?php echo _LOAD_FILE; ?>"><i
                                                     class="mdi mdi-upload-network mdi-24px"></i></a>
                                     </li>
@@ -632,6 +659,8 @@ include_once "lang/en.php";
                     <div class="collection">
                         <a onclick="clickSettingsSectionSelection(0);" id="generalSelectorS"
                            class="collection-item"><?php echo _GENERAL; ?></a>
+                        <a onclick="clickSettingsSectionSelection(3);" id="interfaceSelectorS"
+                           class="collection-item"><?php echo _INTERFACE; ?></a>
                         <a onclick="clickSettingsSectionSelection(2);" id="cloudSelectorS"
                            class="collection-item"><?php echo _CLOUD; ?></a>
                         <a onclick="clickSettingsSectionSelection(1)" id="aboutSelectorS"
@@ -651,6 +680,18 @@ include_once "lang/en.php";
                             </select>
                             <label><?php echo _LANGUAGE; ?></label>
                         </div>
+                        <button type="button" class="waves-effect waves-light btn"
+                                onclick="saveSettings()"><?php echo _SAVE; ?></button>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div id="s-interface">
+                        <p>
+                            <label>
+                                <input type="checkbox" class="filled-in" id="clickSoundSelector" <?php if($clickSound == "true" || $clickSound == ""){ echo "checked"; } ?> />
+                                <span><?php echo _CLICK_SOUND; ?></span>
+                            </label>
+                        </p>
                         <button type="button" class="waves-effect waves-light btn"
                                 onclick="saveSettings()"><?php echo _SAVE; ?></button>
                         <br/>
@@ -686,7 +727,7 @@ include_once "lang/en.php";
                             echo '<h6><span style="color:#8bc34a"><i class="material-icons">info_outline</i>' . _SYSTEM_UPTODATE . '</span></h6>';
                         } else {
                             echo '<h6><span style="color:#f44336"><i class="material-icons">info_outline</i>' . _UPDATE_AVAILABLE . '</span> <a id="updateLink" style="cursor: pointer">' . _UPDATE . '</a></h6>';
-                            echo "<script>sendNotification('" . _UPDATE_AVAILABLE . "', 'update()')</script>";
+                            echo "<script>var shouldSendUpdateNotification = true;</script>";
                         }
                         ?>
                         <?php echo _CNCPI_RELEASE_VERSION . ": ";
@@ -793,6 +834,12 @@ include_once "lang/en.php";
 
         $('select').select();
 
+        $('.fixed-action-btn').floatingActionButton({
+            direction: 'left', // Direction menu comes out
+            hoverEnabled: false, // Hover enabled
+            toolbarEnabled: false // Toolbar transition enabled
+        });
+
         if (sessionStorage.getItem("tab") === null || sessionStorage.getItem("tab") === 0)
             clickTabSelection(0);
         else
@@ -814,6 +861,38 @@ include_once "lang/en.php";
             M.toast({html: 'File APIs are not fully supported by this browser. You won\'t be able to save settings'});
         }
     });
+    function addtoev() {
+        var bns = document.getElementsByTagName("button");
+        for (i = 0; i < bns.length; i++) {
+            bns[i].addEventListener("click", function() {
+                playClick();
+            });
+        }
+        var as = document.getElementsByTagName("a");
+        for (i = 0; i < as.length; i++) {
+            as[i].addEventListener("click", function() {
+                playClick();
+            });
+        }
+        var lis = document.getElementsByTagName("li");
+        for (i = 0; i < lis.length; i++) {
+            lis[i].addEventListener("click", function() {
+                playClick();
+            });
+        }
+        var inputs = document.getElementsByTagName("input");
+        for (i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener("click", function() {
+                playClick();
+            });
+        }
+    }
+    window.addEventListener("load",function() {
+        <?php if($clickSound == "true" || $clickSound == ""){ echo "addtoev();"; } ?>
+    });
+
+    if(shouldSendUpdateNotification)
+        sendNotification('<?php echo _UPDATE_AVAILABLE; ?>', 'update()');
 
     $(".bottom-navbar").ready(function () {
         $('.tooltipped').tooltip();
@@ -834,8 +913,6 @@ include_once "lang/en.php";
                 M.toast({html: "<?php echo _UPDATE_ERROR; ?>"});
         });
     }
-
-    var notificationCounter = 0;
 
     var x = null;
     var y = null;
@@ -910,29 +987,41 @@ include_once "lang/en.php";
         }
     }
 
+    var notificationCounter=0;
+    function countNotification() {
+        notificationCounter += 1;
+    }
     function sendNotification(notificationText, clickAction) {
         M.toast({html: notificationText});
 
         // <li class="collection-item"><div>Message Content<a href="#!" class="secondary-content"><i class="material-icons">delete</i></a></div></li>
         // Any Message id = anymessage-label
 
+        if(notificationCounter === undefined)
+            notificationCounter = 0;
+
         // TODO: Delete Button
-        notificationCounter++;
+        countNotification();
+
+        console.log("notificationCounter:" + notificationCounter);
         document.getElementById("anymessage-label").style.display = "none";
         document.getElementById("messages-container").innerHTML += '<li class="collection-item" onclick="' + clickAction + '" style="cursor: pointer"><div>' + notificationText + '</div></li>';
 
         document.getElementById("notificationCounterBadge").style.display = "inline-block";
-        document.getElementById("notificationCounterBadge").innerHTML = notificationCounter;
+        document.getElementById("notificationCounterBadge").innerHTML = notificationCounter.toString();
     }
 
     function saveSettings() {
         // Dropdowns: languageSelector
         // Inputs: maxFileSize
+        // Logic: clickSoundSelector
 
         window.location.replace("settingsSet.php?language="
             + document.getElementById("languageSelector").options[document.getElementById("languageSelector").selectedIndex].value
             + "&maxFileSize="
             + document.getElementById("maxFileSize").value
+            + "&clickSound="
+            + document.getElementById("clickSoundSelector").checked
             + "&returnTo=<?php echo 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; ?>");
     }
 
@@ -1013,30 +1102,48 @@ include_once "lang/en.php";
                 document.getElementById("s-general").style.display = "block";
                 document.getElementById("s-about").style.display = "none";
                 document.getElementById("s-cloud").style.display = "none";
+                document.getElementById("s-interface").style.display = "none";
 
                 document.getElementById("generalSelectorS").classList.add("active");
                 document.getElementById("aboutSelectorS").classList.remove("active");
                 document.getElementById("cloudSelectorS").classList.remove("active");
+                document.getElementById("interfaceSelectorS").classList.remove("active");
                 break;
             case "1":
             case 1:
                 document.getElementById("s-general").style.display = "none";
                 document.getElementById("s-about").style.display = "block";
                 document.getElementById("s-cloud").style.display = "none";
+                document.getElementById("s-interface").style.display = "none";
 
                 document.getElementById("generalSelectorS").classList.remove("active");
                 document.getElementById("aboutSelectorS").classList.add("active");
                 document.getElementById("cloudSelectorS").classList.remove("active");
+                document.getElementById("interfaceSelectorS").classList.remove("active");
                 break;
             case "2":
             case 2:
                 document.getElementById("s-general").style.display = "none";
                 document.getElementById("s-about").style.display = "none";
                 document.getElementById("s-cloud").style.display = "block";
+                document.getElementById("s-interface").style.display = "none";
 
                 document.getElementById("generalSelectorS").classList.remove("active");
                 document.getElementById("aboutSelectorS").classList.remove("active");
                 document.getElementById("cloudSelectorS").classList.add("active");
+                document.getElementById("interfaceSelectorS").classList.remove("active");
+                break;
+            case "3":
+            case 3:
+                document.getElementById("s-general").style.display = "none";
+                document.getElementById("s-about").style.display = "none";
+                document.getElementById("s-cloud").style.display = "none";
+                document.getElementById("s-interface").style.display = "block";
+
+                document.getElementById("generalSelectorS").classList.remove("active");
+                document.getElementById("aboutSelectorS").classList.remove("active");
+                document.getElementById("cloudSelectorS").classList.remove("active");
+                document.getElementById("interfaceSelectorS").classList.add("active");
                 break;
         }
     }

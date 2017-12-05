@@ -43,7 +43,8 @@ EOF;
     } else {
         echo "Language updated correctly$n";
     }
-}else if (isset($_GET["maxFileSize"])) {
+}
+if (isset($_GET["maxFileSize"])) {
     $maxFileSize = $_GET['maxFileSize'];
     $sql = <<<EOF
       INSERT OR REPLACE INTO SETTINGS (NAME, VALUE) VALUES ("maxFileSize", "$maxFileSize");
@@ -54,7 +55,20 @@ EOF;
     } else {
         echo "maxFileSize updated correctly$n";
     }
-}else if (isset($_GET["terminalLog"])) {
+}
+if (isset($_GET["clickSound"])) {
+    $clickSound = $_GET['clickSound'];
+    $sql = <<<EOF
+      INSERT OR REPLACE INTO SETTINGS (NAME, VALUE) VALUES ("clickSound", "$clickSound");
+EOF;
+    $ret = $db->exec($sql);
+    if (!$ret) {
+        echo $db->lastErrorMsg();
+    } else {
+        echo "clickSound updated correctly$n";
+    }
+}
+if (isset($_GET["terminalLog"])) {
     $terminalLog = $_GET['terminalLog'];
 
     $sql = <<<EOF
@@ -79,7 +93,11 @@ EOF;
     } else {
         echo "terminalLog updated correctly$n";
     }
-}else{
+}
+
+if(!isset($_GET["language"]) &&
+   !isset($_GET["maxFileSize"]) &&
+    !isset($_GET["terminalLog"])){
     $sql = <<<EOF
       SELECT * from SETTINGS;
 EOF;
